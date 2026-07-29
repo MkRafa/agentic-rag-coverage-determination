@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+*.pyc
+traces/*.jsonl
+corpus/generated/*.json
+evals/results/
+.env
+.pytest_cache/
