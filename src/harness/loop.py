@@ -9,6 +9,7 @@ traced.
 
 from __future__ import annotations
 
+import asyncio
 import time
 from typing import Any
 
@@ -22,7 +23,7 @@ from ..contracts import (
     RunResult,
     VerificationReport,
 )
-from ..llm import ModelClient
+from ..llm import CallTimeout, ModelClient
 from ..mcp_client import PolicyCorpus
 from .budget import Budget, BudgetExceeded
 from .gate import decide
@@ -31,6 +32,39 @@ from .trace import Trace
 
 
 async def run(
+    payload: dict[str, Any],
+    client: ModelClient,
+    corpus: PolicyCorpus,
+    budget: Budget,
+    trace: Trace,
+    *,
+    store: Any | None = None,
+) -> RunResult:
+    """Wall-clock-bounded entry point. Always returns a RunResult — a run that
+    blows its time budget is a REVIEW, not an exception the caller has to guess
+    at."""
+    started = time.monotonic()
+    try:
+        return await asyncio.wait_for(
+            _run(payload, client, corpus, budget, trace, store=store),
+            timeout=SETTINGS.run_timeout_s,
+        )
+    except asyncio.TimeoutError:
+        elapsed = time.monotonic() - started
+        trace.event("timeout", phase="run", limit_s=SETTINGS.run_timeout_s,
+                    elapsed_s=round(elapsed, 2), **budget.snapshot())
+        gate = GateDecision(
+            state="REVIEW",
+            reasons=[f"run exceeded its {SETTINGS.run_timeout_s}s wall-clock budget"],
+        )
+        trace.event("gate", state=gate.state, reasons=gate.reasons)
+        return RunResult(
+            run_id=trace.run_id, gate=gate,
+            latency_s=round(elapsed, 3), **_usage(budget),
+        )
+
+
+async def _run(
     payload: dict[str, Any],
     client: ModelClient,
     corpus: PolicyCorpus,
@@ -145,8 +179,9 @@ async def run(
             checks=[c.model_dump() for c in verification.checks],
         )
 
-    except BudgetExceeded as exc:
-        trace.event("budget_exceeded", detail=str(exc), **budget.snapshot())
+    except (BudgetExceeded, CallTimeout) as exc:
+        event_kind = "budget_exceeded" if isinstance(exc, BudgetExceeded) else "call_timeout"
+        trace.event(event_kind, detail=str(exc), **budget.snapshot())
         gate = GateDecision(state="REVIEW", reasons=[f"run halted: {exc}"])
         trace.event("gate", state=gate.state, reasons=gate.reasons)
         return RunResult(

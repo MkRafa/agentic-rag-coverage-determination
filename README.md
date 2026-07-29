@@ -192,6 +192,38 @@ Iteration cap, token/cost budget with a hard stop, PHI redaction, injection
 defusal, the gate, and JSONL trace emission. Zero LLM calls. If a decision costs
 money or has to be auditable, it lives here.
 
+### Timeouts and retries
+
+The SDK retries connection errors, 408/409/429 and 5xx with exponential backoff,
+but it does not bound total wall clock and does not bound an agentic tool loop at
+all — a Retriever that keeps calling tools can run indefinitely inside a single
+logical call. Three caps sit on top, all in `src/config.py`:
+
+| Cap | Default | Bounds |
+|---|---|---|
+| `RoleConfig.timeout_s` | 90–600s per role | one HTTP request |
+| `tool_loop_timeout_s` | 300s | the Retriever's whole tool loop |
+| `run_timeout_s` | 900s | one end-to-end determination |
+
+A blown cap is a **REVIEW with a stated reason**, never an exception the caller
+has to interpret and never a silent hang. Because the SDK retries timeouts, one
+logical call can cost `timeout_s × (max_retries + 1)`; a test asserts that worst
+case still fits inside `run_timeout_s`, and that the tool-loop cap is tighter
+than the run cap so a hung Retriever is distinguishable from a slow pipeline.
+
+### Repo hooks — `.claude/`
+
+Two project-scoped Claude Code hooks protect the thing that makes the regression
+gate meaningful. Both are plain Python reading the hook payload on stdin, so they
+have no `jq` dependency and are unit-testable.
+
+| Hook | Event | Behaviour |
+|---|---|---|
+| [`baseline_staleness.py`](.claude/hooks/baseline_staleness.py) | PostToolUse | Editing the gate, pre-flight, loop, contracts, retrieval or any skill prints a reminder that the committed scorecard now describes a system that no longer exists. Warns only. |
+| [`protect_baseline.py`](.claude/hooks/protect_baseline.py) | PreToolUse | **Denies** hand-edits to `evals/baseline.json`. Editing it to make a regression disappear silently converts the gate into decoration; it may only change via `eval --set-baseline`. |
+
+Both fail open on a malformed payload — a broken hook must not block all edits.
+
 ---
 
 ## Evals — two layers, scored separately
@@ -270,8 +302,14 @@ traces/             per-run JSONL
 Verified working: corpus generation, the MCP server over stdio, hybrid retrieval
 with effective-date filtering, pre-flight (redaction, injection detection, halt
 conditions), the full loop, the gate against all five injected failure modes, the
-budget meter, traces, both eval scorers, and the baseline-diff workflow. 29 tests
-pass.
+budget meter, the timeout caps, traces, both eval scorers, the baseline-diff
+workflow, and both repo hooks (pipe-tested against matching, non-matching and
+malformed payloads). 36 tests pass.
+
+The hooks are written and validated but have **not been observed firing** — the
+settings watcher only watches directories that already had a settings file when
+the session started, and `.claude/settings.json` is new. Open `/hooks` once, or
+restart Claude Code, and they go live.
 
 **Not yet verified: the live model path.** No `ANTHROPIC_API_KEY` was available
 in the build environment, so every real subagent call — planner, retriever tool

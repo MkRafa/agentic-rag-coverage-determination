@@ -6,3 +6,4 @@ corpus/generated/*.json
 evals/results/
 .env
 .pytest_cache/
+.DS_Store

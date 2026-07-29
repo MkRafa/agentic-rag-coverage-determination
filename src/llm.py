@@ -16,8 +16,10 @@ Two backends:
 
 from __future__ import annotations
 
+import asyncio
 import json
 import os
+import time
 from typing import Any, Awaitable, Callable, Protocol, Sequence, TypeVar
 
 from pydantic import BaseModel
@@ -56,13 +58,33 @@ def role_config(role: str) -> RoleConfig:
     return getattr(SETTINGS, role, RoleConfig())
 
 
+class CallTimeout(RuntimeError):
+    """A model call or tool loop exceeded its wall-clock budget."""
+
+
 class AnthropicClient:
     def __init__(self, budget: Budget, trace: Any | None = None) -> None:
         from anthropic import AsyncAnthropic  # imported lazily so stub mode needs no key
 
-        self._client = AsyncAnthropic()
+        # max_retries covers connection errors, 408/409/429 and 5xx with
+        # exponential backoff. Per-request timeouts are set per role below.
+        self._client = AsyncAnthropic(max_retries=SETTINGS.max_retries)
         self.budget = budget
         self.trace = trace
+
+    def _for(self, cfg: RoleConfig) -> Any:
+        return self._client.with_options(timeout=cfg.timeout_s)
+
+    def _on_timeout(self, role: str, cfg: RoleConfig, phase: str, elapsed: float) -> CallTimeout:
+        if self.trace is not None:
+            self.trace.event(
+                "timeout", role=role, phase=phase,
+                limit_s=cfg.timeout_s, elapsed_s=round(elapsed, 2),
+            )
+        return CallTimeout(
+            f"{role} {phase} exceeded its wall-clock budget after {elapsed:.1f}s "
+            f"(limit {cfg.timeout_s}s x {SETTINGS.max_retries + 1} attempts)"
+        )
 
     async def parse(
         self,
@@ -87,7 +109,20 @@ class AnthropicClient:
         if cfg.thinking:
             kwargs["thinking"] = {"type": "adaptive"}
 
-        response = await self._client.messages.parse(**kwargs)
+        import anthropic  # noqa: PLC0415
+
+        started = time.monotonic()
+        try:
+            response = await self._for(cfg).messages.parse(**kwargs)
+        except anthropic.APITimeoutError as exc:
+            raise self._on_timeout(role, cfg, "request", time.monotonic() - started) from exc
+        except anthropic.RateLimitError as exc:
+            # The SDK already retried this max_retries times.
+            if self.trace is not None:
+                self.trace.event("rate_limited", role=role, model=cfg.model)
+            raise RuntimeError(
+                f"{role} was rate limited after {SETTINGS.max_retries} retries"
+            ) from exc
 
         usage = response.usage
         self.budget.record(role, cfg.model, usage.input_tokens, usage.output_tokens)
@@ -129,7 +164,7 @@ class AnthropicClient:
         cfg = config or role_config(role)
         self.budget.check()
 
-        runner = self._client.beta.messages.tool_runner(
+        runner = self._for(cfg).beta.messages.tool_runner(
             model=cfg.model,
             max_tokens=cfg.max_tokens,
             system=system,
@@ -141,7 +176,25 @@ class AnthropicClient:
             max_iterations=max_iterations,
         )
 
-        final = await runner.until_done()
+        # `max_iterations` bounds the number of turns, not wall clock: a loop of
+        # slow tool calls can still run for a very long time. The SDK has no
+        # wall-clock cap on a tool loop at all, so impose one here.
+        started = time.monotonic()
+        try:
+            final = await asyncio.wait_for(
+                runner.until_done(), timeout=SETTINGS.tool_loop_timeout_s
+            )
+        except asyncio.TimeoutError as exc:
+            elapsed = time.monotonic() - started
+            if self.trace is not None:
+                self.trace.event(
+                    "timeout", role=role, phase="tool_loop",
+                    limit_s=SETTINGS.tool_loop_timeout_s, elapsed_s=round(elapsed, 2),
+                )
+            raise CallTimeout(
+                f"{role} tool loop exceeded {SETTINGS.tool_loop_timeout_s}s "
+                f"(max_iterations={max_iterations})"
+            ) from exc
 
         for message in getattr(runner, "messages", []) or []:
             usage = getattr(message, "usage", None)

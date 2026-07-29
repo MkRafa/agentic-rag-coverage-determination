@@ -21,3 +21,7 @@ cda = "src.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["src*", "policy_corpus*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
