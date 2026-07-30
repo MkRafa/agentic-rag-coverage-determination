@@ -106,13 +106,24 @@ def lookup_code(
 @server.tool(
     description=(
         "List the riders attached to a plan and which base policies each overrides. "
-        "Riders control where they conflict with a base policy."
+        "Riders control where they conflict with a base policy. Pass as_of_date — "
+        "riders are versioned like policies, and one that had not taken effect yet "
+        "will invert the determination if applied."
     )
 )
 def get_plan_riders(
     plan_id: Annotated[str, Field(description="e.g. MHP-PPO-GOLD")],
+    as_of_date: Annotated[
+        str | None,
+        Field(description="ISO date (YYYY-MM-DD). Filters to riders then in effect."),
+    ] = None,
+    include_superseded: Annotated[
+        bool, Field(description="Return riders outside their effective window too.")
+    ] = False,
 ) -> dict[str, Any]:
-    riders = get_store().plan_riders(plan_id)
+    riders = get_store().plan_riders(
+        plan_id, as_of_date=as_of_date, include_superseded=include_superseded
+    )
     if riders is None:
         return {"error": "plan_not_found", "plan_id": plan_id}
     return riders

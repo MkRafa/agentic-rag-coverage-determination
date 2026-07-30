@@ -170,6 +170,93 @@ def _corpus(args: argparse.Namespace) -> int:
     return 0
 
 
+async def _evals(args: argparse.Namespace) -> int:
+    import json as _json
+
+    from policy_corpus.store import get_store
+
+    from evals import runner
+    from evals.validate import validate
+
+    store = get_store()
+
+    if args.action == "validate":
+        report = validate(runner.load_cases(), store)
+        print(report.render())
+        return 0 if report.ok else 1
+
+    if args.action == "expand":
+        from evals.expand import main as expand_main
+
+        return expand_main()
+
+    # `generate` — the Adversary. A model proposes cases; nothing it produces is
+    # trusted. Every case goes through the same validator the deterministic
+    # expansion does, and anything that fails is dropped with the reason shown.
+    from evals.expand import OUT as GENERATED
+
+    from .agents import adversary
+    from .harness.budget import Budget
+    from .harness.trace import Trace
+    from .llm import build_client
+
+    existing = runner.load_cases()
+    existing_ids = [c["case_id"] for c in existing]
+
+    budget = Budget()
+    trace = Trace()
+    client = build_client(budget, trace, stub=args.stub)
+
+    corpus = _json.loads(store.path.read_text())
+    print(f"asking the Adversary for {args.n} cases (suite currently has {len(existing)})…")
+    batch = await adversary.generate(client, corpus, n=args.n, existing_ids=existing_ids)
+
+    proposed = [c.model_dump() for c in batch.cases]
+    for case in proposed:
+        case["generated_by"] = "adversary"
+
+    seen = set(existing_ids)
+    fresh = [c for c in proposed if c["case_id"] not in seen and not seen.add(c["case_id"])]
+    duplicates = len(proposed) - len(fresh)
+
+    kept: list[dict[str, Any]] = []
+    rejected: list[tuple[str, str]] = []
+    for case in fresh:
+        report = validate([case], store)
+        if report.ok:
+            kept.append(case)
+        else:
+            rejected.append((case["case_id"], "; ".join(p.detail for p in report.problems)))
+
+    print(f"\nproposed {len(proposed)} · duplicate ids {duplicates} · "
+          f"rejected {len(rejected)} · kept {len(kept)}")
+    for cid, why in rejected:
+        print(f"  rejected {cid}: {why}")
+
+    if not kept:
+        print("\nnothing survived validation — not writing")
+        return 1
+
+    out = GENERATED.parent / "adversarial.json"
+    prior = _json.loads(out.read_text())["cases"] if out.exists() else []
+    out.write_text(
+        _json.dumps(
+            {
+                "description": (
+                    "Adversary-proposed cases. Every case passed the deterministic "
+                    "validator; the clinical judgement in each still wants a human read."
+                ),
+                "cases": prior + kept,
+            },
+            indent=2,
+        )
+    )
+    print(f"\nwrote {len(prior) + len(kept)} cases -> {out}")
+    print(f"tokens {budget.input_tokens + budget.output_tokens} · ${budget.usd:.4f}")
+    print("\nreview the kept cases before trusting the labels, then re-baseline.")
+    return 0
+
+
 def _trace(args: argparse.Namespace) -> int:
     path = Path(args.run_id)
     if not path.exists():
@@ -247,6 +334,18 @@ def main(argv: list[str] | None = None) -> int:
     p_eval.add_argument("--diff", action="store_true", help="diff against the committed baseline")
     p_eval.add_argument("--set-baseline", action="store_true", dest="set_baseline")
     p_eval.set_defaults(fn=_eval, is_async=True)
+
+    p_evals = sub.add_parser("evals", help="build and check the eval case set")
+    p_evals.add_argument(
+        "action",
+        choices=["expand", "validate", "generate"],
+        help="expand: deterministic cases with derived labels; "
+             "validate: check every case against the corpus; "
+             "generate: ask the Adversary for new cases (needs ANTHROPIC_API_KEY)",
+    )
+    p_evals.add_argument("-n", type=int, default=20, help="cases to request (generate only)")
+    p_evals.add_argument("--stub", action="store_true", help="run generate without model calls")
+    p_evals.set_defaults(fn=_evals, is_async=True)
 
     p_trace = sub.add_parser("trace", help="pretty-print a run trace")
     p_trace.add_argument("run_id")

@@ -333,6 +333,79 @@ model to also grade those would launder a number into an opinion.
 .venv/bin/python -m src.cli eval --stub --set-baseline # freeze a new baseline
 ```
 
+### The case set — 134 cases, and where the labels come from
+
+| Source | Count | Labels |
+|---|---|---|
+| Hand-written seeds (`cases/seed.json`) | 22 | Authored with the corpus open |
+| Deterministic expansion (`cases/generated.json`) | 112 | **Derived from corpus structure** |
+| Adversary (`cases/adversarial.json`) | 0 | Model-proposed, validator-gated |
+
+The split is the point. For the mechanical traps a model has no business writing
+the answer key: which policy version governs a date is arithmetic, so
+[evals/expand.py](evals/expand.py) authors a dozen clinical fact-patterns once and
+crosses them with every version, every effective-date boundary, and both a
+rider-bearing and rider-free plan. Labels are correct by construction.
+
+Crossing is deliberately sparse. A dimension is only instantiated where it
+changes the answer — a pattern that behaves the same on every plan gets one plan,
+not two. The naive cross product is 252 cases; the informative subset is 112, and
+at roughly six model calls per case that difference is real money.
+
+```bash
+.venv/bin/python -m src.cli evals expand      # regenerate derived cases
+.venv/bin/python -m src.cli evals validate    # check every label against the corpus
+.venv/bin/python -m src.cli evals generate    # Adversary (needs ANTHROPIC_API_KEY)
+```
+
+### Nothing enters the suite unchecked
+
+A case with a wrong label does not fail loudly. It quietly changes what the eval
+measures, and the next `--set-baseline` writes the mistake down as truth. So
+[evals/validate.py](evals/validate.py) mechanically rejects everything it can
+check: clause ids must exist, gold clauses must be in effect **on the case's own
+as-of date**, riders must belong to the plan the case names, and the
+outcome/gate pair must be coherent. `evals generate --stub` demonstrates it
+against a deliberately mixed batch:
+
+```
+proposed 4 · duplicate ids 0 · rejected 3 · kept 1
+  rejected stub-hallucinated-clause: MHP-MP-0142.v9.C7 does not exist in the corpus
+  rejected stub-stale-gold-key: MHP-MP-0142.v2.C2 was not in effect on 2024-02-01 …
+  rejected stub-unreachable-rider: MHP-RID-STEP-WAIVE.C1 is a rider on MHP-PPO-GOLD,
+           case plan is MHP-HMO-BASE — unreachable, so the case can never pass
+```
+
+What it cannot check is whether the clinical facts genuinely satisfy the
+criteria — that is the judgement the case exists to test. The validator's job is
+to make the human read short.
+
+### A baseline only compares against the same questions
+
+Every scorecard carries a `case_set` fingerprint (count + hash of case ids).
+Growing the suite moves every aggregate for reasons that have nothing to do with
+the system, so `--diff` refuses to present a cross-set comparison as a signal:
+
+```
+⚠ CASE SET CHANGED: baseline measured 22 cases (…), this run measured 134 (5c98320836d2).
+  These aggregates are NOT comparable — the deltas below reflect a
+  different question set, not a change in the system.
+```
+
+### What expanding the suite immediately caught
+
+Going 22 → 134 found a real defect within one run. `search_policies` filtered by
+effective date from the start; `get_plan_riders` did not. On a 2023 date the
+Retriever was handed `MHP-RID-STEP-WAIVE` — effective 2024-01-01 — and its
+clauses reached the Synthesizer. **A rider overrides base policy, so applying one
+before it exists inverts the determination**: the T2 trap running backwards. 21
+cases were hitting it. `get_plan_riders` now takes `as_of_date`, and a regression
+test pins both sides of that boundary.
+
+That is the argument for a bigger suite in one sentence: the 22 hand-written
+cases never picked a date before a rider existed, because I wrote them and I knew
+what the rider said.
+
 `evals/baseline.json` is committed. `eval` exits non-zero when
 `false_auto_determine > 0`, so it works as a CI gate.
 
@@ -384,8 +457,9 @@ Verified working: corpus generation, the MCP server over stdio, hybrid retrieval
 with effective-date filtering, pre-flight (redaction, injection detection, halt
 conditions), the full loop, the gate against all five injected failure modes, the
 budget meter, the timeout caps, traces, both eval scorers, the baseline-diff
-workflow, the local vector backend, and both repo hooks (pipe-tested against
-matching, non-matching and malformed payloads). 58 tests pass.
+workflow, the local vector backend, the 134-case suite with its validator, and
+both repo hooks (pipe-tested against matching, non-matching and malformed
+payloads). 74 tests pass.
 
 The hooks are written and validated but have **not been observed firing** — the
 settings watcher only watches directories that already had a settings file when

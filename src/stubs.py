@@ -133,7 +133,7 @@ def make_stub_client(
                     clause_ids.append(hit["clause_id"])
 
         if plan_id:
-            riders = await corpus.plan_riders(plan_id)
+            riders = await corpus.plan_riders(plan_id, as_of_date=as_of)
             for rider in riders.get("riders", []):
                 for cid in rider["clause_ids"]:
                     if cid not in clause_ids:
@@ -237,7 +237,58 @@ def make_stub_client(
         )
 
     async def adversary(_system: str, _user: str) -> AdversarialBatch:
-        return AdversarialBatch(cases=[])
+        """A deliberately mixed batch: one good case and three of the exact
+        defects a real model produces. Running `evals generate --stub` should
+        keep the first and reject the rest, which is how we know the validator
+        is load-bearing rather than decorative."""
+        from .contracts import AdversarialCase
+
+        return AdversarialBatch(
+            cases=[
+                AdversarialCase(
+                    case_id="stub-valid-01",
+                    trap="T1 stale-version",
+                    payer_id="MHP", plan_id="MHP-HMO-BASE",
+                    procedure_codes=["A9276"], diagnosis_codes=["E10.9"],
+                    as_of_date="2024-02-01",
+                    narrative="Type 1 diabetes with four documented fingersticks per day.",
+                    question="Is personal-use CGM covered?",
+                    expected_outcome="COVERED", expected_gate="DETERMINE",
+                    gold_clause_ids=["MHP-MP-0142.v1.C2"],
+                    rationale="valid case — should be kept",
+                ),
+                AdversarialCase(
+                    case_id="stub-hallucinated-clause",
+                    trap="T1 stale-version",
+                    payer_id="MHP", plan_id="MHP-HMO-BASE",
+                    procedure_codes=["A9276"], as_of_date="2024-02-01",
+                    narrative="Type 1 diabetes.", question="Is CGM covered?",
+                    expected_outcome="COVERED", expected_gate="DETERMINE",
+                    gold_clause_ids=["MHP-MP-0142.v9.C7"],   # does not exist
+                    rationale="invented clause id — the commonest generated defect",
+                ),
+                AdversarialCase(
+                    case_id="stub-stale-gold-key",
+                    trap="T1 stale-version",
+                    payer_id="MHP", plan_id="MHP-HMO-BASE",
+                    procedure_codes=["A9276"], as_of_date="2024-02-01",
+                    narrative="Type 1 diabetes.", question="Is CGM covered?",
+                    expected_outcome="COVERED", expected_gate="DETERMINE",
+                    gold_clause_ids=["MHP-MP-0142.v2.C2"],   # v2 not in force until 2024-07-01
+                    rationale="gold key the system is correct to ignore",
+                ),
+                AdversarialCase(
+                    case_id="stub-unreachable-rider",
+                    trap="T2 rider override",
+                    payer_id="MHP", plan_id="MHP-HMO-BASE",
+                    procedure_codes=["J1745"], as_of_date="2024-09-01",
+                    narrative="Rheumatoid arthritis.", question="Is biologic therapy covered?",
+                    expected_outcome="COVERED", expected_gate="DETERMINE",
+                    gold_clause_ids=["MHP-RID-STEP-WAIVE.C1"],  # GOLD rider, BASE plan
+                    rationale="rider unreachable from this plan — case could never pass",
+                ),
+            ]
+        )
 
     client.register("planner", planner)
     client.register("retriever", retriever)

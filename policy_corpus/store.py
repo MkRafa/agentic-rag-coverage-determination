@@ -132,26 +132,46 @@ class CorpusStore:
         )
         return {**entry, "governed_by_policies": related}
 
-    def plan_riders(self, plan_id: str) -> dict[str, Any] | None:
+    def plan_riders(
+        self, plan_id: str, as_of_date: str | None = None, include_superseded: bool = False
+    ) -> dict[str, Any] | None:
+        """Riders attached to a plan, filtered to those in force on `as_of_date`.
+
+        Date filtering matters as much here as it does in search — arguably more.
+        A rider overrides base policy, so handing back one that had not taken
+        effect yet is how a determination gets inverted. `search_policies`
+        filtered by date from the start; this did not, and 21 cases in the
+        expanded suite were retrieving riders up to a year before they existed.
+        """
         plan = self.plans.get(plan_id)
         if plan is None:
             return None
-        return {
-            "plan_id": plan_id,
-            "plan_name": plan["name"],
-            "payer_id": plan["payer_id"],
-            "riders": [
+
+        riders = []
+        for rid in plan["rider_ids"]:
+            r = self.riders.get(rid)
+            if r is None:
+                continue
+            effective = in_effect(r, as_of_date) if as_of_date else None
+            if as_of_date and not include_superseded and not effective:
+                continue
+            riders.append(
                 {
                     "rider_id": r["rider_id"],
                     "title": r["title"],
                     "overrides_policy_ids": r["overrides_policy_ids"],
                     "effective_start": r["effective_start"],
                     "effective_end": r["effective_end"],
+                    "in_effect_on_as_of": effective,
                     "clause_ids": [c["clause_id"] for c in r["clauses"]],
                 }
-                for rid in plan["rider_ids"]
-                if (r := self.riders.get(rid))
-            ],
+            )
+
+        return {
+            "plan_id": plan_id,
+            "plan_name": plan["name"],
+            "payer_id": plan["payer_id"],
+            "riders": riders,
         }
 
 

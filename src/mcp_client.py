@@ -118,8 +118,12 @@ class PolicyCorpus:
     async def code(self, code: str) -> dict[str, Any]:
         return await self._call("lookup_code", code=code) or {}
 
-    async def plan_riders(self, plan_id: str) -> dict[str, Any]:
-        return await self._call("get_plan_riders", plan_id=plan_id) or {}
+    async def plan_riders(
+        self, plan_id: str, as_of_date: str | None = None
+    ) -> dict[str, Any]:
+        return await self._call(
+            "get_plan_riders", plan_id=plan_id, as_of_date=as_of_date
+        ) or {}
 
 
 @contextlib.asynccontextmanager

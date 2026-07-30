@@ -6,6 +6,7 @@ measures the shortcut, not the system.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 from datetime import datetime, timezone
@@ -27,6 +28,20 @@ ROOT = Path(__file__).resolve().parent
 CASES_DIR = ROOT / "cases"
 BASELINE = ROOT / "baseline.json"
 RESULTS_DIR = ROOT / "results"
+
+
+def case_set_fingerprint(cases: list[dict[str, Any]]) -> dict[str, Any]:
+    """Identifies *which* cases a scorecard measured.
+
+    A baseline is only comparable against the same case set. Adding cases moves
+    every aggregate for reasons that have nothing to do with the system, so a
+    diff across different sets is not a regression signal — it is noise wearing
+    a regression's clothes. The fingerprint makes that detectable instead of
+    silently misleading.
+    """
+    ids = sorted(c["case_id"] for c in cases)
+    digest = hashlib.sha256("\n".join(ids).encode()).hexdigest()[:12]
+    return {"count": len(ids), "hash": digest}
 
 
 def _vector_backend() -> str:
@@ -85,6 +100,7 @@ async def run_eval(
     scorecard = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "mode": "stub" if stub else "live",
+        "case_set": case_set_fingerprint(cases),
         "config": {
             "model": SETTINGS.synthesizer.model,
             "vector_backend": _vector_backend(),
@@ -154,6 +170,21 @@ def render(scorecard: dict[str, Any]) -> str:
 
 def diff(current: dict[str, Any], baseline: dict[str, Any]) -> str:
     lines = ["", "scorecard diff vs baseline", "-" * 78]
+
+    now_set = current.get("case_set", {})
+    was_set = baseline.get("case_set", {})
+    comparable = now_set.get("hash") == was_set.get("hash")
+    if not comparable:
+        lines += [
+            f"  ⚠ CASE SET CHANGED: baseline measured {was_set.get('count', '?')} cases "
+            f"({was_set.get('hash', 'unknown')}), this run measured "
+            f"{now_set.get('count', '?')} ({now_set.get('hash', 'unknown')}).",
+            "    These aggregates are NOT comparable — the deltas below reflect a",
+            "    different question set, not a change in the system. Re-baseline with",
+            "    --set-baseline, then diff subsequent runs against that.",
+            "-" * 78,
+        ]
+
     regressed = False
     for section, key, label, direction in HEADLINE:
         now = current[section][key]
@@ -175,7 +206,9 @@ def diff(current: dict[str, Any], baseline: dict[str, Any]) -> str:
             f"{mark} {label:<28} {_fmt(was):>12} -> {_fmt(now):>12}  ({_fmt(delta, signed=True)})"
         )
     lines.append("-" * 78)
-    if regressed:
+    if not comparable:
+        lines.append("  ⚠ deltas above are across different case sets — do not act on them")
+    elif regressed:
         lines.append("  ! a safety-critical metric regressed — this is a blocking diff")
     return "\n".join(lines)
 

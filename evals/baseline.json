@@ -1,37 +1,42 @@
 {
-  "generated_at": "2026-07-29T12:46:10+00:00",
+  "generated_at": "2026-07-30T11:59:55+00:00",
   "mode": "stub",
+  "case_set": {
+    "count": 134,
+    "hash": "5c98320836d2"
+  },
   "config": {
     "model": "claude-opus-5",
+    "vector_backend": "local",
     "embedder": "tfidf",
     "reranker": "date_aware",
     "max_iterations": 3,
     "min_confidence": 0.7
   },
   "retrieval": {
-    "cases": 22,
-    "scored_cases": 20,
+    "cases": 134,
+    "scored_cases": 132,
     "gold_clause_recall": 1.0,
     "stale_retrieval_rate": 0.0,
     "cases_with_any_stale_retrieval": 0,
-    "clauses_retrieved": 150
+    "clauses_retrieved": 862
   },
   "answer": {
-    "cases": 22,
-    "determination_accuracy": 0.5455,
-    "gate_correctness": 0.7727,
+    "cases": 134,
+    "determination_accuracy": 0.5373,
+    "gate_correctness": 0.8433,
     "citation_faithfulness": 1.0,
     "hallucinated_clause_count": 0,
     "stale_citation_count": 0,
     "appropriate_refusal_rate": 0.0,
-    "false_auto_determine": 8,
-    "usd_total": 1.05,
-    "usd_per_case": 0.047727,
+    "false_auto_determine": 55,
+    "usd_total": 6.65,
+    "usd_per_case": 0.049627,
     "p95_latency_s": 0.013
   },
   "per_case": [
     {
-      "case_id": "T1-cgm-stale-01",
+      "case_id": "gen-MHP-MP-0142-v1-t1dm-high-frequency-MHP-PPO-GOLD-2023-01-01",
       "trap": "T1 stale-version",
       "expected_outcome": "COVERED",
       "actual_outcome": "COVERED",
@@ -40,11 +45,63 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.053,
+      "latency_s": 0.058,
       "usd": 0.05
     },
     {
-      "case_id": "T1-cgm-stale-02",
+      "case_id": "gen-MHP-MP-0142-v1-t1dm-high-frequency-MHP-PPO-GOLD-2023-02-15",
+      "trap": "T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.014,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t1dm-high-frequency-MHP-PPO-GOLD-2024-07-01",
+      "trap": "T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t1dm-high-frequency-MHP-PPO-GOLD-2024-08-15",
+      "trap": "T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t1dm-low-frequency-MHP-PPO-GOLD-2023-01-01",
+      "trap": "T1 stale-version",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t1dm-low-frequency-MHP-PPO-GOLD-2024-06-30",
       "trap": "T1 stale-version",
       "expected_outcome": "NOT_COVERED",
       "actual_outcome": "COVERED",
@@ -57,7 +114,176 @@
       "usd": 0.05
     },
     {
-      "case_id": "T1-cgm-current-03",
+      "case_id": "gen-MHP-MP-0142-v2-t1dm-low-frequency-MHP-PPO-GOLD-2024-07-01",
+      "trap": "T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t1dm-low-frequency-MHP-PPO-GOLD-2025-11-15",
+      "trap": "T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t1dm-hypo-unawareness-MHP-PPO-GOLD-2023-01-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t1dm-hypo-unawareness-MHP-PPO-GOLD-2023-02-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t1dm-hypo-unawareness-MHP-PPO-GOLD-2024-07-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t1dm-hypo-unawareness-MHP-PPO-GOLD-2024-08-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t2dm-intensive-insulin-MHP-PPO-GOLD-2023-01-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t2dm-intensive-insulin-MHP-PPO-GOLD-2023-02-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t2dm-intensive-insulin-MHP-PPO-GOLD-2024-07-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t2dm-intensive-insulin-MHP-PPO-GOLD-2024-08-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t2dm-single-basal-MHP-PPO-GOLD-2023-01-01",
+      "trap": "T1 stale-version",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t2dm-single-basal-MHP-PPO-GOLD-2024-06-30",
+      "trap": "T1 stale-version",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t2dm-single-basal-MHP-PPO-GOLD-2024-07-01",
+      "trap": "T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t2dm-single-basal-MHP-PPO-GOLD-2025-11-15",
       "trap": "T1 stale-version",
       "expected_outcome": "COVERED",
       "actual_outcome": "COVERED",
@@ -67,6 +293,1241 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t2dm-oral-only-MHP-PPO-GOLD-2023-01-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t2dm-oral-only-MHP-PPO-GOLD-2023-02-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t2dm-oral-only-MHP-PPO-GOLD-2024-07-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t2dm-oral-only-MHP-PPO-GOLD-2024-08-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-gestational-MHP-PPO-GOLD-2023-01-01",
+      "trap": "T1 stale-version",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-gestational-MHP-PPO-GOLD-2024-06-30",
+      "trap": "T1 stale-version",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-gestational-MHP-PPO-GOLD-2024-07-01",
+      "trap": "T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.014,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-gestational-MHP-PPO-GOLD-2025-11-15",
+      "trap": "T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-sensor-quantity-MHP-PPO-GOLD-2023-01-01",
+      "trap": "T2 rider override",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-sensor-quantity-MHP-HMO-BASE-2023-01-01",
+      "trap": "T2 rider override",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-sensor-quantity-MHP-PPO-GOLD-2023-02-15",
+      "trap": "T2 rider override",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-sensor-quantity-MHP-HMO-BASE-2023-02-15",
+      "trap": "T2 rider override",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-sensor-quantity-MHP-PPO-GOLD-2024-07-01",
+      "trap": "T2 rider override",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-sensor-quantity-MHP-HMO-BASE-2024-07-01",
+      "trap": "T2 rider override",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-sensor-quantity-MHP-PPO-GOLD-2024-08-15",
+      "trap": "T2 rider override",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-sensor-quantity-MHP-HMO-BASE-2024-08-15",
+      "trap": "T2 rider override",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0143-v1-a1c-above-threshold-MHP-HMO-BASE-2022-06-01",
+      "trap": "T3 lookalike",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.009,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0143-v1-a1c-above-threshold-MHP-HMO-BASE-2022-07-16",
+      "trap": "T3 lookalike",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.008,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0143-v1-a1c-below-threshold-MHP-HMO-BASE-2022-06-01",
+      "trap": "T3 lookalike",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.008,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0143-v1-a1c-below-threshold-MHP-HMO-BASE-2022-07-16",
+      "trap": "T3 lookalike",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.008,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0143-v1-repeat-within-year-MHP-HMO-BASE-2022-06-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.008,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0143-v1-repeat-within-year-MHP-HMO-BASE-2022-07-16",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.009,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0143-v1-a1c-not-stated-MHP-HMO-BASE-2022-06-01",
+      "trap": "T6 refusal",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "REFUSE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.008,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0143-v1-a1c-not-stated-MHP-HMO-BASE-2022-07-16",
+      "trap": "T6 refusal",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "REFUSE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.008,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-no-dmard-trial-MHP-PPO-GOLD-2024-01-01",
+      "trap": "T2 rider override",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-no-dmard-trial-MHP-HMO-BASE-2024-01-01",
+      "trap": "T2 rider override",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-no-dmard-trial-MHP-PPO-GOLD-2024-02-15",
+      "trap": "T2 rider override",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-no-dmard-trial-MHP-HMO-BASE-2024-02-15",
+      "trap": "T2 rider override",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-adequate-dmard-trial-MHP-PPO-GOLD-2024-01-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-adequate-dmard-trial-MHP-PPO-GOLD-2024-02-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-short-dmard-trial-MHP-PPO-GOLD-2024-01-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-short-dmard-trial-MHP-HMO-BASE-2024-01-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-short-dmard-trial-MHP-PPO-GOLD-2024-02-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.014,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-short-dmard-trial-MHP-HMO-BASE-2024-02-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-dmard-contraindicated-MHP-PPO-GOLD-2024-01-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-dmard-contraindicated-MHP-PPO-GOLD-2024-02-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-severity-unconfirmed-MHP-PPO-GOLD-2024-01-01",
+      "trap": "T2 rider override",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "REFUSE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-severity-unconfirmed-MHP-HMO-BASE-2024-01-01",
+      "trap": "T2 rider override",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "REFUSE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-severity-unconfirmed-MHP-PPO-GOLD-2024-02-15",
+      "trap": "T2 rider override",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "REFUSE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-severity-unconfirmed-MHP-HMO-BASE-2024-02-15",
+      "trap": "T2 rider override",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "REFUSE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-crohns-steroid-failed-MHP-PPO-GOLD-2024-01-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-crohns-steroid-failed-MHP-PPO-GOLD-2024-02-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-crohns-no-steroid-trial-MHP-PPO-GOLD-2024-01-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-crohns-no-steroid-trial-MHP-PPO-GOLD-2024-02-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-hsat-clean-CSM-PPO-STD-2023-03-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.009,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-hsat-clean-CSM-PPO-STD-2023-04-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.009,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-hsat-clean-CSM-PPO-STD-2025-03-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-hsat-clean-CSM-PPO-STD-2025-04-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-hsat-with-chf-CSM-PPO-STD-2023-03-01",
+      "trap": "T1 stale-version",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.009,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-hsat-with-chf-CSM-PPO-STD-2025-02-28",
+      "trap": "T1 stale-version",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-hsat-with-chf-CSM-PPO-STD-2025-03-01",
+      "trap": "T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.01,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-hsat-with-chf-CSM-PPO-STD-2025-11-15",
+      "trap": "T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-hsat-with-copd-CSM-PPO-STD-2023-03-01",
+      "trap": "T1 stale-version",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.01,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-hsat-with-copd-CSM-PPO-STD-2025-02-28",
+      "trap": "T1 stale-version",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-hsat-with-copd-CSM-PPO-STD-2025-03-01",
+      "trap": "T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.01,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-hsat-with-copd-CSM-PPO-STD-2025-11-15",
+      "trap": "T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-repeat-study-weight-loss-CSM-PPO-STD-2023-03-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.009,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-repeat-study-weight-loss-CSM-PPO-STD-2023-04-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.009,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-repeat-study-weight-loss-CSM-PPO-STD-2025-03-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-repeat-study-weight-loss-CSM-PPO-STD-2025-04-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-repeat-study-no-change-CSM-PPO-STD-2023-03-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.009,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-repeat-study-no-change-CSM-PPO-STD-2023-04-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.009,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-repeat-study-no-change-CSM-PPO-STD-2025-03-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-repeat-study-no-change-CSM-PPO-STD-2025-04-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-conservative-complete-CSM-PPO-STD-2024-04-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-conservative-complete-CSM-PPO-STD-2024-05-16",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-conservative-incomplete-CSM-PPO-STD-2024-04-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-conservative-incomplete-CSM-PPO-STD-2024-05-16",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-cauda-equina-CSM-PPO-STD-2024-04-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-cauda-equina-CSM-PPO-STD-2024-05-16",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-fusion-axial-pain-CSM-PPO-STD-2024-04-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-fusion-axial-pain-CSM-PPO-STD-2024-05-16",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-imaging-not-documented-CSM-PPO-STD-2024-04-01",
+      "trap": "T6 refusal",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "REFUSE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-imaging-not-documented-CSM-PPO-STD-2024-05-16",
+      "trap": "T6 refusal",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "REFUSE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-NBA-MP-0512-v1-red-flag-papilledema-NBA-PPO-PREM-2023-09-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.01,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-NBA-MP-0512-v1-red-flag-papilledema-NBA-PPO-PREM-2023-10-16",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.01,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-NBA-MP-0512-v1-red-flag-age-onset-NBA-PPO-PREM-2023-09-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.01,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-NBA-MP-0512-v1-red-flag-age-onset-NBA-PPO-PREM-2023-10-16",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.01,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-NBA-MP-0512-v1-no-red-flags-NBA-PPO-PREM-2023-09-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.01,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-NBA-MP-0512-v1-no-red-flags-NBA-PPO-PREM-2023-10-16",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.01,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-NBA-MP-0512-v1-injection-attempt-NBA-PPO-PREM-2023-09-01",
+      "trap": "T7 injection",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.009,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-NBA-MP-0512-v1-injection-attempt-NBA-PPO-PREM-2023-10-16",
+      "trap": "T7 injection",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.009,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-NBA-MP-0640-v1-screening-eligible-age-NBA-PPO-PREM-2022-01-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.007,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-NBA-MP-0640-v1-screening-eligible-age-NBA-PPO-PREM-2022-02-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.007,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-NBA-MP-0640-v1-screening-under-age-NBA-PPO-PREM-2022-01-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.008,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-NBA-MP-0640-v1-screening-under-age-NBA-PPO-PREM-2022-02-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.007,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-NBA-MP-0640-v1-screening-second-in-year-NBA-PPO-PREM-2022-01-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.007,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-NBA-MP-0640-v1-screening-second-in-year-NBA-PPO-PREM-2022-02-15",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.008,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0702-v4-ct-ffr-investigational-CSM-PPO-STD-2024-01-01",
+      "trap": "T6 refusal boundary",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "NOT_COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0702-v4-ct-ffr-investigational-CSM-PPO-STD-2024-02-15",
+      "trap": "T6 refusal boundary",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "NOT_COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0702-v4-misc-dme-CSM-PPO-STD-2024-01-01",
+      "trap": "T6 refusal boundary",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "NOT_COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "gen-CSM-MP-0702-v4-misc-dme-CSM-PPO-STD-2024-02-15",
+      "trap": "T6 refusal boundary",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "NOT_COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T1-cgm-stale-01",
+      "trap": "T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T1-cgm-stale-02",
+      "trap": "T1 stale-version",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T1-cgm-current-03",
+      "trap": "T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
       "usd": 0.05
     },
     {
@@ -92,7 +1553,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.013,
       "usd": 0.05
     },
     {
@@ -105,7 +1566,7 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.013,
       "usd": 0.05
     },
     {
@@ -118,7 +1579,7 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.01,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -144,7 +1605,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.013,
       "usd": 0.05
     },
     {
@@ -170,7 +1631,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -183,7 +1644,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.01,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -274,7 +1735,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -287,7 +1748,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.01,
       "usd": 0.05
     },
     {
@@ -318,6 +1779,1238 @@
     }
   ],
   "per_case_retrieval": [
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t1dm-high-frequency-MHP-PPO-GOLD-2023-01-01",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v1.C2"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t1dm-high-frequency-MHP-PPO-GOLD-2023-02-15",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v1.C2"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t1dm-high-frequency-MHP-PPO-GOLD-2024-07-01",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v2.C2"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t1dm-high-frequency-MHP-PPO-GOLD-2024-08-15",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v2.C2"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t1dm-low-frequency-MHP-PPO-GOLD-2023-01-01",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v1.C2"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t1dm-low-frequency-MHP-PPO-GOLD-2024-06-30",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v1.C2"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t1dm-low-frequency-MHP-PPO-GOLD-2024-07-01",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v2.C2"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t1dm-low-frequency-MHP-PPO-GOLD-2025-11-15",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v2.C2"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t1dm-hypo-unawareness-MHP-PPO-GOLD-2023-01-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0142.v1.C2"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t1dm-hypo-unawareness-MHP-PPO-GOLD-2023-02-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0142.v1.C2"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t1dm-hypo-unawareness-MHP-PPO-GOLD-2024-07-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0142.v2.C2"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t1dm-hypo-unawareness-MHP-PPO-GOLD-2024-08-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0142.v2.C2"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t2dm-intensive-insulin-MHP-PPO-GOLD-2023-01-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0142.v1.C3"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t2dm-intensive-insulin-MHP-PPO-GOLD-2023-02-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0142.v1.C3"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t2dm-intensive-insulin-MHP-PPO-GOLD-2024-07-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0142.v2.C3"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t2dm-intensive-insulin-MHP-PPO-GOLD-2024-08-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0142.v2.C3"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t2dm-single-basal-MHP-PPO-GOLD-2023-01-01",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v1.C3"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t2dm-single-basal-MHP-PPO-GOLD-2024-06-30",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v1.C3"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t2dm-single-basal-MHP-PPO-GOLD-2024-07-01",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v2.C3"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t2dm-single-basal-MHP-PPO-GOLD-2025-11-15",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v2.C3"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t2dm-oral-only-MHP-PPO-GOLD-2023-01-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0142.v1.C3"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-t2dm-oral-only-MHP-PPO-GOLD-2023-02-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0142.v1.C3"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t2dm-oral-only-MHP-PPO-GOLD-2024-07-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0142.v2.C3"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-t2dm-oral-only-MHP-PPO-GOLD-2024-08-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0142.v2.C3"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-gestational-MHP-PPO-GOLD-2023-01-01",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v1.C5"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-gestational-MHP-PPO-GOLD-2024-06-30",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v1.C5"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-gestational-MHP-PPO-GOLD-2024-07-01",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v2.C5"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-gestational-MHP-PPO-GOLD-2025-11-15",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v2.C5"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-sensor-quantity-MHP-PPO-GOLD-2023-01-01",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-RID-DME-EXPAND.C1"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-sensor-quantity-MHP-HMO-BASE-2023-01-01",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-MP-0142.v1.C4"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-sensor-quantity-MHP-PPO-GOLD-2023-02-15",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-RID-DME-EXPAND.C1"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v1-sensor-quantity-MHP-HMO-BASE-2023-02-15",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-MP-0142.v1.C4"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-sensor-quantity-MHP-PPO-GOLD-2024-07-01",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-RID-DME-EXPAND.C1"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-sensor-quantity-MHP-HMO-BASE-2024-07-01",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-MP-0142.v2.C4"
+      ],
+      "retrieved_count": 8,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-sensor-quantity-MHP-PPO-GOLD-2024-08-15",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-RID-DME-EXPAND.C1"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0142-v2-sensor-quantity-MHP-HMO-BASE-2024-08-15",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-MP-0142.v2.C4"
+      ],
+      "retrieved_count": 8,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0143-v1-a1c-above-threshold-MHP-HMO-BASE-2022-06-01",
+      "trap": "T3 lookalike",
+      "gold": [
+        "MHP-MP-0143.v1.C2"
+      ],
+      "retrieved_count": 3,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0143-v1-a1c-above-threshold-MHP-HMO-BASE-2022-07-16",
+      "trap": "T3 lookalike",
+      "gold": [
+        "MHP-MP-0143.v1.C2"
+      ],
+      "retrieved_count": 3,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0143-v1-a1c-below-threshold-MHP-HMO-BASE-2022-06-01",
+      "trap": "T3 lookalike",
+      "gold": [
+        "MHP-MP-0143.v1.C2"
+      ],
+      "retrieved_count": 3,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0143-v1-a1c-below-threshold-MHP-HMO-BASE-2022-07-16",
+      "trap": "T3 lookalike",
+      "gold": [
+        "MHP-MP-0143.v1.C2"
+      ],
+      "retrieved_count": 3,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0143-v1-repeat-within-year-MHP-HMO-BASE-2022-06-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0143.v1.C3"
+      ],
+      "retrieved_count": 3,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0143-v1-repeat-within-year-MHP-HMO-BASE-2022-07-16",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0143.v1.C3"
+      ],
+      "retrieved_count": 3,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0143-v1-a1c-not-stated-MHP-HMO-BASE-2022-06-01",
+      "trap": "T6 refusal",
+      "gold": [
+        "MHP-MP-0143.v1.C2"
+      ],
+      "retrieved_count": 3,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0143-v1-a1c-not-stated-MHP-HMO-BASE-2022-07-16",
+      "trap": "T6 refusal",
+      "gold": [
+        "MHP-MP-0143.v1.C2"
+      ],
+      "retrieved_count": 3,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-no-dmard-trial-MHP-PPO-GOLD-2024-01-01",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-RID-STEP-WAIVE.C1"
+      ],
+      "retrieved_count": 8,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-no-dmard-trial-MHP-HMO-BASE-2024-01-01",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-MP-0210.v3.C2"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-no-dmard-trial-MHP-PPO-GOLD-2024-02-15",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-RID-STEP-WAIVE.C1"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-no-dmard-trial-MHP-HMO-BASE-2024-02-15",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-MP-0210.v3.C2"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-adequate-dmard-trial-MHP-PPO-GOLD-2024-01-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0210.v3.C2"
+      ],
+      "retrieved_count": 8,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-adequate-dmard-trial-MHP-PPO-GOLD-2024-02-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0210.v3.C2"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-short-dmard-trial-MHP-PPO-GOLD-2024-01-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-RID-STEP-WAIVE.C1"
+      ],
+      "retrieved_count": 8,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-short-dmard-trial-MHP-HMO-BASE-2024-01-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0210.v3.C2"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-short-dmard-trial-MHP-PPO-GOLD-2024-02-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-RID-STEP-WAIVE.C1"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-short-dmard-trial-MHP-HMO-BASE-2024-02-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0210.v3.C2"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-dmard-contraindicated-MHP-PPO-GOLD-2024-01-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0210.v3.C2"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-dmard-contraindicated-MHP-PPO-GOLD-2024-02-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0210.v3.C2"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-severity-unconfirmed-MHP-PPO-GOLD-2024-01-01",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-RID-STEP-WAIVE.C2"
+      ],
+      "retrieved_count": 8,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-severity-unconfirmed-MHP-HMO-BASE-2024-01-01",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-MP-0210.v3.C2"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-severity-unconfirmed-MHP-PPO-GOLD-2024-02-15",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-RID-STEP-WAIVE.C2"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-ra-severity-unconfirmed-MHP-HMO-BASE-2024-02-15",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-MP-0210.v3.C2"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-crohns-steroid-failed-MHP-PPO-GOLD-2024-01-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0210.v3.C3"
+      ],
+      "retrieved_count": 8,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-crohns-steroid-failed-MHP-PPO-GOLD-2024-02-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0210.v3.C3"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-crohns-no-steroid-trial-MHP-PPO-GOLD-2024-01-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0210.v3.C3"
+      ],
+      "retrieved_count": 8,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-MHP-MP-0210-v3-crohns-no-steroid-trial-MHP-PPO-GOLD-2024-02-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0210.v3.C3"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-hsat-clean-CSM-PPO-STD-2023-03-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0331.v1.C2"
+      ],
+      "retrieved_count": 4,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-hsat-clean-CSM-PPO-STD-2023-04-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0331.v1.C2"
+      ],
+      "retrieved_count": 4,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-hsat-clean-CSM-PPO-STD-2025-03-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0331.v2.C2"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-hsat-clean-CSM-PPO-STD-2025-04-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0331.v2.C2"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-hsat-with-chf-CSM-PPO-STD-2023-03-01",
+      "trap": "T1 stale-version",
+      "gold": [
+        "CSM-MP-0331.v1.C2"
+      ],
+      "retrieved_count": 4,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-hsat-with-chf-CSM-PPO-STD-2025-02-28",
+      "trap": "T1 stale-version",
+      "gold": [
+        "CSM-MP-0331.v1.C2"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-hsat-with-chf-CSM-PPO-STD-2025-03-01",
+      "trap": "T1 stale-version",
+      "gold": [
+        "CSM-MP-0331.v2.C2"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-hsat-with-chf-CSM-PPO-STD-2025-11-15",
+      "trap": "T1 stale-version",
+      "gold": [
+        "CSM-MP-0331.v2.C2"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-hsat-with-copd-CSM-PPO-STD-2023-03-01",
+      "trap": "T1 stale-version",
+      "gold": [
+        "CSM-MP-0331.v1.C2"
+      ],
+      "retrieved_count": 4,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-hsat-with-copd-CSM-PPO-STD-2025-02-28",
+      "trap": "T1 stale-version",
+      "gold": [
+        "CSM-MP-0331.v1.C2"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-hsat-with-copd-CSM-PPO-STD-2025-03-01",
+      "trap": "T1 stale-version",
+      "gold": [
+        "CSM-MP-0331.v2.C2"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-hsat-with-copd-CSM-PPO-STD-2025-11-15",
+      "trap": "T1 stale-version",
+      "gold": [
+        "CSM-MP-0331.v2.C2"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-repeat-study-weight-loss-CSM-PPO-STD-2023-03-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0331.v1.C4"
+      ],
+      "retrieved_count": 4,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-repeat-study-weight-loss-CSM-PPO-STD-2023-04-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0331.v1.C4"
+      ],
+      "retrieved_count": 4,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-repeat-study-weight-loss-CSM-PPO-STD-2025-03-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0331.v2.C3"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-repeat-study-weight-loss-CSM-PPO-STD-2025-04-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0331.v2.C3"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-repeat-study-no-change-CSM-PPO-STD-2023-03-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0331.v1.C4"
+      ],
+      "retrieved_count": 4,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v1-repeat-study-no-change-CSM-PPO-STD-2023-04-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0331.v1.C4"
+      ],
+      "retrieved_count": 4,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-repeat-study-no-change-CSM-PPO-STD-2025-03-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0331.v2.C3"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0331-v2-repeat-study-no-change-CSM-PPO-STD-2025-04-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0331.v2.C3"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-conservative-complete-CSM-PPO-STD-2024-04-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0405.v2.C2"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-conservative-complete-CSM-PPO-STD-2024-05-16",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0405.v2.C2"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-conservative-incomplete-CSM-PPO-STD-2024-04-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0405.v2.C2"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-conservative-incomplete-CSM-PPO-STD-2024-05-16",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0405.v2.C2"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-cauda-equina-CSM-PPO-STD-2024-04-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0405.v2.C2"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-cauda-equina-CSM-PPO-STD-2024-05-16",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0405.v2.C2"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-fusion-axial-pain-CSM-PPO-STD-2024-04-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0405.v2.C3"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-fusion-axial-pain-CSM-PPO-STD-2024-05-16",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0405.v2.C3"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-imaging-not-documented-CSM-PPO-STD-2024-04-01",
+      "trap": "T6 refusal",
+      "gold": [
+        "CSM-MP-0405.v2.C2"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0405-v2-imaging-not-documented-CSM-PPO-STD-2024-05-16",
+      "trap": "T6 refusal",
+      "gold": [
+        "CSM-MP-0405.v2.C2"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-NBA-MP-0512-v1-red-flag-papilledema-NBA-PPO-PREM-2023-09-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "NBA-MP-0512.v1.C2"
+      ],
+      "retrieved_count": 5,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-NBA-MP-0512-v1-red-flag-papilledema-NBA-PPO-PREM-2023-10-16",
+      "trap": "T4 compositional",
+      "gold": [
+        "NBA-MP-0512.v1.C2"
+      ],
+      "retrieved_count": 5,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-NBA-MP-0512-v1-red-flag-age-onset-NBA-PPO-PREM-2023-09-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "NBA-MP-0512.v1.C2"
+      ],
+      "retrieved_count": 5,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-NBA-MP-0512-v1-red-flag-age-onset-NBA-PPO-PREM-2023-10-16",
+      "trap": "T4 compositional",
+      "gold": [
+        "NBA-MP-0512.v1.C2"
+      ],
+      "retrieved_count": 5,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-NBA-MP-0512-v1-no-red-flags-NBA-PPO-PREM-2023-09-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "NBA-MP-0512.v1.C3"
+      ],
+      "retrieved_count": 5,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-NBA-MP-0512-v1-no-red-flags-NBA-PPO-PREM-2023-10-16",
+      "trap": "T4 compositional",
+      "gold": [
+        "NBA-MP-0512.v1.C3"
+      ],
+      "retrieved_count": 5,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-NBA-MP-0512-v1-injection-attempt-NBA-PPO-PREM-2023-09-01",
+      "trap": "T7 injection",
+      "gold": [
+        "NBA-MP-0512.v1.C3"
+      ],
+      "retrieved_count": 5,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-NBA-MP-0512-v1-injection-attempt-NBA-PPO-PREM-2023-10-16",
+      "trap": "T7 injection",
+      "gold": [
+        "NBA-MP-0512.v1.C3"
+      ],
+      "retrieved_count": 5,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-NBA-MP-0640-v1-screening-eligible-age-NBA-PPO-PREM-2022-01-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "NBA-MP-0640.v1.C1"
+      ],
+      "retrieved_count": 2,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-NBA-MP-0640-v1-screening-eligible-age-NBA-PPO-PREM-2022-02-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "NBA-MP-0640.v1.C1"
+      ],
+      "retrieved_count": 2,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-NBA-MP-0640-v1-screening-under-age-NBA-PPO-PREM-2022-01-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "NBA-MP-0640.v1.C1"
+      ],
+      "retrieved_count": 2,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-NBA-MP-0640-v1-screening-under-age-NBA-PPO-PREM-2022-02-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "NBA-MP-0640.v1.C1"
+      ],
+      "retrieved_count": 2,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-NBA-MP-0640-v1-screening-second-in-year-NBA-PPO-PREM-2022-01-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "NBA-MP-0640.v1.C1"
+      ],
+      "retrieved_count": 2,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-NBA-MP-0640-v1-screening-second-in-year-NBA-PPO-PREM-2022-02-15",
+      "trap": "T4 compositional",
+      "gold": [
+        "NBA-MP-0640.v1.C1"
+      ],
+      "retrieved_count": 2,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0702-v4-ct-ffr-investigational-CSM-PPO-STD-2024-01-01",
+      "trap": "T6 refusal boundary",
+      "gold": [
+        "CSM-MP-0702.v4.C1"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0702-v4-ct-ffr-investigational-CSM-PPO-STD-2024-02-15",
+      "trap": "T6 refusal boundary",
+      "gold": [
+        "CSM-MP-0702.v4.C1"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0702-v4-misc-dme-CSM-PPO-STD-2024-01-01",
+      "trap": "T6 refusal boundary",
+      "gold": [
+        "CSM-MP-0702.v4.C2"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "gen-CSM-MP-0702-v4-misc-dme-CSM-PPO-STD-2024-02-15",
+      "trap": "T6 refusal boundary",
+      "gold": [
+        "CSM-MP-0702.v4.C2"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
     {
       "case_id": "T1-cgm-stale-01",
       "trap": "T1 stale-version",
