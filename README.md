@@ -215,6 +215,33 @@ Currently dense-only: BM25 stays in-process. Pinecone hosts a sparse model
 lexical half server-side is the natural next step — at 40 clauses it would be
 pure overhead.
 
+#### Verified against a live index
+
+40 clauses upserted to a serverless index (1024-dim, cosine, `us-east-1`,
+`multilingual-e5-large`), then the full 22-case eval replayed through it:
+
+```
+scorecard  mode=stub  model=claude-opus-5
+           vectors=pinecone  embedder=multilingual-e5-large  reranker=date_aware
+
+  = gold-clause recall              1.0000 ->   1.0000  (+0.0000)
+  = stale retrieval rate            0.0000 ->   0.0000  (+0.0000)
+  = citation faithfulness           1.0000 ->   1.0000  (+0.0000)
+  = determination accuracy          0.5455 ->   0.5455  (+0.0000)
+  = FALSE AUTO-DETERMINE                 8 ->        8  (+0)
+  ! p95 latency (s)                 0.0130 ->   2.6310  (+2.6180)
+```
+
+Every quality metric identical; only latency moved — 13ms to 2.6s p95, because
+each sub-query now costs two network round trips (hosted embedding, then ANN
+query). That is the whole tradeoff, stated in numbers rather than asserted. The
+T1 date trap and T2 rider scoping were both confirmed to hold server-side.
+
+The live run also caught a bug the unit tests structurally could not: `QueryResponse.matches`
+yields `ScoredVector` objects, which support attribute and item access but are
+not `dict()`-coercible. Filter semantics are testable offline; response shapes
+are not.
+
 ### Subagents
 
 | Agent | Tools | Phase |

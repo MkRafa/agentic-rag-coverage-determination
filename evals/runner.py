@@ -7,6 +7,7 @@ measures the shortcut, not the system.
 from __future__ import annotations
 
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -26,6 +27,10 @@ ROOT = Path(__file__).resolve().parent
 CASES_DIR = ROOT / "cases"
 BASELINE = ROOT / "baseline.json"
 RESULTS_DIR = ROOT / "results"
+
+
+def _vector_backend() -> str:
+    return os.environ.get("CDA_VECTOR_BACKEND", "local").lower()
 
 
 def load_cases(paths: list[Path] | None = None) -> list[dict[str, Any]]:
@@ -82,7 +87,15 @@ async def run_eval(
         "mode": "stub" if stub else "live",
         "config": {
             "model": SETTINGS.synthesizer.model,
-            "embedder": SETTINGS.embedder,
+            "vector_backend": _vector_backend(),
+            # With a remote backend the embeddings come from that service, not
+            # from CDA_EMBEDDER. Reporting the local setting either way would
+            # label a Pinecone run "tfidf" and make the diff unattributable.
+            "embedder": (
+                os.environ.get("CDA_PINECONE_MODEL", "multilingual-e5-large")
+                if _vector_backend() == "pinecone"
+                else SETTINGS.embedder
+            ),
             "reranker": SETTINGS.reranker,
             "max_iterations": SETTINGS.max_iterations,
             "min_confidence": SETTINGS.min_confidence,
@@ -126,8 +139,10 @@ HEADLINE = [
 def render(scorecard: dict[str, Any]) -> str:
     lines = [
         "",
-        f"scorecard  mode={scorecard['mode']}  model={scorecard['config']['model']}  "
-        f"embedder={scorecard['config']['embedder']}  reranker={scorecard['config']['reranker']}",
+        f"scorecard  mode={scorecard['mode']}  model={scorecard['config']['model']}",
+        f"           vectors={scorecard['config'].get('vector_backend', 'local')}  "
+        f"embedder={scorecard['config']['embedder']}  "
+        f"reranker={scorecard['config']['reranker']}",
         "-" * 78,
     ]
     for section, key, label, _ in HEADLINE:

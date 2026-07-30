@@ -316,8 +316,12 @@ class PineconeVectorBackend:
             include_metadata=False,  # metadata is not the system of record
             include_values=False,
         )
-        matches_ = response.get("matches", []) if isinstance(response, dict) else response.matches
-        return [(m["id"], float(m["score"])) for m in (dict(x) for x in matches_)][:k]
+        # QueryResponse exposes `.matches`; each is a ScoredVector, which
+        # supports both attribute and item access but is NOT dict-coercible.
+        raw = getattr(response, "matches", None)
+        if raw is None and isinstance(response, dict):
+            raw = response.get("matches", [])
+        return [(m["id"], float(m["score"])) for m in (raw or [])][:k]
 
 
 # ---------------------------------------------------------------------------
