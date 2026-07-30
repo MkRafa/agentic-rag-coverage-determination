@@ -213,6 +213,12 @@ def _brief(kind: str, event: dict[str, Any]) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Before anything reads os.environ. Real env vars still win, and the MCP
+    # client forwards the relevant keys into the server subprocess.
+    from .env import load_dotenv
+
+    load_dotenv()
+
     parser = argparse.ArgumentParser(prog="cda", description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
 

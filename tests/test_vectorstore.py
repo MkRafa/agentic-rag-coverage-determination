@@ -13,6 +13,9 @@ finding's clothes.
 
 from __future__ import annotations
 
+import os
+import pathlib
+
 import pytest
 
 from policy_corpus.retrieval import in_effect
@@ -217,3 +220,67 @@ def test_every_config_env_var_is_forwarded_to_the_mcp_subprocess():
     assert read_by_server, "expected the server package to read some CDA_/PINECONE_ vars"
     missing = read_by_server - set(_FORWARDED_ENV)
     assert not missing, f"read by the MCP server but never forwarded to it: {sorted(missing)}"
+
+
+# ---------------------------------------------------------------------------
+# .env loading
+# ---------------------------------------------------------------------------
+
+
+def test_dotenv_is_gitignored():
+    """A key committed to the repo is the worst possible outcome here."""
+    from pathlib import Path
+
+    ignored = Path(".gitignore").read_text().splitlines()
+    assert ".env" in [line.strip() for line in ignored]
+
+
+def test_dotenv_parses_and_never_overrides_the_real_environment(tmp_path, monkeypatch):
+    from src.env import load_dotenv
+
+    env_file = tmp_path / ".env"
+    env_file.write_text(
+        "\n".join(
+            [
+                "# a comment",
+                "",
+                "PINECONE_API_KEY=pcsk_from_file",
+                'CDA_PINECONE_INDEX="quoted-value"',
+                "export CDA_PINECONE_NAMESPACE=exported",
+                "CDA_ALREADY_SET=from_file",
+                "malformed line without equals",
+            ]
+        )
+    )
+    monkeypatch.setenv("CDA_ALREADY_SET", "from_shell")
+    for key in ("PINECONE_API_KEY", "CDA_PINECONE_INDEX", "CDA_PINECONE_NAMESPACE"):
+        monkeypatch.delenv(key, raising=False)
+
+    loaded = load_dotenv(env_file)
+
+    assert os.environ["PINECONE_API_KEY"] == "pcsk_from_file"
+    assert os.environ["CDA_PINECONE_INDEX"] == "quoted-value"       # quotes stripped
+    assert os.environ["CDA_PINECONE_NAMESPACE"] == "exported"       # `export ` prefix handled
+    assert os.environ["CDA_ALREADY_SET"] == "from_shell"            # shell wins
+    assert "CDA_ALREADY_SET" not in loaded
+    assert "malformed line without equals" not in loaded
+
+
+def test_dotenv_returns_names_not_values():
+    """The return value gets logged; it must never carry a secret."""
+    from src.env import load_dotenv
+
+    assert load_dotenv(pathlib.Path("/nonexistent/.env")) == []
+
+
+def test_env_example_documents_every_pinecone_var():
+    """A knob with no entry in .env.example is a knob nobody will find."""
+    import pathlib as _pl
+    import re
+
+    example = _pl.Path(".env.example").read_text()
+    from src.mcp_client import _FORWARDED_ENV
+
+    for name in _FORWARDED_ENV:
+        if name.startswith(("CDA_", "PINECONE_")):
+            assert name in example, f"{name} is forwarded but undocumented in .env.example"

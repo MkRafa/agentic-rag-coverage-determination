@@ -169,10 +169,19 @@ The dense half of retrieval sits behind a `VectorBackend`
 touches nothing in `src/` — no agent, no prompt, no contract.
 
 ```bash
-export PINECONE_API_KEY=...
+.venv/bin/pip install -e ".[pinecone]"
+
+cp .env.example .env          # then set PINECONE_API_KEY — .env is gitignored
+# or just: export PINECONE_API_KEY=pcsk_...
+
 .venv/bin/python -m src.cli corpus index --backend pinecone   # deploy step, not startup
 CDA_VECTOR_BACKEND=pinecone .venv/bin/python -m src.cli eval --diff
 ```
+
+`.env` is read at CLI startup by [src/env.py](src/env.py) (no dependency) and
+forwarded into the MCP subprocess. A real environment variable always beats the
+file, so `export` still overrides a stale `.env`. Never put a key in
+`.claude/settings.json` — that one is committed.
 
 Three decisions in that backend are load-bearing:
 
