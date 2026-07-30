@@ -414,6 +414,40 @@ invented `[SYSTEM DIRECTIVE]` and `[NOTE TO SYSTEM]` framings that the blocklist
 does not match — direct confirmation that the injection patterns are telemetry,
 not a barrier.
 
+### Pricing a run before firing it
+
+```bash
+CDA_MODEL=claude-sonnet-5 .venv/bin/python -m src.cli eval --limit 2   # calibrate
+.venv/bin/python -m src.cli cost --cases 152                           # project
+```
+
+`cda cost` extrapolates from *measured* live traces, not guesses. Measured at
+**25,786 input + 4,207 output tokens per case** over 5 calls:
+
+| role | in/case | out/case |
+|---|---:|---:|
+| retriever | 13,474 | 762 |
+| synthesizer | 4,252 | 1,300 |
+| grader | 3,948 | 1,013 |
+| planner | 2,812 | 849 |
+| verifier | 1,301 | 282 |
+
+| model | 152-case run | with prompt caching |
+|---|---:|---:|
+| Haiku 4.5 | $7.12 | $5.99 |
+| Sonnet 5 (intro rate) | $14.23 | $11.98 |
+| Sonnet 5 (standard) | $21.35 | $17.97 |
+| Opus 5 | $35.58 | $29.95 |
+
+Two things the measurement exposed. **The Retriever is 52% of all input** — its
+tool loop resends the growing conversation every turn, so it costs more than the
+Synthesizer and Grader combined. And **8,313 tokens per case are system prompts
+that never change** (the skills are static), which is what the caching column
+prices; `cache_control` is not yet wired.
+
+Wall clock is the real constraint, not money: ~98s per case measured, so **about
+4 hours sequential** for 152 cases. The eval loop runs cases one at a time.
+
 ### A baseline only compares against the same questions
 
 Every scorecard carries a `case_set` fingerprint (count + hash of case ids).

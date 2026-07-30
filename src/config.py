@@ -15,7 +15,9 @@ ROOT = Path(__file__).resolve().parent.parent
 # Anthropic's most capable widely-available model. Per-role overrides below are
 # the cost lever: drop a role to a cheaper model, rerun `eval`, and read the
 # scorecard diff rather than asserting the swap was safe.
-DEFAULT_MODEL = "claude-opus-5"
+# Every role defaults to this. CDA_MODEL swaps the whole pipeline in one go —
+# the cheapest way to price a suite run before committing to it.
+DEFAULT_MODEL = os.environ.get("CDA_MODEL", "claude-opus-5")
 
 
 @dataclass(frozen=True)

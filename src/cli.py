@@ -270,6 +270,14 @@ async def _evals(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cost(args: argparse.Namespace) -> int:
+    from evals import cost
+
+    m = cost.measure()
+    print(cost.render(m, cases=args.cases, cached_system_tokens=args.system_tokens))
+    return 0
+
+
 def _trace(args: argparse.Namespace) -> int:
     path = Path(args.run_id)
     if not path.exists():
@@ -362,6 +370,14 @@ def main(argv: list[str] | None = None) -> int:
     )
     p_evals.add_argument("--stub", action="store_true", help="run generate without model calls")
     p_evals.set_defaults(fn=_evals, is_async=True)
+
+    p_cost = sub.add_parser("cost", help="project suite cost from measured live traces")
+    p_cost.add_argument("--cases", type=int, default=152)
+    p_cost.add_argument(
+        "--system-tokens", type=int, default=8313,
+        help="per-case system-prompt tokens eligible for prompt caching",
+    )
+    p_cost.set_defaults(fn=_cost, is_async=False)
 
     p_trace = sub.add_parser("trace", help="pretty-print a run trace")
     p_trace.add_argument("run_id")

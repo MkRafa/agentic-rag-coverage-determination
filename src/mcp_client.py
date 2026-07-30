@@ -28,6 +28,7 @@ from .config import ROOT
 # knobs have to be forwarded explicitly. Without this the embedder/reranker
 # sweep silently does nothing and every variant scores identically.
 _FORWARDED_ENV = (
+    "CDA_MODEL",
     "CDA_EMBEDDER",
     "CDA_RERANKER",
     "CDA_CORPUS",

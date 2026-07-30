@@ -241,17 +241,28 @@ class AnthropicClient:
                 f"(max_iterations={max_iterations})"
             ) from exc
 
-        for message in getattr(runner, "messages", []) or []:
+        # A tool loop is several model turns; sum them so the trace carries the
+        # same token detail a single call does. Omitting them made the retriever
+        # look free — it is in fact the largest input consumer in the pipeline,
+        # because every turn resends the conversation so far.
+        turns = list(getattr(runner, "messages", []) or [])
+        loop_in = loop_out = 0
+        for message in turns:
             usage = getattr(message, "usage", None)
             if usage is not None:
-                self.budget.record(role, cfg.model, usage.input_tokens, usage.output_tokens)
-        if not getattr(runner, "messages", None) and getattr(final, "usage", None):
-            self.budget.record(role, cfg.model, final.usage.input_tokens, final.usage.output_tokens)
+                loop_in += usage.input_tokens
+                loop_out += usage.output_tokens
+        if not turns and getattr(final, "usage", None):
+            loop_in, loop_out = final.usage.input_tokens, final.usage.output_tokens
+        if loop_in or loop_out:
+            self.budget.record(role, cfg.model, loop_in, loop_out)
 
         if self.trace is not None:
             self.trace.event(
                 "model_call", role=role, model=cfg.model, effort=cfg.effort,
                 stop_reason=getattr(final, "stop_reason", None), tool_loop=True,
+                turns=len(turns) or 1,
+                input_tokens=loop_in, output_tokens=loop_out,
             )
 
         if getattr(final, "stop_reason", None) == "refusal":
