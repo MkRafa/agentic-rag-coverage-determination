@@ -20,6 +20,7 @@ import asyncio
 import json
 import os
 import time
+from functools import lru_cache
 from typing import Any, Awaitable, Callable, Protocol, Sequence, TypeVar
 
 from pydantic import BaseModel
@@ -60,6 +61,53 @@ def role_config(role: str) -> RoleConfig:
 
 class CallTimeout(RuntimeError):
     """A model call or tool loop exceeded its wall-clock budget."""
+
+
+# Capability differences are per-model, not per-generation-you-remember. Adaptive
+# thinking and `effort` are 4.6+ features: sending either to Haiku 4.5 is a 400,
+# not a graceful ignore. Resolved live from the Models API once per process, with
+# a conservative fallback so stub and offline paths never depend on the network.
+_CAPS_FALLBACK = {"adaptive": False, "enabled": False, "effort": False}
+
+
+@lru_cache(maxsize=16)
+def _capabilities(model: str) -> dict[str, bool]:
+    try:
+        import anthropic  # noqa: PLC0415
+
+        caps = anthropic.Anthropic().models.retrieve(model).capabilities
+        caps = caps.model_dump() if hasattr(caps, "model_dump") else dict(caps)
+        thinking = caps.get("thinking") or {}
+        types = thinking.get("types") or {}
+        return {
+            "adaptive": bool((types.get("adaptive") or {}).get("supported")),
+            "enabled": bool((types.get("enabled") or {}).get("supported")),
+            "effort": bool((caps.get("effort") or {}).get("supported")),
+        }
+    except Exception:  # noqa: BLE001 — never let a capability probe break a run
+        return dict(_CAPS_FALLBACK)
+
+
+def build_request_options(cfg: RoleConfig) -> dict[str, Any]:
+    """The thinking and effort parameters this model will actually accept."""
+    caps = _capabilities(cfg.model)
+    options: dict[str, Any] = {}
+
+    if caps["effort"]:
+        options["output_config"] = {"effort": cfg.effort}
+
+    if not cfg.thinking:
+        if caps["adaptive"] or caps["enabled"]:
+            options["thinking"] = {"type": "disabled"}
+    elif caps["adaptive"]:
+        options["thinking"] = {"type": "adaptive"}
+    elif caps["enabled"]:
+        # Legacy models take a fixed budget, which must leave room for the answer.
+        budget = max(1024, min(cfg.max_tokens // 4, 8_000))
+        if budget < cfg.max_tokens:
+            options["thinking"] = {"type": "enabled", "budget_tokens": budget}
+
+    return options
 
 
 class AnthropicClient:
@@ -104,10 +152,8 @@ class AnthropicClient:
             "system": system,
             "messages": [{"role": "user", "content": user}],
             "output_format": output_format,
-            "output_config": {"effort": cfg.effort},
+            **build_request_options(cfg),
         }
-        if cfg.thinking:
-            kwargs["thinking"] = {"type": "adaptive"}
 
         import anthropic  # noqa: PLC0415
 
@@ -171,9 +217,8 @@ class AnthropicClient:
             messages=[{"role": "user", "content": user}],
             tools=list(tools),
             output_format=output_format,
-            output_config={"effort": cfg.effort},
-            thinking={"type": "adaptive"} if cfg.thinking else {"type": "disabled"},
             max_iterations=max_iterations,
+            **build_request_options(cfg),
         )
 
         # `max_iterations` bounds the number of turns, not wall clock: a loop of

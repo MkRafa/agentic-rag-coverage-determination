@@ -333,13 +333,13 @@ model to also grade those would launder a number into an opinion.
 .venv/bin/python -m src.cli eval --stub --set-baseline # freeze a new baseline
 ```
 
-### The case set — 134 cases, and where the labels come from
+### The case set — 152 cases, and where the labels come from
 
 | Source | Count | Labels |
 |---|---|---|
 | Hand-written seeds (`cases/seed.json`) | 22 | Authored with the corpus open |
 | Deterministic expansion (`cases/generated.json`) | 112 | **Derived from corpus structure** |
-| Adversary (`cases/adversarial.json`) | 0 | Model-proposed, validator-gated |
+| Adversary — Haiku 4.5 (`cases/adversarial.json`) | 18 | Model-proposed, validator-gated, human-read |
 
 The split is the point. For the mechanical traps a model has no business writing
 the answer key: which policy version governs a date is arithmetic, so
@@ -379,6 +379,40 @@ proposed 4 · duplicate ids 0 · rejected 3 · kept 1
 What it cannot check is whether the clinical facts genuinely satisfy the
 criteria — that is the judgement the case exists to test. The validator's job is
 to make the human read short.
+
+### What the first live Adversary run actually showed
+
+Run on **Haiku 4.5** (`evals generate --model claude-haiku-4-5`), 48 cases
+proposed across two batches, **18 kept — a 37% yield**:
+
+| Outcome | Count | Caught by |
+|---|---|---|
+| Rejected: mechanical defect | 9 | validator |
+| Rejected: wrong clinical label | 3 | human read |
+| Rejected: duplicate coverage | 16 | `find_duplicates` |
+| **Kept** | **18** | |
+
+Three findings worth more than the cases:
+
+**The first validator caught 1 of 6 defects.** The rest were things I had not
+thought to check — citing a `Scope` clause to support a determination, tagging a
+well-formed request `HALT` because the narrative contained an injection, citing a
+clause whose policy does not govern the requested code. Three new rules now cover
+them, including one that simply *runs pre-flight* and asserts the expected gate
+is reachable. The 134 pre-existing cases stayed clean throughout — no false
+positives.
+
+**16 of 37 were coverage-duplicates of the deterministic expansion.** Keyed on
+what a case actually probes — payer, plan, codes, gold clauses, outcome, gate —
+rather than narrative wording. A model asked for adversarial cases mostly
+re-derives the mechanical traps that are already generated for free. Its marginal
+value is in the places structure cannot reach: multi-source conflicts, unusual
+fact patterns, missing-fact refusals.
+
+**Both injection cases scored zero flags from the pre-flight detector.** Haiku
+invented `[SYSTEM DIRECTIVE]` and `[NOTE TO SYSTEM]` framings that the blocklist
+does not match — direct confirmation that the injection patterns are telemetry,
+not a barrier.
 
 ### A baseline only compares against the same questions
 
@@ -459,7 +493,10 @@ conditions), the full loop, the gate against all five injected failure modes, th
 budget meter, the timeout caps, traces, both eval scorers, the baseline-diff
 workflow, the local vector backend, the 134-case suite with its validator, and
 both repo hooks (pipe-tested against matching, non-matching and malformed
-payloads). 74 tests pass.
+payloads). 80 tests pass.
+
+The Adversary has now run live on Haiku 4.5; the offline **Judge has not** — it
+is written and wired but never executed.
 
 The hooks are written and validated but have **not been observed firing** — the
 settings watcher only watches directories that already had a settings file when

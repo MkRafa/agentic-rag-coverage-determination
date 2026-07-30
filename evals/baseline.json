@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-30T11:59:55+00:00",
+  "generated_at": "2026-07-30T13:16:44+00:00",
   "mode": "stub",
   "case_set": {
-    "count": 134,
-    "hash": "5c98320836d2"
+    "count": 152,
+    "hash": "ddcb0727cc63"
   },
   "config": {
     "model": "claude-opus-5",
@@ -14,27 +14,261 @@
     "min_confidence": 0.7
   },
   "retrieval": {
-    "cases": 134,
-    "scored_cases": 132,
+    "cases": 152,
+    "scored_cases": 149,
     "gold_clause_recall": 1.0,
     "stale_retrieval_rate": 0.0,
     "cases_with_any_stale_retrieval": 0,
-    "clauses_retrieved": 862
+    "clauses_retrieved": 992
   },
   "answer": {
-    "cases": 134,
-    "determination_accuracy": 0.5373,
-    "gate_correctness": 0.8433,
+    "cases": 152,
+    "determination_accuracy": 0.5526,
+    "gate_correctness": 0.8026,
     "citation_faithfulness": 1.0,
     "hallucinated_clause_count": 0,
     "stale_citation_count": 0,
     "appropriate_refusal_rate": 0.0,
-    "false_auto_determine": 55,
-    "usd_total": 6.65,
-    "usd_per_case": 0.049627,
-    "p95_latency_s": 0.013
+    "false_auto_determine": 59,
+    "usd_total": 7.55,
+    "usd_per_case": 0.049671,
+    "p95_latency_s": 0.014
   },
   "per_case": [
+    {
+      "case_id": "T2-rider-dme-quantity-01",
+      "trap": "T2 rider override",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.058,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T5-biologic-faq-bulletin-01",
+      "trap": "T5 contradiction",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "REVIEW",
+      "actual_gate": "REVIEW",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.014,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T6-nasal-surgery-no-policy-01",
+      "trap": "T6 refusal",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "REFUSE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.01,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T1-cgm-t2-insulin-transition-02",
+      "trap": "T1 stale-version",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T2-rider-step-therapy-waive-01",
+      "trap": "T2 rider override",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T3-biologic-therapy-code-confusion-02",
+      "trap": "T3 lookalike",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T4-sleep-apnea-chf-exception-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.01,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T4-ra-dmard-contraindicated-exception-04",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T5-faq-contradicts-bulletin-dmard-duration-01",
+      "trap": "T5 contradiction",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "REVIEW",
+      "actual_gate": "REVIEW",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.015,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T5-faq-contradicts-bulletin-rider-effect-02",
+      "trap": "T5 contradiction",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "REVIEW",
+      "actual_gate": "REVIEW",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T6-missing-fact-cgm-hypo-unawareness-02",
+      "trap": "T6 refusal",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "REFUSE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.01,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T1-gestational-diabetes-coverage-change-04",
+      "trap": "T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T6-investigational-service-classification-05",
+      "trap": "T6 refusal",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "NOT_COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T4-crohns-steroid-failure-compositional-logic-06",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.011,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T6-missing-fact-hsat-comorbid-status-documentation-07",
+      "trap": "T6 refusal",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "REFUSE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.009,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T2-rider-applies-to-correct-plan-boundary-case-05",
+      "trap": "T2 rider override",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.012,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T4-type-2-intensive-insulin-vs-any-insulin-threshold-07",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
+    {
+      "case_id": "T6-missing-severity-documentation-ra-08",
+      "trap": "T6 refusal",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "REFUSE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 0.013,
+      "usd": 0.05
+    },
     {
       "case_id": "gen-MHP-MP-0142-v1-t1dm-high-frequency-MHP-PPO-GOLD-2023-01-01",
       "trap": "T1 stale-version",
@@ -45,7 +279,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.058,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -58,7 +292,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.014,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -71,7 +305,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -97,7 +331,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.01,
       "usd": 0.05
     },
     {
@@ -110,7 +344,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -149,7 +383,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -175,7 +409,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -201,7 +435,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.01,
       "usd": 0.05
     },
     {
@@ -214,7 +448,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.01,
       "usd": 0.05
     },
     {
@@ -279,7 +513,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.014,
       "usd": 0.05
     },
     {
@@ -292,7 +526,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.013,
       "usd": 0.05
     },
     {
@@ -331,7 +565,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.014,
       "usd": 0.05
     },
     {
@@ -344,7 +578,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -370,7 +604,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.015,
       "usd": 0.05
     },
     {
@@ -383,7 +617,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.014,
+      "latency_s": 0.013,
       "usd": 0.05
     },
     {
@@ -396,7 +630,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.013,
       "usd": 0.05
     },
     {
@@ -422,7 +656,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.01,
       "usd": 0.05
     },
     {
@@ -435,7 +669,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.01,
       "usd": 0.05
     },
     {
@@ -448,7 +682,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.01,
       "usd": 0.05
     },
     {
@@ -461,7 +695,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -474,7 +708,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -487,7 +721,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -513,7 +747,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.009,
+      "latency_s": 0.008,
       "usd": 0.05
     },
     {
@@ -578,7 +812,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.009,
+      "latency_s": 0.008,
       "usd": 0.05
     },
     {
@@ -643,7 +877,7 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -669,7 +903,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.013,
       "usd": 0.05
     },
     {
@@ -695,7 +929,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -708,7 +942,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -721,7 +955,7 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.014,
+      "latency_s": 0.013,
       "usd": 0.05
     },
     {
@@ -747,7 +981,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -786,7 +1020,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -838,7 +1072,7 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -851,7 +1085,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -903,7 +1137,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.01,
       "usd": 0.05
     },
     {
@@ -916,7 +1150,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.01,
       "usd": 0.05
     },
     {
@@ -942,7 +1176,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -968,7 +1202,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.01,
       "usd": 0.05
     },
     {
@@ -981,7 +1215,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.01,
+      "latency_s": 0.009,
       "usd": 0.05
     },
     {
@@ -1020,7 +1254,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.01,
       "usd": 0.05
     },
     {
@@ -1059,7 +1293,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.01,
       "usd": 0.05
     },
     {
@@ -1111,7 +1345,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.01,
       "usd": 0.05
     },
     {
@@ -1124,7 +1358,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.01,
       "usd": 0.05
     },
     {
@@ -1137,7 +1371,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -1163,7 +1397,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -1176,7 +1410,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -1189,7 +1423,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -1215,7 +1449,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -1228,7 +1462,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -1345,7 +1579,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.009,
+      "latency_s": 0.01,
       "usd": 0.05
     },
     {
@@ -1358,7 +1592,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.009,
+      "latency_s": 0.01,
       "usd": 0.05
     },
     {
@@ -1397,7 +1631,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.008,
+      "latency_s": 0.007,
       "usd": 0.05
     },
     {
@@ -1423,7 +1657,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.007,
+      "latency_s": 0.008,
       "usd": 0.05
     },
     {
@@ -1436,7 +1670,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.008,
+      "latency_s": 0.007,
       "usd": 0.05
     },
     {
@@ -1449,7 +1683,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.02,
       "usd": 0.05
     },
     {
@@ -1462,7 +1696,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.01,
       "usd": 0.05
     },
     {
@@ -1475,7 +1709,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -1527,7 +1761,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -1540,7 +1774,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -1553,7 +1787,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -1566,7 +1800,7 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -1579,7 +1813,7 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -1592,7 +1826,7 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -1605,7 +1839,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -1618,7 +1852,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.016,
       "usd": 0.05
     },
     {
@@ -1631,7 +1865,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.015,
       "usd": 0.05
     },
     {
@@ -1657,7 +1891,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -1670,7 +1904,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.01,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -1683,7 +1917,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
+      "latency_s": 0.012,
       "usd": 0.05
     },
     {
@@ -1696,7 +1930,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -1722,7 +1956,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -1735,7 +1969,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -1748,7 +1982,7 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.01,
+      "latency_s": 0.011,
       "usd": 0.05
     },
     {
@@ -1779,6 +2013,208 @@
     }
   ],
   "per_case_retrieval": [
+    {
+      "case_id": "T2-rider-dme-quantity-01",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-RID-DME-EXPAND.C1",
+        "MHP-MP-0142.v2.C2"
+      ],
+      "retrieved_count": 8,
+      "gold_hits": 2,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T5-biologic-faq-bulletin-01",
+      "trap": "T5 contradiction",
+      "gold": [
+        "MHP-MP-0210.v3.C2",
+        "MHP-FAQ-0210.v1.C1"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 2,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T6-nasal-surgery-no-policy-01",
+      "trap": "T6 refusal",
+      "gold": [],
+      "retrieved_count": 5,
+      "gold_hits": 0,
+      "gold_recall": null,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T1-cgm-t2-insulin-transition-02",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v1.C3"
+      ],
+      "retrieved_count": 8,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T2-rider-step-therapy-waive-01",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-RID-STEP-WAIVE.C1",
+        "MHP-RID-STEP-WAIVE.C2"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 2,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T3-biologic-therapy-code-confusion-02",
+      "trap": "T3 lookalike",
+      "gold": [
+        "MHP-MP-0210.v3.C3"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T4-sleep-apnea-chf-exception-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0331.v1.C2"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T4-ra-dmard-contraindicated-exception-04",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0210.v3.C2"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T5-faq-contradicts-bulletin-dmard-duration-01",
+      "trap": "T5 contradiction",
+      "gold": [
+        "MHP-MP-0210.v3.C2",
+        "MHP-FAQ-0210.v1.C1"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 2,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T5-faq-contradicts-bulletin-rider-effect-02",
+      "trap": "T5 contradiction",
+      "gold": [
+        "MHP-RID-STEP-WAIVE.C1",
+        "MHP-MP-0210.v3.C4",
+        "MHP-FAQ-0210.v1.C2"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 3,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T6-missing-fact-cgm-hypo-unawareness-02",
+      "trap": "T6 refusal",
+      "gold": [
+        "MHP-MP-0142.v1.C2"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T1-gestational-diabetes-coverage-change-04",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v2.C5"
+      ],
+      "retrieved_count": 8,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T6-investigational-service-classification-05",
+      "trap": "T6 refusal",
+      "gold": [
+        "CSM-MP-0702.v4.C1"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T4-crohns-steroid-failure-compositional-logic-06",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0210.v3.C3"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T6-missing-fact-hsat-comorbid-status-documentation-07",
+      "trap": "T6 refusal",
+      "gold": [
+        "CSM-MP-0331.v1.C2"
+      ],
+      "retrieved_count": 4,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T2-rider-applies-to-correct-plan-boundary-case-05",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-RID-STEP-WAIVE.C1"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T4-type-2-intensive-insulin-vs-any-insulin-threshold-07",
+      "trap": "T4 compositional",
+      "gold": [
+        "MHP-MP-0142.v2.C3"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T6-missing-severity-documentation-ra-08",
+      "trap": "T6 refusal",
+      "gold": [
+        "MHP-MP-0210.v3.C2"
+      ],
+      "retrieved_count": 9,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
     {
       "case_id": "gen-MHP-MP-0142-v1-t1dm-high-frequency-MHP-PPO-GOLD-2023-01-01",
       "trap": "T1 stale-version",

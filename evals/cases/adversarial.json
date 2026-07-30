@@ -1,0 +1,430 @@
+{
+  "description": "Adversary-proposed cases (claude-haiku-4-5). Each passed the deterministic validator, is not a coverage-duplicate of an existing case, and had its clinical labels read by a human.",
+  "rejected_on_review": {
+    "T2-rider-not-applicable-hmo-03": "clause says quantities over the cap 'require additional documentation', which is a request for more information, not a denial; NOT_COVERED/REVIEW is neither derivable nor consistent with the refusal policy.",
+    "T6-miscellaneous-dme-individual-consideration-06": "labels E1399 INSUFFICIENT_EVIDENCE while the committed expansion labels the same clause NOT_COVERED. One suite cannot hold both answers for one clause.",
+    "T5-pretest-probability-rider-conflict-02": "expects COVERED on CSM-MP-0331.v1.C3, but that clause requires a prior inadequate or negative home study and the narrative describes none.",
+    "T6-spinal-fusion-imaging-absent-01": "cites a lumbar-decompression clause for cervical arthrodesis (22551); the scenario is clinically incoherent. The policy lists 22551, so the code check passes \u2014 clause-level applicability is not encoded in the corpus."
+  },
+  "cases": [
+    {
+      "case_id": "T2-rider-dme-quantity-01",
+      "trap": "T2 rider override",
+      "payer_id": "MHP",
+      "plan_id": "MHP-PPO-GOLD",
+      "procedure_codes": [
+        "A9276"
+      ],
+      "diagnosis_codes": [
+        "E10.9"
+      ],
+      "as_of_date": "2024-09-15",
+      "narrative": "Member with Type 1 diabetes requesting 38 units of CGM sensors for a 31-day period. Member has documented hypoglycemia unawareness and performs CGM monitoring continuously.",
+      "question": "Is supply of 38 CGM sensor units per 31-day period medically necessary and within policy limits?",
+      "expected_outcome": "COVERED",
+      "expected_gate": "DETERMINE",
+      "gold_clause_ids": [
+        "MHP-RID-DME-EXPAND.C1",
+        "MHP-MP-0142.v2.C2"
+      ],
+      "rationale": "The base policy MHP-MP-0142 limits sensor supply to 31 units per 31-day period without additional documentation. However, MHP-RID-DME-EXPAND, which applies to MHP-PPO-GOLD members, increases this limit to 40 units per 31-day period. A system that reads only the base policy would determine insufficient documentation is needed, but the plan rider overrides this limitation for this member.",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    },
+    {
+      "case_id": "T5-biologic-faq-bulletin-01",
+      "trap": "T5 contradiction",
+      "payer_id": "MHP",
+      "plan_id": "MHP-HMO-BASE",
+      "procedure_codes": [
+        "J1745"
+      ],
+      "diagnosis_codes": [
+        "M05.79"
+      ],
+      "as_of_date": "2024-04-10",
+      "narrative": "Member with confirmed moderate-to-severe rheumatoid arthritis. Prior therapy: methotrexate 25 mg weekly for 4 months with inadequate clinical response; rheumatologist documents insufficient DMARD trial. Requesting infliximab therapy.",
+      "question": "Is biologic therapy (J1745) medically necessary given the documented DMARD trial duration?",
+      "expected_outcome": "COVERED",
+      "expected_gate": "REVIEW",
+      "gold_clause_ids": [
+        "MHP-MP-0210.v3.C2",
+        "MHP-FAQ-0210.v1.C1"
+      ],
+      "rationale": "The medical policy bulletin MHP-MP-0210.v3.C2 requires a DMARD trial of 'no less than three (3) months duration.' The member has completed 4 months, meeting this requirement. However, the Provider FAQ MHP-FAQ-0210.v1.C1 states 'A trial of at least six (6) months is required,' which directly contradicts the bulletin. Per precedence rules, the bulletin controls and the determination is COVERED, but the contradiction between the bulletin and FAQ must be surfaced to the reviewer as both documents may inform member or provider expectations.",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    },
+    {
+      "case_id": "T6-nasal-surgery-no-policy-01",
+      "trap": "T6 refusal",
+      "payer_id": "NBA",
+      "plan_id": "NBA-PPO-PREM",
+      "procedure_codes": [
+        "31241"
+      ],
+      "diagnosis_codes": [
+        "J32.9"
+      ],
+      "as_of_date": "2024-05-20",
+      "narrative": "Member with chronic rhinosinusitis refractory to medical management requesting evaluation for endoscopic sinus surgery with ligation of sphenopalatine artery.",
+      "question": "Is nasal endoscopy with vessel ligation (CPT 31241) medically necessary?",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "expected_gate": "REFUSE",
+      "gold_clause_ids": [],
+      "rationale": "No Northgate Benefit Alliance policy in the corpus governs CPT 31241 (nasal endoscopy, surgical, with ligation) or chronic rhinosinusitis management as of 2024-05-20. The code does not appear in any NBA policy document. A coverage determination cannot be made without a governing policy.",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    },
+    {
+      "case_id": "T1-cgm-t2-insulin-transition-02",
+      "trap": "T1 stale-version",
+      "payer_id": "MHP",
+      "plan_id": "MHP-HMO-BASE",
+      "procedure_codes": [
+        "95249"
+      ],
+      "diagnosis_codes": [
+        "E11.9"
+      ],
+      "as_of_date": "2024-06-30",
+      "narrative": "A 56-year-old member with Type 2 diabetes mellitus has recently been started on a once-daily basal insulin injection (glargine). Treating clinician documents that the member has suboptimal control and requests personal-use continuous glucose monitoring for home monitoring. No other insulin agents are being used.",
+      "question": "Is personal-use continuous glucose monitoring medically necessary for this member on this date?",
+      "expected_outcome": "NOT_COVERED",
+      "expected_gate": "DETERMINE",
+      "gold_clause_ids": [
+        "MHP-MP-0142.v1.C3"
+      ],
+      "rationale": "Under v1 (through 2024-06-30), Type 2 DM CGM requires 'three or more injections per day'. Member is on one injection. Under v2 (from 2024-07-01), the criterion changes to 'any insulin regimen', which would cover this member. A system applying current policy would incorrectly approve for a 2024-06-30 request.",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    },
+    {
+      "case_id": "T2-rider-step-therapy-waive-01",
+      "trap": "T2 rider override",
+      "payer_id": "MHP",
+      "plan_id": "MHP-PPO-GOLD",
+      "procedure_codes": [
+        "J1745"
+      ],
+      "diagnosis_codes": [
+        "M05.79"
+      ],
+      "as_of_date": "2024-02-15",
+      "narrative": "A 47-year-old member with moderately severe rheumatoid arthritis is referred for biologic therapy. Rheumatology consultation confirms moderate to severe disease meeting criteria for DMARD therapy. However, due to rapid progression and poor tolerance of the clinician's initial oral DMARD trial, the rheumatologist is requesting infliximab as first-line biologic therapy without completing a conventional synthetic DMARD trial.",
+      "question": "Is biologic therapy (infliximab) medically necessary as first-line treatment despite absence of DMARD trial?",
+      "expected_outcome": "COVERED",
+      "expected_gate": "DETERMINE",
+      "gold_clause_ids": [
+        "MHP-RID-STEP-WAIVE.C1",
+        "MHP-RID-STEP-WAIVE.C2"
+      ],
+      "rationale": "Base bulletin MHP-MP-0210.v3.C2 requires 3+ months DMARD trial. A system reading only the bulletin says not covered without trial. However, rider MHP-RID-STEP-WAIVE waives this requirement for PPO-GOLD members, permitting first-line biologic on confirmed diagnosis. Rider is in effect and applicable to member's plan. The trap: bulletin-only thinking misses rider control.",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    },
+    {
+      "case_id": "T3-biologic-therapy-code-confusion-02",
+      "trap": "T3 lookalike",
+      "payer_id": "MHP",
+      "plan_id": "MHP-HMO-BASE",
+      "procedure_codes": [
+        "J0135"
+      ],
+      "diagnosis_codes": [
+        "K50.90"
+      ],
+      "as_of_date": "2024-03-01",
+      "narrative": "A 34-year-old member with Crohn's disease manifesting moderate to severe active disease with bloody diarrhea and weight loss has failed a 6-week course of high-dose corticosteroids. Gastroenterology is requesting adalimumab (J0135) for induction and maintenance therapy.",
+      "question": "Is biologic therapy with adalimumab medically necessary for this member?",
+      "expected_outcome": "COVERED",
+      "expected_gate": "DETERMINE",
+      "gold_clause_ids": [
+        "MHP-MP-0210.v3.C3"
+      ],
+      "rationale": "MHP-MP-0210 is titled 'Biologic Therapy for Inflammatory Conditions' and governs both J0135 and other codes. Within this policy, different criteria apply to RA (C2: DMARD trial required) versus Crohn's disease (C3: corticosteroid failure required). A system that applies RA step-therapy logic to the Crohn's code would incorrectly demand DMARD trial or other inappropriate steps. The correct criterion for Crohn's is steroid failure/intolerance, which is met. Codes are similar but rules differ sharply by indication.",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    },
+    {
+      "case_id": "T4-sleep-apnea-chf-exception-01",
+      "trap": "T4 compositional",
+      "payer_id": "CSM",
+      "plan_id": "CSM-EPO-VALUE",
+      "procedure_codes": [
+        "95810"
+      ],
+      "diagnosis_codes": [
+        "G47.33",
+        "I50.9"
+      ],
+      "as_of_date": "2024-09-15",
+      "narrative": "A 68-year-old member with congestive heart failure (ejection fraction 35%, stable on current regimen) and clinical suspicion of obstructive sleep apnea based on Epworth Sleepiness Scale 16 and witnessed apneas is referred for sleep study. Cardiologist notes high pre-test probability but specifically documents CHF as a contraindication to home sleep testing and recommends attended laboratory study.",
+      "question": "Is attended in-laboratory polysomnography medically necessary for this member?",
+      "expected_outcome": "COVERED",
+      "expected_gate": "DETERMINE",
+      "gold_clause_ids": [
+        "CSM-MP-0331.v1.C2"
+      ],
+      "rationale": "Policy CSM-MP-0331.v1.C2 uses 'UNLESS' structure: 'Home sleep testing when high pre-test probability AND no comorbid conditions, UNLESS member has CHF/COPD/neuromuscular disease, in which case attended polysomnography is required.' The 'UNLESS' is an exception that discharges the preceding rule and creates a new requirement. Member meets the exception condition (CHF documented). A system that only reads 'home study when high probability' misses the exception carve-out. The trap: compositional reading of exception clauses.",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    },
+    {
+      "case_id": "T4-ra-dmard-contraindicated-exception-04",
+      "trap": "T4 compositional",
+      "payer_id": "MHP",
+      "plan_id": "MHP-HMO-BASE",
+      "procedure_codes": [
+        "J1745"
+      ],
+      "diagnosis_codes": [
+        "M05.79"
+      ],
+      "as_of_date": "2024-05-01",
+      "narrative": "A 58-year-old member with moderate rheumatoid arthritis is referred for biologic therapy. Rheumatology notes indicate that conventional synthetic DMARD therapy (methotrexate, sulfasalazine, leflunomide) is contraindicated due to severe hepatic impairment (AST/ALT >3x upper limit normal, platelets 80K) secondary to hepatitis C. Rheumatologist documents that biologic therapy is appropriate as an exception to the normal DMARD trial requirement.",
+      "question": "Is biologic therapy medically necessary without prior DMARD trial due to contraindication?",
+      "expected_outcome": "COVERED",
+      "expected_gate": "DETERMINE",
+      "gold_clause_ids": [
+        "MHP-MP-0210.v3.C2"
+      ],
+      "rationale": "MHP-MP-0210.v3.C2 reads: 'Biologic therapy is medically necessary when member has moderate to severe RA AND completed DMARD trial of 3+ months, UNLESS conventional therapy is contraindicated.' The 'UNLESS' exception provides an alternative pathway: contraindication discharges the trial requirement. Member meets all criteria under the exception (moderate RA confirmed, DMARD contraindicated). A system that rigidly requires 3-month trial even with documented contraindication misses the exception logic. The trap: understanding that UNLESS creates alternative satisfaction paths.",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    },
+    {
+      "case_id": "T5-faq-contradicts-bulletin-dmard-duration-01",
+      "trap": "T5 contradiction",
+      "payer_id": "MHP",
+      "plan_id": "MHP-PPO-GOLD",
+      "procedure_codes": [
+        "J1745"
+      ],
+      "diagnosis_codes": [
+        "M05.79"
+      ],
+      "as_of_date": "2024-03-15",
+      "narrative": "A 52-year-old member with moderate rheumatoid arthritis completed a 4-month trial of methotrexate (started 2023-11-15, discontinued 2024-03-15 due to gastrointestinal intolerance documented by rheumatology). Infliximab is now requested. Provider FAQ (MHP-FAQ-0210.v1.C1) states 'at least six months trial required.' Medical bulletin (MHP-MP-0210.v3.C2) states 'trial of at least three months.' Provider has submitted claim citing the FAQ requirement.",
+      "question": "Is biologic therapy covered given the 4-month DMARD trial duration, and which source controls?",
+      "expected_outcome": "COVERED",
+      "expected_gate": "REVIEW",
+      "gold_clause_ids": [
+        "MHP-MP-0210.v3.C2",
+        "MHP-FAQ-0210.v1.C1"
+      ],
+      "rationale": "Direct contradiction: FAQ says 6 months, bulletin says 3 months. Per precedence rules, bulletin controls. Member meets bulletin criterion (4 months > 3 months). Determination is COVERED under bulletin. However, the contradiction must be reported because member/provider may have relied on FAQ version, and the discrepancy creates confusion about requirements. This case should go to REVIEW specifically to flag the contradiction. The trap: recognizing that FAQ contradicts bulletin, applying correct precedence, but reporting the conflict.",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    },
+    {
+      "case_id": "T5-faq-contradicts-bulletin-rider-effect-02",
+      "trap": "T5 contradiction",
+      "payer_id": "MHP",
+      "plan_id": "MHP-PPO-GOLD",
+      "procedure_codes": [
+        "J0135"
+      ],
+      "diagnosis_codes": [
+        "M05.79"
+      ],
+      "as_of_date": "2024-04-01",
+      "narrative": "A PPO-GOLD member with moderate RA and 2-month DMARD trial requests biologic therapy. Medical bulletin states 'rider controls in conflicts' (MHP-MP-0210.v3.C4) and rider MHP-RID-STEP-WAIVE.C1 waives step therapy. Provider FAQ (MHP-FAQ-0210.v1.C2) states 'Riders do not affect step therapy requirements.' The provider cites the FAQ to argue the rider does not waive step therapy.",
+      "question": "Does the rider waive the DMARD trial requirement for this member?",
+      "expected_outcome": "COVERED",
+      "expected_gate": "REVIEW",
+      "gold_clause_ids": [
+        "MHP-RID-STEP-WAIVE.C1",
+        "MHP-MP-0210.v3.C4",
+        "MHP-FAQ-0210.v1.C2"
+      ],
+      "rationale": "FAQ directly contradicts both the bulletin and the rider. FAQ says riders do not affect step therapy; bulletin and rider say riders do control step therapy. Per precedence, bulletin and rider override FAQ. Member is PPO-GOLD, rider applies and waives step therapy. Determination is COVERED. However, the contradiction between FAQ and bulletin/rider must be flagged for REVIEW to ensure provider is corrected. The trap: identifying the contradiction, applying correct precedence, reporting the conflict.",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    },
+    {
+      "case_id": "T6-missing-fact-cgm-hypo-unawareness-02",
+      "trap": "T6 refusal",
+      "payer_id": "MHP",
+      "plan_id": "MHP-PPO-GOLD",
+      "procedure_codes": [
+        "A9276"
+      ],
+      "diagnosis_codes": [
+        "E10.9"
+      ],
+      "as_of_date": "2023-04-15",
+      "narrative": "A 31-year-old member with Type 1 diabetes mellitus is referred for continuous glucose monitoring. Documentation shows good adherence to insulin therapy and relatively stable glycemic control (A1c 7.1%). The treating clinician indicates that the member performs self-monitored blood glucose testing, but the specific frequency of fingerstick testing is not documented in the record.",
+      "question": "Is personal-use continuous glucose monitoring medically necessary for this member?",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "expected_gate": "REFUSE",
+      "gold_clause_ids": [
+        "MHP-MP-0142.v1.C2"
+      ],
+      "rationale": "Under MHP-MP-0142.v1.C2 (effective 2023-04-15): 'CGM is medically necessary when member has Type 1 DM AND performs minimum four daily fingerstick tests, UNLESS member has documented hypoglycemia unawareness.' Determination requires: (1) daily fingerstick frequency AND (2) hypoglycemia unawareness status. Neither is documented. The 'UNLESS' exception cannot be evaluated without the fact. Request does not state fingerstick frequency or hypo-unawareness status. Correct answer: REFUSE with rationale 'Determination requires documented daily self-monitored blood glucose frequency and hypoglycemia unawareness status, which the request does not provide.' The trap: recognizing that unknown material facts trigger refusal, not assumption of satisfaction.",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    },
+    {
+      "case_id": "T1-gestational-diabetes-coverage-change-04",
+      "trap": "T1 stale-version",
+      "payer_id": "MHP",
+      "plan_id": "MHP-HMO-BASE",
+      "procedure_codes": [
+        "95249"
+      ],
+      "diagnosis_codes": [
+        "O24.429"
+      ],
+      "as_of_date": "2024-07-01",
+      "narrative": "A 31-year-old member with gestational diabetes mellitus at 22 weeks gestation on insulin therapy requests continuous glucose monitoring. Treating OB/GYN documents that CGM will help optimize glucose control for improved fetal outcomes.",
+      "question": "Is personal-use continuous glucose monitoring medically necessary for this member on this date?",
+      "expected_outcome": "COVERED",
+      "expected_gate": "DETERMINE",
+      "gold_clause_ids": [
+        "MHP-MP-0142.v2.C5"
+      ],
+      "rationale": "On 2024-07-01, v2 becomes effective. Under v2.C5, gestational diabetes CGM is covered when initiated after 20 weeks gestation (member is at 22 weeks) with documented insulin therapy (confirmed). This is exactly on the version transition boundary. Under v1 (through 2024-06-30), gestational CGM would have been excluded. System must apply v2 criteria for 2024-07-01 request, producing COVERED. The trap: using stale policy version for a date at the exact transition point.",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    },
+    {
+      "case_id": "T6-investigational-service-classification-05",
+      "trap": "T6 refusal",
+      "payer_id": "CSM",
+      "plan_id": "CSM-EPO-VALUE",
+      "procedure_codes": [
+        "0501T"
+      ],
+      "diagnosis_codes": [
+        "I10"
+      ],
+      "as_of_date": "2024-06-15",
+      "narrative": "A 68-year-old member with hypertension and chest pain undergoes coronary CT angiography. Radiologist produces a noninvasive estimated coronary fractional flow reserve derived from computed tomography data (CPT 0501T) to assess for hemodynamically significant lesions. Cardiology requests prior authorization for this analysis service.",
+      "question": "Is noninvasive estimated coronary fractional flow reserve (0501T) medically necessary?",
+      "expected_outcome": "NOT_COVERED",
+      "expected_gate": "DETERMINE",
+      "gold_clause_ids": [
+        "CSM-MP-0702.v4.C1"
+      ],
+      "rationale": "CSM-MP-0702.v4.C1 explicitly designates CPT 0501T as investigational. This is not a refusal situation (gap in coverage) but a determination of not-covered-investigational. The policy directly addresses this code and classifies it as excluded. System should recognize this as a valid not-covered determination resting on explicit policy language, not a refusal. The trap: distinguishing between 'no policy governs this code' (refusal) and 'policy explicitly classifies this as investigational' (not-covered determination).",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    },
+    {
+      "case_id": "T4-crohns-steroid-failure-compositional-logic-06",
+      "trap": "T4 compositional",
+      "payer_id": "MHP",
+      "plan_id": "MHP-HMO-BASE",
+      "procedure_codes": [
+        "J1745"
+      ],
+      "diagnosis_codes": [
+        "K50.90"
+      ],
+      "as_of_date": "2024-02-20",
+      "narrative": "A 29-year-old member with Crohn's disease presents with moderate active disease (10+ stools daily, blood in stool) but has never received corticosteroid therapy. Gastroenterology documents that the member is intolerant to mesalamine due to prior reaction but has not yet been tried on steroids. The clinician requests infliximab as initial biologic therapy.",
+      "question": "Is biologic therapy medically necessary for this member with Crohn's disease?",
+      "expected_outcome": "NOT_COVERED",
+      "expected_gate": "DETERMINE",
+      "gold_clause_ids": [
+        "MHP-MP-0210.v3.C3"
+      ],
+      "rationale": "MHP-MP-0210.v3.C3 states for Crohn's: 'Biologic therapy is medically necessary when member has moderate to severe active disease AND has failed or is intolerant to corticosteroid therapy.' This is an AND conjunction: both conditions must be satisfied. Member meets first condition (moderate active disease). Member does NOT meet second condition (no trial or documented intolerance to steroids - mesalamine intolerance is different). Member has never had steroid trial or documented steroid intolerance. One unsatisfied AND conjunct means criterion fails. Determination is NOT_COVERED. The trap: parsing AND structure and recognizing that one unsatisfied conjunct makes entire criterion unsatisfied.",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    },
+    {
+      "case_id": "T6-missing-fact-hsat-comorbid-status-documentation-07",
+      "trap": "T6 refusal",
+      "payer_id": "CSM",
+      "plan_id": "CSM-PPO-STD",
+      "procedure_codes": [
+        "95806"
+      ],
+      "diagnosis_codes": [
+        "G47.33"
+      ],
+      "as_of_date": "2023-05-01",
+      "narrative": "A 55-year-old member with suspected obstructive sleep apnea is referred for home sleep apnea testing. Clinical documentation confirms high pre-test probability of moderate sleep apnea. However, the request does not include a complete comorbidity assessment or documentation of medical history regarding cardiac, pulmonary, or neuromuscular disease.",
+      "question": "Is unattended home sleep apnea testing medically necessary for this member?",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "expected_gate": "REFUSE",
+      "gold_clause_ids": [
+        "CSM-MP-0331.v1.C2"
+      ],
+      "rationale": "CSM-MP-0331.v1.C2 requires determination of significant comorbid conditions: 'Home sleep testing is medically necessary when member has high pre-test probability AND has no significant comorbid condition, UNLESS member has CHF/COPD/neuromuscular disease.' To apply this criterion, documentation must address comorbidity status. The request does not provide this information. Correct answer: REFUSE with rationale 'Determination requires documentation of the member's comorbid status, specifically presence or absence of congestive heart failure, chronic obstructive pulmonary disease, or neuromuscular disease, which is not provided.' The trap: recognizing that 'no significant comorbid condition' requires affirmative documentation of absence, not merely absence of documentation.",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    },
+    {
+      "case_id": "T2-rider-applies-to-correct-plan-boundary-case-05",
+      "trap": "T2 rider override",
+      "payer_id": "MHP",
+      "plan_id": "MHP-PPO-GOLD",
+      "procedure_codes": [
+        "J0135"
+      ],
+      "diagnosis_codes": [
+        "M05.79"
+      ],
+      "as_of_date": "2024-12-31",
+      "narrative": "A member recently enrolled in MHP-PPO-GOLD (effective 2024-12-01) with moderate rheumatoid arthritis is requesting biologic therapy without prior DMARD trial on 2024-12-31. Base policy would require DMARD trial. The member's plan includes the step-therapy waiver rider.",
+      "question": "Does the step-therapy waiver rider apply to this member's request?",
+      "expected_outcome": "COVERED",
+      "expected_gate": "DETERMINE",
+      "gold_clause_ids": [
+        "MHP-RID-STEP-WAIVE.C1"
+      ],
+      "rationale": "Rider MHP-RID-STEP-WAIVE applies to members enrolled in MHP-PPO-GOLD (member is) and is effective 2024-01-01 through present (as-of date 2024-12-31 is within range). Even though member recently enrolled in the plan, enrollment on 2024-12-01 means member IS enrolled as of 2024-12-31. Rider applies and step therapy is waived. A system that required pre-enrollment history rather than checking enrollment status on as-of date would incorrectly deny. The trap: confirming plan membership and rider effective dates align on the specific as-of date.",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    },
+    {
+      "case_id": "T4-type-2-intensive-insulin-vs-any-insulin-threshold-07",
+      "trap": "T4 compositional",
+      "payer_id": "MHP",
+      "plan_id": "MHP-PPO-GOLD",
+      "procedure_codes": [
+        "95249"
+      ],
+      "diagnosis_codes": [
+        "E11.9"
+      ],
+      "as_of_date": "2024-10-15",
+      "narrative": "A 48-year-old member with Type 2 diabetes mellitus is on a regimen of twice-daily pre-mixed insulin (morning and evening injections). Endocrinologist documents suboptimal glycemic control and requests personal-use continuous glucose monitoring to guide insulin adjustments.",
+      "question": "Is personal-use continuous glucose monitoring medically necessary for this member on this date?",
+      "expected_outcome": "COVERED",
+      "expected_gate": "DETERMINE",
+      "gold_clause_ids": [
+        "MHP-MP-0142.v2.C3"
+      ],
+      "rationale": "Under v2 (effective 2024-07-01), criterion for Type 2 DM is: 'medically necessary when member is treated with any insulin regimen.' Member is on twice-daily insulin (any insulin, meets criterion). Under v1 (2023-01-01 to 2024-06-30), criterion would have been 'three or more injections per day' (not met with twice-daily). The v2 change significantly broadens coverage. System applying v1 logic would incorrectly deny; v2 logic correctly covers. The trap: ensuring version-appropriate criteria are applied for as-of date.",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    },
+    {
+      "case_id": "T6-missing-severity-documentation-ra-08",
+      "trap": "T6 refusal",
+      "payer_id": "MHP",
+      "plan_id": "MHP-PPO-GOLD",
+      "procedure_codes": [
+        "J1745"
+      ],
+      "diagnosis_codes": [
+        "M05.79"
+      ],
+      "as_of_date": "2024-04-01",
+      "narrative": "A member with rheumatoid arthritis is referred for biologic therapy. Clinical notes confirm diagnosis of rheumatoid arthritis but do not document disease severity (mild, moderate, or severe). Prior DMARD trial documentation indicates 5-month course of methotrexate with inadequate response.",
+      "question": "Is biologic therapy medically necessary for this member?",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "expected_gate": "REFUSE",
+      "gold_clause_ids": [
+        "MHP-MP-0210.v3.C2"
+      ],
+      "rationale": "MHP-MP-0210.v3.C2 requires 'member has confirmed diagnosis of moderate to severe rheumatoid arthritis AND completed DMARD trial.' Member's trial is documented (satisfies second condition) but severity level is not documented. Criterion explicitly requires 'moderate to severe' - mild RA would not qualify. Without severity documentation, determination cannot proceed. Correct answer: REFUSE with rationale 'Determination requires documented rheumatoid arthritis disease severity classification (mild, moderate, or severe), which the request does not provide.' The trap: recognizing that adjectives like 'moderate to severe' are material facts requiring documentation.",
+      "generated_by": "adversary:claude-haiku-4-5",
+      "reviewed": "human-reviewed"
+    }
+  ]
+}

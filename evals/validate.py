@@ -60,6 +60,38 @@ class Report:
         return "\n".join(lines)
 
 
+def coverage_key(case: dict[str, Any]) -> tuple[Any, ...]:
+    """What a case actually tests, ignoring narrative wording.
+
+    Two cases with the same payer, plan, codes, gold clauses, outcome and gate
+    probe the same behaviour however differently they are written. The second
+    one costs a full pipeline run and tells you nothing the first did not.
+    """
+    return (
+        case.get("payer_id") or "",
+        case.get("plan_id") or "",
+        tuple(sorted(c.upper() for c in case.get("procedure_codes") or [])),
+        tuple(sorted(case.get("gold_clause_ids") or [])),
+        case.get("expected_outcome"),
+        case.get("expected_gate"),
+    )
+
+
+def find_duplicates(
+    candidates: list[dict[str, Any]], existing: list[dict[str, Any]]
+) -> dict[str, str]:
+    """Map candidate case_id -> the existing case_id it duplicates."""
+    seen = {coverage_key(c): c["case_id"] for c in existing}
+    dupes: dict[str, str] = {}
+    for case in candidates:
+        key = coverage_key(case)
+        if key in seen:
+            dupes[case["case_id"]] = seen[key]
+        else:
+            seen[key] = case["case_id"]
+    return dupes
+
+
 def validate(cases: list[dict[str, Any]], store: Any) -> Report:
     report = Report()
     seen_ids: set[str] = set()
@@ -122,9 +154,39 @@ def validate(cases: list[dict[str, Any]], store: Any) -> Report:
         if unknown and gate != "HALT":
             report.add(cid, "procedure_codes", f"unrecognised codes {unknown}")
 
+        _validate_halt(report, case, cid, store, gate)
         _validate_gold(report, case, cid, store, as_of, payer, plan, gate)
 
     return report
+
+
+def _validate_halt(report: Report, case: dict[str, Any], cid: str, store: Any, gate: str) -> None:
+    """HALT is a pre-flight outcome, not a severity label.
+
+    Generated cases reach for HALT to mean "this is bad" — e.g. tagging a
+    prompt-injection case HALT when the request is perfectly well-formed and the
+    injection is simply defused. The expectation is checkable: run pre-flight and
+    see.
+    """
+    from src.harness.preflight import run_preflight
+
+    result = run_preflight(case, store=store)
+
+    if gate == "HALT" and result.ok:
+        report.add(
+            cid,
+            "expected_gate",
+            "expects HALT but pre-flight accepts this request — HALT is for a "
+            "malformed request (missing payer, unparseable date, unknown code), "
+            "not for a well-formed request with a bad answer",
+        )
+    elif gate != "HALT" and not result.ok:
+        report.add(
+            cid,
+            "expected_gate",
+            f"pre-flight halts this request ({result.halt_reason}) so it can never "
+            f"reach gate {gate}",
+        )
 
 
 def _validate_gold(report, case, cid, store, as_of, payer, plan, gate) -> None:
@@ -158,4 +220,52 @@ def _validate_gold(report, case, cid, store, as_of, payer, plan, gate) -> None:
                 "gold_clause_ids",
                 f"{gid} is a rider on {clause.get('plan_id')}, case plan is {plan} — "
                 "unreachable, so the case can never pass",
+            )
+
+        # A Scope clause says which policy applies; it cannot establish medical
+        # necessity. Citing one for a determination is the error the
+        # citation-format skill calls out, and it is mechanically detectable.
+        if clause["section"] == "Scope":
+            report.add(
+                cid,
+                "gold_clause_ids",
+                f"{gid} is a Scope clause — it establishes which policy applies, "
+                "not whether the service is covered",
+            )
+
+    _validate_gold_governs_code(report, case, cid, store, gold)
+
+
+def _validate_gold_governs_code(report, case, cid, store, gold) -> None:
+    """The cited policy must actually govern the procedure code in the request.
+
+    Catches a generated case that reasons about the right criteria under the
+    wrong bulletin — e.g. citing a lumbar-decompression clause for a cervical
+    arthrodesis code. The reasoning reads fine; the case is unpassable.
+    """
+    codes = {c.upper() for c in (case.get("procedure_codes") or [])}
+    if not codes or not gold:
+        return
+
+    for gid in gold:
+        clause = store.clauses.get(gid)
+        if clause is None:
+            continue
+
+        if clause["source"] == "rider":
+            # A rider carries no codes of its own; it inherits reach from the
+            # policies it overrides.
+            rider = store.riders.get(clause["policy_id"], {})
+            governed: set[str] = set()
+            for pid in rider.get("overrides_policy_ids", []):
+                governed |= {c.upper() for c in store.policies.get(pid, {}).get("codes", [])}
+        else:
+            governed = {c.upper() for c in store.policies.get(clause["policy_id"], {}).get("codes", [])}
+
+        if governed and not (codes & governed):
+            report.add(
+                cid,
+                "gold_clause_ids",
+                f"{gid} belongs to {clause['policy_id']}, which governs "
+                f"{sorted(governed)} — none of the case's codes {sorted(codes)}",
             )

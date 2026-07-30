@@ -84,6 +84,7 @@ async def generate(
     *,
     n: int = 20,
     existing_ids: list[str] | None = None,
+    config: Any | None = None,
 ) -> AdversarialBatch:
     prompt = "\n".join([
         "<corpus>",
@@ -99,7 +100,11 @@ async def generate(
         ),
     ])
     return await client.parse(
-        role="adversary", system=SYSTEM, user=prompt, output_format=AdversarialBatch
+        role="adversary",
+        system=SYSTEM,
+        user=prompt,
+        output_format=AdversarialBatch,
+        config=config,
     )
 
 

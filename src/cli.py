@@ -203,17 +203,30 @@ async def _evals(args: argparse.Namespace) -> int:
     existing = runner.load_cases()
     existing_ids = [c["case_id"] for c in existing]
 
+    from dataclasses import replace as _replace
+
+    from .config import SETTINGS
+
+    cfg = SETTINGS.adversary
+    if args.model:
+        cfg = _replace(cfg, model=args.model)
+
     budget = Budget()
     trace = Trace()
     client = build_client(budget, trace, stub=args.stub)
 
     corpus = _json.loads(store.path.read_text())
-    print(f"asking the Adversary for {args.n} cases (suite currently has {len(existing)})…")
-    batch = await adversary.generate(client, corpus, n=args.n, existing_ids=existing_ids)
+    print(
+        f"asking the Adversary ({cfg.model}) for {args.n} cases "
+        f"(suite currently has {len(existing)})…"
+    )
+    batch = await adversary.generate(
+        client, corpus, n=args.n, existing_ids=existing_ids, config=cfg
+    )
 
     proposed = [c.model_dump() for c in batch.cases]
     for case in proposed:
-        case["generated_by"] = "adversary"
+        case["generated_by"] = f"adversary:{cfg.model}"
 
     seen = set(existing_ids)
     fresh = [c for c in proposed if c["case_id"] not in seen and not seen.add(c["case_id"])]
@@ -344,6 +357,9 @@ def main(argv: list[str] | None = None) -> int:
              "generate: ask the Adversary for new cases (needs ANTHROPIC_API_KEY)",
     )
     p_evals.add_argument("-n", type=int, default=20, help="cases to request (generate only)")
+    p_evals.add_argument(
+        "--model", help="override the Adversary model, e.g. claude-haiku-4-5 (generate only)"
+    )
     p_evals.add_argument("--stub", action="store_true", help="run generate without model calls")
     p_evals.set_defaults(fn=_evals, is_async=True)
 
