@@ -16,6 +16,10 @@ dependencies = [
     "numpy>=1.26",
 ]
 
+[project.optional-dependencies]
+# Remote vector backend. Not required — the default backend is in-process.
+pinecone = ["pinecone>=7"]
+
 [project.scripts]
 cda = "src.cli:main"
 

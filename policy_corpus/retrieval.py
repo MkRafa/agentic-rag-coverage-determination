@@ -31,6 +31,14 @@ from rank_bm25 import BM25Okapi
 from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+from .vectorstore import (
+    LocalVectorBackend,
+    build_backend,
+    build_filter,
+    clause_metadata,
+    matches,
+)
+
 _TOKEN = re.compile(r"[a-z0-9]+")
 
 
@@ -119,13 +127,34 @@ class Hit:
 
 
 class HybridIndex:
-    def __init__(self, clauses: list[dict[str, Any]], embedder: Embedder | None = None) -> None:
+    """Lexical (local BM25) + dense (pluggable backend), fused by rank.
+
+    The dense half goes through a `VectorBackend`, so swapping in Pinecone
+    touches nothing above this class — and nothing in `src/` at all.
+    """
+
+    def __init__(
+        self,
+        clauses: list[dict[str, Any]],
+        embedder: Embedder | None = None,
+        backend: Any | None = None,
+    ) -> None:
         self.clauses = clauses
+        self.by_id = {c["clause_id"]: c for c in clauses}
         self.embedder = embedder or build_embedder()
         self._docs = [self._doc_text(c) for c in clauses]
         self._bm25 = BM25Okapi([tokenize(d) for d in self._docs])
-        self._vectors = self.embedder.fit_transform(self._docs)
         self.reranker = os.environ.get("CDA_RERANKER", "date_aware").lower()
+
+        self.backend = backend or build_backend(self.embedder)
+        # The remote backend is populated by `cda corpus index`, not on import —
+        # re-upserting the whole corpus on every process start would be absurd.
+        if isinstance(self.backend, LocalVectorBackend):
+            self.backend.build(
+                [c["clause_id"] for c in clauses],
+                self._docs,
+                [clause_metadata(c) for c in clauses],
+            )
 
     @staticmethod
     def _doc_text(c: dict[str, Any]) -> str:
@@ -133,18 +162,6 @@ class HybridIndex:
         # vs "Exclusions" is a strong retrieval signal in policy documents.
         codes = " ".join(c.get("codes") or [])
         return f"{c['policy_title']} | {c['section']} | {c['text']} | {codes}"
-
-    # -- filtering ---------------------------------------------------------
-
-    def _passes(self, c: dict[str, Any], payer_id, plan_id, as_of, include_superseded) -> bool:
-        if payer_id and c["payer_id"] != payer_id:
-            return False
-        # A rider only applies to its own plan. Base policies apply plan-wide.
-        if c["source"] == "rider" and plan_id and c["plan_id"] != plan_id:
-            return False
-        if as_of and not include_superseded and not in_effect(c, as_of):
-            return False
-        return True
 
     # -- search ------------------------------------------------------------
 
@@ -158,45 +175,56 @@ class HybridIndex:
         as_of: str | None = None,
         include_superseded: bool = False,
         codes: Sequence[str] = (),
+        overfetch: int = 3,
     ) -> list[Hit]:
-        candidates = [
-            i
-            for i, c in enumerate(self.clauses)
-            if self._passes(c, payer_id, plan_id, as_of, include_superseded)
-        ]
-        if not candidates:
-            return []
+        flt = build_filter(
+            payer_id=payer_id,
+            plan_id=plan_id,
+            as_of=as_of,
+            include_superseded=include_superseded,
+        )
+        depth = k * overfetch
 
+        # Lexical half — local, and filtered with the same predicate the dense
+        # backend applies, so the two candidate lists are drawn from one pool.
         lex_scores = self._bm25.get_scores(tokenize(query))
-        qvec = self.embedder.transform([query])[0]
-        dense_scores = self._vectors @ qvec
+        eligible = [
+            i for i, c in enumerate(self.clauses) if matches(clause_metadata(c), flt)
+        ]
+        if not eligible:
+            return []
+        lex_top = sorted(eligible, key=lambda i: lex_scores[i], reverse=True)[:depth]
+        lex_rank = {self.clauses[i]["clause_id"]: r + 1 for r, i in enumerate(lex_top)}
 
-        lex_rank = _ranks(candidates, lex_scores)
-        dense_rank = _ranks(candidates, dense_scores)
+        # Dense half — local or Pinecone, same interface either way.
+        dense = self.backend.search(query, k=depth, flt=flt)
+        dense_rank = {cid: r + 1 for r, (cid, _) in enumerate(dense)}
+        dense_score = dict(dense)
 
         hits: list[Hit] = []
-        for i in candidates:
+        for cid in {*lex_rank, *dense_rank}:
+            clause = self.by_id.get(cid)
+            if clause is None:
+                # The index knows an id the corpus does not — a stale upsert.
+                # Drop it rather than surface a clause we cannot hydrate.
+                continue
+            idx = self.clauses.index(clause)
             hits.append(
                 Hit(
-                    clause=self.clauses[i],
+                    clause=clause,
                     score=0.0,
-                    lexical_rank=lex_rank[i],
-                    dense_rank=dense_rank[i],
+                    lexical_rank=lex_rank.get(cid),
+                    dense_rank=dense_rank.get(cid),
                     signals={
-                        "lexical": float(lex_scores[i]),
-                        "dense": float(dense_scores[i]),
+                        "lexical": float(lex_scores[idx]),
+                        "dense": float(dense_score.get(cid, 0.0)),
                     },
                 )
             )
 
         rerank(hits, strategy=self.reranker, as_of=as_of, codes=codes)
-        hits.sort(key=lambda h: h.score, reverse=True)
+        hits.sort(key=lambda h: (h.score, h.clause["clause_id"]), reverse=True)
         return hits[:k]
-
-
-def _ranks(candidates: list[int], scores: np.ndarray) -> dict[int, int]:
-    order = sorted(candidates, key=lambda i: scores[i], reverse=True)
-    return {i: r + 1 for r, i in enumerate(order)}
 
 
 # ---------------------------------------------------------------------------

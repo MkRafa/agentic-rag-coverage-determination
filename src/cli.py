@@ -132,9 +132,41 @@ async def _eval(args: argparse.Namespace) -> int:
 
 
 def _corpus(args: argparse.Namespace) -> int:
-    from corpus.generate import main as build
+    if args.action == "build":
+        from corpus.generate import main as build
 
-    build()
+        build()
+        return 0
+
+    # `index` — push the corpus into a vector backend. A deploy step, not
+    # something that runs on process start.
+    import json as _json
+
+    from policy_corpus.retrieval import HybridIndex, build_embedder
+    from policy_corpus.vectorstore import (
+        LocalVectorBackend,
+        PineconeVectorBackend,
+        clause_metadata,
+    )
+
+    corpus = _json.loads(SETTINGS.corpus_path.read_text())
+    clauses = corpus["clauses"]
+
+    if args.backend == "local":
+        print("the local backend is built in-process on every start — nothing to index")
+        return 0
+
+    backend = PineconeVectorBackend()
+    print(
+        f"upserting {len(clauses)} clauses -> pinecone index "
+        f"'{backend.index_name}' namespace '{backend.namespace}' "
+        f"(model {backend.model})"
+    )
+    docs = [HybridIndex._doc_text(c) for c in clauses]
+    backend.build(
+        [c["clause_id"] for c in clauses], docs, [clause_metadata(c) for c in clauses]
+    )
+    print("done. run with CDA_VECTOR_BACKEND=pinecone to query it.")
     return 0
 
 
@@ -185,7 +217,11 @@ def main(argv: list[str] | None = None) -> int:
     sub = parser.add_subparsers(dest="command", required=True)
 
     p_corpus = sub.add_parser("corpus", help="corpus operations")
-    p_corpus.add_argument("action", choices=["build"])
+    p_corpus.add_argument("action", choices=["build", "index"])
+    p_corpus.add_argument(
+        "--backend", choices=["local", "pinecone"], default="local",
+        help="vector backend to index into (`index` action only)",
+    )
     p_corpus.set_defaults(fn=_corpus, is_async=False)
 
     p_ask = sub.add_parser("ask", help="run one coverage determination")

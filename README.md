@@ -158,8 +158,53 @@ CDA_RERANKER=rrf .venv/bin/python -m src.cli eval --stub --diff
   + FALSE AUTO-DETERMINE                 8 ->        4  (-4)
 ```
 
-Two knobs, both recorded in every trace so a scorecard move is attributable:
-`CDA_EMBEDDER=tfidf|sentence-transformers`, `CDA_RERANKER=rrf|weighted|date_aware`.
+Knobs, all recorded in every trace so a scorecard move is attributable:
+`CDA_EMBEDDER=tfidf|sentence-transformers`, `CDA_RERANKER=rrf|weighted|date_aware`,
+`CDA_VECTOR_BACKEND=local|pinecone`.
+
+### Vector backends — local and Pinecone
+
+The dense half of retrieval sits behind a `VectorBackend`
+([policy_corpus/vectorstore.py](policy_corpus/vectorstore.py)). Swapping it
+touches nothing in `src/` — no agent, no prompt, no contract.
+
+```bash
+export PINECONE_API_KEY=...
+.venv/bin/python -m src.cli corpus index --backend pinecone   # deploy step, not startup
+CDA_VECTOR_BACKEND=pinecone .venv/bin/python -m src.cli eval --diff
+```
+
+Three decisions in that backend are load-bearing:
+
+**Clause text is never written to the index.** Search returns ids and scores;
+the store hydrates text from the corpus. `get_clause_by_id` — the Verifier's
+ground truth — must not be answerable by an index that could be stale, partially
+upserted, or rebuilt with a different embedder. If the vector DB were the source
+of clause text, a bad upsert would make the Verifier confirm a false citation
+against the same wrong copy the Synthesizer used, and the one check that makes
+this system trustworthy would quietly become a no-op. A test asserts no clause
+text reaches metadata.
+
+**Effective dates are filtered server-side**, encoded as `YYYYMMDD` integers with
+`99991231` standing in for an open-ended version (Pinecone metadata cannot hold
+null, and a missing key fails `$gte` rather than passing it). Filtering after
+top-k is not equivalent: the superseded version consumes a slot among the k
+nearest and the in-effect one silently falls off the end — which is exactly the
+T1 trap. `build_filter()` is the single definition of eligibility, and the local
+backend evaluates the *same* filter dict, so a scorecard difference between
+backends is a ranking finding rather than a filter bug in disguise. A test checks
+the filter against `in_effect()` for every clause on both sides of every version
+boundary.
+
+**The local backend returns top-k too**, rather than scoring the whole corpus.
+Pinecone can only give you the k nearest; a local backend that scored everything
+would fuse against a different candidate set, so the swap would change fusion
+semantics and the diff would not be attributable to the vector store.
+
+Currently dense-only: BM25 stays in-process. Pinecone hosts a sparse model
+(`pinecone-sparse-english-v0`) and `query()` takes `sparse_vector`, so moving the
+lexical half server-side is the natural next step — at 40 clauses it would be
+pure overhead.
 
 ### Subagents
 
@@ -303,13 +348,19 @@ Verified working: corpus generation, the MCP server over stdio, hybrid retrieval
 with effective-date filtering, pre-flight (redaction, injection detection, halt
 conditions), the full loop, the gate against all five injected failure modes, the
 budget meter, the timeout caps, traces, both eval scorers, the baseline-diff
-workflow, and both repo hooks (pipe-tested against matching, non-matching and
-malformed payloads). 36 tests pass.
+workflow, the local vector backend, and both repo hooks (pipe-tested against
+matching, non-matching and malformed payloads). 58 tests pass.
 
 The hooks are written and validated but have **not been observed firing** — the
 settings watcher only watches directories that already had a settings file when
 the session started, and `.claude/settings.json` is new. Open `/hooks` once, or
 restart Claude Code, and they go live.
+
+**The Pinecone backend has also never been run against a live index** — no
+`PINECONE_API_KEY` in the build environment. Its filter semantics, date encoding
+and metadata shape are unit-tested against the same predicate the local backend
+uses, and every SDK binding was checked against the installed `pinecone` 9.1.0
+rather than written from memory. The network path itself is unverified.
 
 **Not yet verified: the live model path.** No `ANTHROPIC_API_KEY` was available
 in the build environment, so every real subagent call — planner, retriever tool

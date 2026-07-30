@@ -27,7 +27,19 @@ from .config import ROOT
 # The stdio transport does not inherit the parent environment, so retrieval
 # knobs have to be forwarded explicitly. Without this the embedder/reranker
 # sweep silently does nothing and every variant scores identically.
-_FORWARDED_ENV = ("CDA_EMBEDDER", "CDA_RERANKER", "CDA_CORPUS", "PATH", "PYTHONPATH")
+_FORWARDED_ENV = (
+    "CDA_EMBEDDER",
+    "CDA_RERANKER",
+    "CDA_CORPUS",
+    "CDA_VECTOR_BACKEND",
+    "CDA_PINECONE_INDEX",
+    "CDA_PINECONE_NAMESPACE",
+    "CDA_PINECONE_MODEL",
+    "CDA_PINECONE_REGION",
+    "PINECONE_API_KEY",
+    "PATH",
+    "PYTHONPATH",
+)
 
 
 def _server_params() -> StdioServerParameters:
