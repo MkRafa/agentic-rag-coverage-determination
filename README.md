@@ -26,7 +26,7 @@ retrieval and answers separately.
 
 | | |
 |---|---|
-| **Verified** | Harness, pre-flight, MCP server, hybrid retrieval with date filtering, the gate against five injected failure modes, budget and timeout caps, traces, both scorers, baseline diffing, the case validator. 85 deterministic tests. |
+| **Verified** | Harness, pre-flight, MCP server, hybrid retrieval with date filtering, the gate against five injected failure modes, budget and timeout caps, traces, both scorers, baseline diffing, the case validator, the local-model client. 93 deterministic tests. |
 | **Run live** | Adversary case generation on Haiku 4.5 (48 proposed, 18 kept). Pinecone backend against a real serverless index. A two-case Sonnet 5 calibration run of the full pipeline, used for [cost measurement](docs/cost.md). |
 | **Not yet run** | **The full eval suite against a real model.** The offline Judge (written and wired, never executed). |
 
@@ -170,6 +170,28 @@ That is case `T1-cgm-stale-02`. The correct answer is **NOT_COVERED**, because
 on 2024-03-15 the governing version required four daily fingersticks. Change
 `--as-of` to `2025-01-20` and the same facts become **COVERED**, because the
 requirement was removed on 2024-07-01.
+
+### Free, on a local model
+
+Any model id starting with `ollama/` runs every role on a local
+[Ollama](https://ollama.com) server. No API key is needed and nothing leaves
+the machine:
+
+```bash
+ollama pull qwen2.5:7b
+export CDA_MODEL=ollama/qwen2.5:7b CDA_TIMEOUT_SCALE=4
+.venv/bin/cda ask --payer MHP --plan MHP-HMO-BASE --code A9276 ...   # ~4 min on an M3 Pro
+.venv/bin/cda eval --suite seed --set-baseline                       # 22 cases
+```
+
+The client uses Ollama's native API so it can set a 32k context window per
+request. Ollama's default window is much smaller and truncates silently.
+Small models also need a tighter tool loop: on its first run, qwen2.5:7b spent
+five minutes emitting parallel tool calls. The local path therefore caps calls
+per turn, output per tool turn, and tool-result size. A reply that breaks the
+output contract becomes a REVIEW for that case rather than aborting the eval.
+Each model's baseline is written to `evals/baselines/<model>.json`, so a live
+run never overwrites the stub baseline that CI diffs against.
 
 ---
 
