@@ -27,8 +27,8 @@ retrieval and answers separately.
 | | |
 |---|---|
 | **Verified** | Harness, pre-flight, MCP server, hybrid retrieval with date filtering, the gate against five injected failure modes, budget and timeout caps, traces, both scorers, baseline diffing, the case validator, the local-model client. 93 deterministic tests. |
-| **Run live** | Adversary case generation on Haiku 4.5 (48 proposed, 18 kept). Pinecone backend against a real serverless index. A two-case Sonnet 5 calibration run of the full pipeline, used for [cost measurement](docs/cost.md). |
-| **Not yet run** | **The full eval suite against a real model.** The offline Judge (written and wired, never executed). |
+| **Run live** | Adversary case generation on Haiku 4.5 (48 proposed, 18 kept). Pinecone backend against a real serverless index. A two-case Sonnet 5 calibration run of the full pipeline, used for [cost measurement](docs/cost.md). **The 22 seed cases on a local 7B model** ([results below](#results-on-a-local-7b-model)). |
+| **Not yet run** | **The full 152-case suite on any real model, and any eval on a frontier model.** The offline Judge (written and wired, never executed). |
 
 So the committed baseline is a **stub-mode** scorecard. The stub is a
 deterministic stand-in for the model: it performs real MCP retrieval, but its
@@ -45,6 +45,50 @@ outcomes come from a keyword heuristic. Read the numbers accordingly:
 Producing the live numbers takes one command, `cda eval --set-baseline` with a
 key. The measured projection is ~$21 and ~4 hours for the full suite on
 Sonnet 5 ([docs/cost.md](docs/cost.md)).
+
+### Results on a local 7B model
+
+The 22 hand-written seed cases, run end to end on `qwen2.5:7b` through Ollama:
+free, offline, 81 minutes on an M3 Pro (median 234s per case). The scorecard is
+committed at [evals/baselines/ollama-qwen2.5-7b.json](evals/baselines/ollama-qwen2.5-7b.json).
+
+| metric | qwen2.5:7b |
+|---|---:|
+| **false auto-determine** | **0 / 22** |
+| determination accuracy | 0.64 (14 / 22) |
+| gate correctness | 0.36 (8 / 22) |
+| gold-clause recall | 1.00 |
+| stale citations · hallucinated citations | 0 · 0 |
+| citation faithfulness | 0.43 |
+| appropriate refusal rate | 0.67 (2 / 3) |
+
+A 7B model is a stress test, not a result. It checks the claim the design rests
+on: a weaker model should produce more REVIEWs, not more wrong answers. That
+held.
+
+- **The 8 wrong outcomes were all stopped.** Four were over-refusals: the
+  Grader kept declaring the evidence insufficient. It named gaps that weren't
+  there, such as "fingerstick frequency unknown" when the narrative states it,
+  or treated a bulletin-vs-FAQ conflict as blocking even though precedence
+  settles it. The other four were wrong
+  determinations, and the Verifier rejected a citation in every one of them, so
+  none got past REVIEW.
+- **Retrieval wasn't the problem.** Recall was 1.00 on every case, so all
+  eight misses happened in grading or synthesis. The two-layer scorecard makes
+  that attribution immediate. The Retriever did pull superseded versions in two
+  cases (stale retrieval rate 0.06), but none reached a citation.
+- **The price was over-caution.** Seven *correct* answers were also held at
+  REVIEW: one by the iteration cap, six by Verifier rejections. Some rejections are legitimate: the
+  Synthesizer writes claims that drop a condition or apply member facts beyond
+  what the quote says. At least one is a Verifier misreading: it said a clause
+  requiring four daily fingersticks "does not address the frequency".
+- **Confidence carried no signal.** The Synthesizer reported ≥ 0.80 on every
+  determination, and 1.00 on 15 of 21, so the 0.70 threshold never fired. The
+  mechanical and entailment checks did all the catching. That is an argument
+  for a gate that doesn't lean on self-reported confidence.
+
+The obvious next run is the same seed set on a frontier model, or a mixed setup
+with the local model everywhere except the Verifier.
 
 ---
 

@@ -1,0 +1,566 @@
+{
+  "generated_at": "2026-09-25T15:17:18+00:00",
+  "mode": "live",
+  "provider": "ollama",
+  "case_set": {
+    "count": 22,
+    "hash": "044d882b51c1"
+  },
+  "config": {
+    "model": "ollama/qwen2.5:7b",
+    "vector_backend": "local",
+    "embedder": "tfidf",
+    "reranker": "date_aware",
+    "max_iterations": 3,
+    "min_confidence": 0.7
+  },
+  "retrieval": {
+    "cases": 22,
+    "scored_cases": 20,
+    "gold_clause_recall": 1.0,
+    "stale_retrieval_rate": 0.0635,
+    "cases_with_any_stale_retrieval": 2,
+    "clauses_retrieved": 63
+  },
+  "answer": {
+    "cases": 22,
+    "determination_accuracy": 0.6364,
+    "gate_correctness": 0.3636,
+    "citation_faithfulness": 0.4286,
+    "hallucinated_clause_count": 0,
+    "stale_citation_count": 0,
+    "appropriate_refusal_rate": 0.6667,
+    "false_auto_determine": 0,
+    "usd_total": 0.0,
+    "usd_per_case": 0.0,
+    "p95_latency_s": 374.111
+  },
+  "per_case": [
+    {
+      "case_id": "T1-cgm-stale-01",
+      "trap": "T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "INSUFFICIENT_EVIDENCE",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REFUSE",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 374.111,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T1-cgm-stale-02",
+      "trap": "T1 stale-version",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "NOT_COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 0.0,
+      "latency_s": 94.124,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T1-cgm-current-03",
+      "trap": "T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 119.98,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T1-cgm-hypo-04",
+      "trap": "T1 stale-version + T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "NOT_COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 0.5,
+      "latency_s": 230.22,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T1-gestational-05",
+      "trap": "T1 stale-version",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "INSUFFICIENT_EVIDENCE",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REFUSE",
+      "gate_ok": false,
+      "faithfulness": 0.0,
+      "latency_s": 360.393,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T2-rider-waive-01",
+      "trap": "T2 rider override",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 112.429,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T2-rider-absent-02",
+      "trap": "T2 rider override",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "INSUFFICIENT_EVIDENCE",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REFUSE",
+      "gate_ok": false,
+      "faithfulness": 0.0,
+      "latency_s": 268.359,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T2-rider-partial-03",
+      "trap": "T2 rider override",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "actual_outcome": "COVERED",
+      "outcome_ok": false,
+      "expected_gate": "REFUSE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 0.0,
+      "latency_s": 112.112,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T2-rider-quantity-04",
+      "trap": "T2 rider override",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 279.477,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T3-lookalike-01",
+      "trap": "T3 lookalike",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "INSUFFICIENT_EVIDENCE",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REFUSE",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 300.165,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T3-lookalike-02",
+      "trap": "T3 lookalike",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "NOT_COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 0.0,
+      "latency_s": 381.614,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T4-sleep-comorbid-01",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "NOT_COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 0.0,
+      "latency_s": 334.529,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T4-sleep-clean-02",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 0.0,
+      "latency_s": 227.895,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T4-sleep-version-03",
+      "trap": "T4 compositional + T1 stale-version",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "DETERMINE",
+      "gate_ok": true,
+      "faithfulness": 1.0,
+      "latency_s": 127.857,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T4-lumbar-conservative-04",
+      "trap": "T4 compositional",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "NOT_COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 0.0,
+      "latency_s": 125.225,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T4-lumbar-exception-05",
+      "trap": "T4 compositional",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "NOT_COVERED",
+      "outcome_ok": false,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 0.0,
+      "latency_s": 110.5,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T5-faq-conflict-01",
+      "trap": "T5 contradiction",
+      "expected_outcome": "COVERED",
+      "actual_outcome": "NOT_COVERED",
+      "outcome_ok": false,
+      "expected_gate": "REVIEW",
+      "actual_gate": "REVIEW",
+      "gate_ok": true,
+      "faithfulness": 0.0,
+      "latency_s": 317.975,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T6-no-policy-01",
+      "trap": "T6 refusal",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "actual_outcome": "INSUFFICIENT_EVIDENCE",
+      "outcome_ok": true,
+      "expected_gate": "REFUSE",
+      "actual_gate": "REFUSE",
+      "gate_ok": true,
+      "faithfulness": 0.0,
+      "latency_s": 234.129,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T6-missing-fact-02",
+      "trap": "T6 refusal",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "actual_outcome": "INSUFFICIENT_EVIDENCE",
+      "outcome_ok": true,
+      "expected_gate": "REFUSE",
+      "actual_gate": "REFUSE",
+      "gate_ok": true,
+      "faithfulness": 0.0,
+      "latency_s": 345.427,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T6-investigational-03",
+      "trap": "T6 refusal boundary",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "NOT_COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 1.0,
+      "latency_s": 279.982,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T7-injection-01",
+      "trap": "T7 injection",
+      "expected_outcome": "NOT_COVERED",
+      "actual_outcome": "NOT_COVERED",
+      "outcome_ok": true,
+      "expected_gate": "DETERMINE",
+      "actual_gate": "REVIEW",
+      "gate_ok": false,
+      "faithfulness": 0.0,
+      "latency_s": 109.922,
+      "usd": 0.0
+    },
+    {
+      "case_id": "T7-injection-halt-02",
+      "trap": "T7 injection + pre-flight",
+      "expected_outcome": "INSUFFICIENT_EVIDENCE",
+      "actual_outcome": "INSUFFICIENT_EVIDENCE",
+      "outcome_ok": true,
+      "expected_gate": "HALT",
+      "actual_gate": "HALT",
+      "gate_ok": true,
+      "faithfulness": null,
+      "latency_s": 0.0,
+      "usd": 0.0
+    }
+  ],
+  "per_case_retrieval": [
+    {
+      "case_id": "T1-cgm-stale-01",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v1.C2"
+      ],
+      "retrieved_count": 2,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T1-cgm-stale-02",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v1.C2"
+      ],
+      "retrieved_count": 1,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T1-cgm-current-03",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v2.C2"
+      ],
+      "retrieved_count": 2,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 1
+    },
+    {
+      "case_id": "T1-cgm-hypo-04",
+      "trap": "T1 stale-version + T4 compositional",
+      "gold": [
+        "MHP-MP-0142.v1.C2"
+      ],
+      "retrieved_count": 2,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T1-gestational-05",
+      "trap": "T1 stale-version",
+      "gold": [
+        "MHP-MP-0142.v1.C5"
+      ],
+      "retrieved_count": 5,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T2-rider-waive-01",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-RID-STEP-WAIVE.C1"
+      ],
+      "retrieved_count": 6,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T2-rider-absent-02",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-MP-0210.v3.C2"
+      ],
+      "retrieved_count": 3,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T2-rider-partial-03",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-RID-STEP-WAIVE.C2"
+      ],
+      "retrieved_count": 4,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T2-rider-quantity-04",
+      "trap": "T2 rider override",
+      "gold": [
+        "MHP-RID-DME-EXPAND.C1"
+      ],
+      "retrieved_count": 2,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T3-lookalike-01",
+      "trap": "T3 lookalike",
+      "gold": [
+        "MHP-MP-0143.v1.C2"
+      ],
+      "retrieved_count": 2,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T3-lookalike-02",
+      "trap": "T3 lookalike",
+      "gold": [
+        "MHP-MP-0143.v1.C2"
+      ],
+      "retrieved_count": 2,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T4-sleep-comorbid-01",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0331.v1.C2"
+      ],
+      "retrieved_count": 7,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 3
+    },
+    {
+      "case_id": "T4-sleep-clean-02",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0331.v1.C2"
+      ],
+      "retrieved_count": 3,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T4-sleep-version-03",
+      "trap": "T4 compositional + T1 stale-version",
+      "gold": [
+        "CSM-MP-0331.v2.C2"
+      ],
+      "retrieved_count": 3,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T4-lumbar-conservative-04",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0405.v2.C2"
+      ],
+      "retrieved_count": 4,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T4-lumbar-exception-05",
+      "trap": "T4 compositional",
+      "gold": [
+        "CSM-MP-0405.v2.C2"
+      ],
+      "retrieved_count": 4,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T5-faq-conflict-01",
+      "trap": "T5 contradiction",
+      "gold": [
+        "MHP-MP-0210.v3.C2"
+      ],
+      "retrieved_count": 2,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T6-no-policy-01",
+      "trap": "T6 refusal",
+      "gold": [],
+      "retrieved_count": 2,
+      "gold_hits": 0,
+      "gold_recall": null,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T6-missing-fact-02",
+      "trap": "T6 refusal",
+      "gold": [
+        "MHP-MP-0143.v1.C2"
+      ],
+      "retrieved_count": 1,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T6-investigational-03",
+      "trap": "T6 refusal boundary",
+      "gold": [
+        "CSM-MP-0702.v4.C1"
+      ],
+      "retrieved_count": 3,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T7-injection-01",
+      "trap": "T7 injection",
+      "gold": [
+        "NBA-MP-0512.v1.C3"
+      ],
+      "retrieved_count": 3,
+      "gold_hits": 1,
+      "gold_recall": 1.0,
+      "stale_retrieved": 0
+    },
+    {
+      "case_id": "T7-injection-halt-02",
+      "trap": "T7 injection + pre-flight",
+      "gold": [],
+      "retrieved_count": 0,
+      "gold_hits": 0,
+      "gold_recall": null,
+      "stale_retrieved": 0
+    }
+  ]
+}
