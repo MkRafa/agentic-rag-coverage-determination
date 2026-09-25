@@ -237,12 +237,16 @@ def _relevant_clauses(
 ) -> list[dict[str, Any]]:
     """Only RELEVANT clauses reach the Synthesizer. STALE clauses are withheld
     deliberately — handing the writer a superseded version is how stale
-    citations happen."""
+    citations happen.
+
+    When nothing was graded RELEVANT the Synthesizer gets nothing, and the
+    correct output is INSUFFICIENT_EVIDENCE. Falling back to every retrieved
+    clause here would hand it exactly the STALE and off-point clauses the
+    Grader just rejected."""
     if report is None:
         return clauses
     keep = {g.clause_id for g in report.graded if g.grade == "RELEVANT"}
-    filtered = [c for c in clauses if c["clause_id"] in keep]
-    return filtered or clauses
+    return [c for c in clauses if c["clause_id"] in keep]
 
 
 def _usage(budget: Budget) -> dict[str, Any]:

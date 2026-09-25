@@ -104,7 +104,6 @@ def _print_run(run: Any, trace: Any) -> None:
 
 
 async def _eval(args: argparse.Namespace) -> int:
-    sys.path.insert(0, str(SETTINGS.traces_dir.parent))
     from evals import runner
 
     print(f"replaying eval set ({'stub' if args.stub else 'live'} mode)…")
@@ -117,13 +116,28 @@ async def _eval(args: argparse.Namespace) -> int:
         return 0
 
     baseline = runner.load_baseline()
+    failed = False
     if args.diff:
         if baseline is None:
             print("no baseline committed yet — run with --set-baseline to freeze one")
             return 1
         print(runner.diff(scorecard, baseline))
+        failed = bool(runner.blocking_regressions(scorecard, baseline))
 
-    return 0 if scorecard["answer"]["false_auto_determine"] == 0 else 1
+    if args.stub:
+        # The stub's outcomes come from a keyword heuristic, so its accuracy and
+        # false-auto-determine numbers describe the heuristic, not the system.
+        # In stub mode the gate is "did the harness regress vs the baseline".
+        print(
+            "\nstub mode: outcome metrics reflect a keyword heuristic, not a model. "
+            "Exit status gates on regressions vs the baseline (--diff) only."
+        )
+        return 1 if failed else 0
+
+    # Live: an autonomous wrong answer fails the run outright.
+    if scorecard["answer"]["false_auto_determine"] > 0:
+        failed = True
+    return 1 if failed else 0
 
 
 # ---------------------------------------------------------------------------
@@ -249,6 +263,12 @@ async def _evals(args: argparse.Namespace) -> int:
     if not kept:
         print("\nnothing survived validation — not writing")
         return 1
+
+    if args.stub:
+        # The stub batch is a validator demo. Writing its "valid" case into the
+        # committed suite would put a canned case into every future scorecard.
+        print("\nstub mode — validator demo only, not writing to the case set")
+        return 0
 
     out = GENERATED.parent / "adversarial.json"
     prior = _json.loads(out.read_text())["cases"] if out.exists() else []

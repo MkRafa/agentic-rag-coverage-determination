@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-30T13:16:44+00:00",
+  "generated_at": "2026-09-25T13:31:52+00:00",
   "mode": "stub",
   "case_set": {
     "count": 152,
@@ -19,7 +19,7 @@
     "gold_clause_recall": 1.0,
     "stale_retrieval_rate": 0.0,
     "cases_with_any_stale_retrieval": 0,
-    "clauses_retrieved": 992
+    "clauses_retrieved": 981
   },
   "answer": {
     "cases": 152,
@@ -30,9 +30,9 @@
     "stale_citation_count": 0,
     "appropriate_refusal_rate": 0.0,
     "false_auto_determine": 59,
-    "usd_total": 7.55,
-    "usd_per_case": 0.049671,
-    "p95_latency_s": 0.014
+    "usd_total": 0.0,
+    "usd_per_case": 0.0,
+    "p95_latency_s": 0.013
   },
   "per_case": [
     {
@@ -45,8 +45,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.058,
-      "usd": 0.05
+      "latency_s": 0.049,
+      "usd": 0.0
     },
     {
       "case_id": "T5-biologic-faq-bulletin-01",
@@ -58,8 +58,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.014,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "T6-nasal-surgery-no-policy-01",
@@ -72,7 +72,7 @@
       "gate_ok": false,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "T1-cgm-t2-insulin-transition-02",
@@ -84,8 +84,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.011,
+      "usd": 0.0
     },
     {
       "case_id": "T2-rider-step-therapy-waive-01",
@@ -97,8 +97,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "T3-biologic-therapy-code-confusion-02",
@@ -110,8 +110,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "T4-sleep-apnea-chf-exception-01",
@@ -124,7 +124,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "T4-ra-dmard-contraindicated-exception-04",
@@ -136,8 +136,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "T5-faq-contradicts-bulletin-dmard-duration-01",
@@ -149,8 +149,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.015,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "T5-faq-contradicts-bulletin-rider-effect-02",
@@ -162,8 +162,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "T6-missing-fact-cgm-hypo-unawareness-02",
@@ -175,8 +175,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.01,
-      "usd": 0.05
+      "latency_s": 0.011,
+      "usd": 0.0
     },
     {
       "case_id": "T1-gestational-diabetes-coverage-change-04",
@@ -188,8 +188,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.011,
+      "usd": 0.0
     },
     {
       "case_id": "T6-investigational-service-classification-05",
@@ -202,7 +202,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.011,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "T4-crohns-steroid-failure-compositional-logic-06",
@@ -215,7 +215,7 @@
       "gate_ok": false,
       "faithfulness": 1.0,
       "latency_s": 0.011,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "T6-missing-fact-hsat-comorbid-status-documentation-07",
@@ -228,7 +228,7 @@
       "gate_ok": false,
       "faithfulness": 1.0,
       "latency_s": 0.009,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "T2-rider-applies-to-correct-plan-boundary-case-05",
@@ -240,8 +240,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.013,
+      "usd": 0.0
     },
     {
       "case_id": "T4-type-2-intensive-insulin-vs-any-insulin-threshold-07",
@@ -253,8 +253,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "T6-missing-severity-documentation-ra-08",
@@ -266,8 +266,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-t1dm-high-frequency-MHP-PPO-GOLD-2023-01-01",
@@ -279,8 +279,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-t1dm-high-frequency-MHP-PPO-GOLD-2023-02-15",
@@ -292,8 +292,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-t1dm-high-frequency-MHP-PPO-GOLD-2024-07-01",
@@ -305,8 +305,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.013,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-t1dm-high-frequency-MHP-PPO-GOLD-2024-08-15",
@@ -319,7 +319,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.013,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-t1dm-low-frequency-MHP-PPO-GOLD-2023-01-01",
@@ -332,7 +332,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-t1dm-low-frequency-MHP-PPO-GOLD-2024-06-30",
@@ -344,8 +344,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.014,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-t1dm-low-frequency-MHP-PPO-GOLD-2024-07-01",
@@ -357,8 +357,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-t1dm-low-frequency-MHP-PPO-GOLD-2025-11-15",
@@ -370,8 +370,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-t1dm-hypo-unawareness-MHP-PPO-GOLD-2023-01-01",
@@ -383,8 +383,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-t1dm-hypo-unawareness-MHP-PPO-GOLD-2023-02-15",
@@ -396,8 +396,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-t1dm-hypo-unawareness-MHP-PPO-GOLD-2024-07-01",
@@ -410,7 +410,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.012,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-t1dm-hypo-unawareness-MHP-PPO-GOLD-2024-08-15",
@@ -422,8 +422,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-t2dm-intensive-insulin-MHP-PPO-GOLD-2023-01-01",
@@ -435,8 +435,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.01,
-      "usd": 0.05
+      "latency_s": 0.011,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-t2dm-intensive-insulin-MHP-PPO-GOLD-2023-02-15",
@@ -449,7 +449,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-t2dm-intensive-insulin-MHP-PPO-GOLD-2024-07-01",
@@ -461,8 +461,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-t2dm-intensive-insulin-MHP-PPO-GOLD-2024-08-15",
@@ -475,7 +475,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.012,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-t2dm-single-basal-MHP-PPO-GOLD-2023-01-01",
@@ -487,8 +487,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-t2dm-single-basal-MHP-PPO-GOLD-2024-06-30",
@@ -501,7 +501,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.012,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-t2dm-single-basal-MHP-PPO-GOLD-2024-07-01",
@@ -513,8 +513,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.014,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-t2dm-single-basal-MHP-PPO-GOLD-2025-11-15",
@@ -526,8 +526,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-t2dm-oral-only-MHP-PPO-GOLD-2023-01-01",
@@ -539,8 +539,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-t2dm-oral-only-MHP-PPO-GOLD-2023-02-15",
@@ -552,8 +552,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-t2dm-oral-only-MHP-PPO-GOLD-2024-07-01",
@@ -565,8 +565,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.014,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-t2dm-oral-only-MHP-PPO-GOLD-2024-08-15",
@@ -579,7 +579,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.012,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-gestational-MHP-PPO-GOLD-2023-01-01",
@@ -591,8 +591,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-gestational-MHP-PPO-GOLD-2024-06-30",
@@ -604,8 +604,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.015,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-gestational-MHP-PPO-GOLD-2024-07-01",
@@ -617,8 +617,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-gestational-MHP-PPO-GOLD-2025-11-15",
@@ -630,8 +630,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-sensor-quantity-MHP-PPO-GOLD-2023-01-01",
@@ -643,8 +643,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-sensor-quantity-MHP-HMO-BASE-2023-01-01",
@@ -657,7 +657,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-sensor-quantity-MHP-PPO-GOLD-2023-02-15",
@@ -670,7 +670,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v1-sensor-quantity-MHP-HMO-BASE-2023-02-15",
@@ -683,7 +683,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-sensor-quantity-MHP-PPO-GOLD-2024-07-01",
@@ -695,8 +695,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.013,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-sensor-quantity-MHP-HMO-BASE-2024-07-01",
@@ -708,8 +708,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.011,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-sensor-quantity-MHP-PPO-GOLD-2024-08-15",
@@ -721,8 +721,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.013,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0142-v2-sensor-quantity-MHP-HMO-BASE-2024-08-15",
@@ -734,8 +734,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.011,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0143-v1-a1c-above-threshold-MHP-HMO-BASE-2022-06-01",
@@ -748,7 +748,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.008,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0143-v1-a1c-above-threshold-MHP-HMO-BASE-2022-07-16",
@@ -761,7 +761,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.008,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0143-v1-a1c-below-threshold-MHP-HMO-BASE-2022-06-01",
@@ -774,7 +774,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.008,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0143-v1-a1c-below-threshold-MHP-HMO-BASE-2022-07-16",
@@ -787,7 +787,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.008,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0143-v1-repeat-within-year-MHP-HMO-BASE-2022-06-01",
@@ -800,7 +800,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.008,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0143-v1-repeat-within-year-MHP-HMO-BASE-2022-07-16",
@@ -813,7 +813,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.008,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0143-v1-a1c-not-stated-MHP-HMO-BASE-2022-06-01",
@@ -826,7 +826,7 @@
       "gate_ok": false,
       "faithfulness": 1.0,
       "latency_s": 0.008,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0143-v1-a1c-not-stated-MHP-HMO-BASE-2022-07-16",
@@ -838,8 +838,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.008,
-      "usd": 0.05
+      "latency_s": 0.009,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-ra-no-dmard-trial-MHP-PPO-GOLD-2024-01-01",
@@ -851,8 +851,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.013,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-ra-no-dmard-trial-MHP-HMO-BASE-2024-01-01",
@@ -864,8 +864,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-ra-no-dmard-trial-MHP-PPO-GOLD-2024-02-15",
@@ -877,8 +877,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.014,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-ra-no-dmard-trial-MHP-HMO-BASE-2024-02-15",
@@ -891,7 +891,7 @@
       "gate_ok": false,
       "faithfulness": 1.0,
       "latency_s": 0.011,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-ra-adequate-dmard-trial-MHP-PPO-GOLD-2024-01-01",
@@ -903,8 +903,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-ra-adequate-dmard-trial-MHP-PPO-GOLD-2024-02-15",
@@ -917,7 +917,7 @@
       "gate_ok": false,
       "faithfulness": 1.0,
       "latency_s": 0.013,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-ra-short-dmard-trial-MHP-PPO-GOLD-2024-01-01",
@@ -929,8 +929,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.013,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-ra-short-dmard-trial-MHP-HMO-BASE-2024-01-01",
@@ -943,7 +943,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.012,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-ra-short-dmard-trial-MHP-PPO-GOLD-2024-02-15",
@@ -955,8 +955,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-ra-short-dmard-trial-MHP-HMO-BASE-2024-02-15",
@@ -968,8 +968,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-ra-dmard-contraindicated-MHP-PPO-GOLD-2024-01-01",
@@ -981,8 +981,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.011,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-ra-dmard-contraindicated-MHP-PPO-GOLD-2024-02-15",
@@ -994,8 +994,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-ra-severity-unconfirmed-MHP-PPO-GOLD-2024-01-01",
@@ -1008,7 +1008,7 @@
       "gate_ok": false,
       "faithfulness": 1.0,
       "latency_s": 0.012,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-ra-severity-unconfirmed-MHP-HMO-BASE-2024-01-01",
@@ -1021,7 +1021,7 @@
       "gate_ok": false,
       "faithfulness": 1.0,
       "latency_s": 0.011,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-ra-severity-unconfirmed-MHP-PPO-GOLD-2024-02-15",
@@ -1033,8 +1033,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-ra-severity-unconfirmed-MHP-HMO-BASE-2024-02-15",
@@ -1046,8 +1046,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-crohns-steroid-failed-MHP-PPO-GOLD-2024-01-01",
@@ -1059,8 +1059,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.011,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-crohns-steroid-failed-MHP-PPO-GOLD-2024-02-15",
@@ -1072,8 +1072,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.013,
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-crohns-no-steroid-trial-MHP-PPO-GOLD-2024-01-01",
@@ -1086,7 +1086,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.012,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-MHP-MP-0210-v3-crohns-no-steroid-trial-MHP-PPO-GOLD-2024-02-15",
@@ -1098,8 +1098,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.013,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v1-hsat-clean-CSM-PPO-STD-2023-03-01",
@@ -1111,8 +1111,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.009,
-      "usd": 0.05
+      "latency_s": 0.008,
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v1-hsat-clean-CSM-PPO-STD-2023-04-15",
@@ -1124,8 +1124,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.009,
-      "usd": 0.05
+      "latency_s": 0.008,
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v2-hsat-clean-CSM-PPO-STD-2025-03-01",
@@ -1137,8 +1137,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.01,
-      "usd": 0.05
+      "latency_s": 0.011,
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v2-hsat-clean-CSM-PPO-STD-2025-04-15",
@@ -1151,7 +1151,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v1-hsat-with-chf-CSM-PPO-STD-2023-03-01",
@@ -1163,8 +1163,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.009,
-      "usd": 0.05
+      "latency_s": 0.008,
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v1-hsat-with-chf-CSM-PPO-STD-2025-02-28",
@@ -1176,8 +1176,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v2-hsat-with-chf-CSM-PPO-STD-2025-03-01",
@@ -1190,7 +1190,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v2-hsat-with-chf-CSM-PPO-STD-2025-11-15",
@@ -1202,8 +1202,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.01,
-      "usd": 0.05
+      "latency_s": 0.011,
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v1-hsat-with-copd-CSM-PPO-STD-2023-03-01",
@@ -1216,7 +1216,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.009,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v1-hsat-with-copd-CSM-PPO-STD-2025-02-28",
@@ -1228,8 +1228,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v2-hsat-with-copd-CSM-PPO-STD-2025-03-01",
@@ -1242,7 +1242,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v2-hsat-with-copd-CSM-PPO-STD-2025-11-15",
@@ -1255,7 +1255,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v1-repeat-study-weight-loss-CSM-PPO-STD-2023-03-01",
@@ -1268,7 +1268,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.009,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v1-repeat-study-weight-loss-CSM-PPO-STD-2023-04-15",
@@ -1280,8 +1280,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.009,
-      "usd": 0.05
+      "latency_s": 0.008,
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v2-repeat-study-weight-loss-CSM-PPO-STD-2025-03-01",
@@ -1294,7 +1294,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v2-repeat-study-weight-loss-CSM-PPO-STD-2025-04-15",
@@ -1306,8 +1306,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v1-repeat-study-no-change-CSM-PPO-STD-2023-03-01",
@@ -1320,7 +1320,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.009,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v1-repeat-study-no-change-CSM-PPO-STD-2023-04-15",
@@ -1333,7 +1333,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.009,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v2-repeat-study-no-change-CSM-PPO-STD-2025-03-01",
@@ -1346,7 +1346,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0331-v2-repeat-study-no-change-CSM-PPO-STD-2025-04-15",
@@ -1359,7 +1359,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0405-v2-conservative-complete-CSM-PPO-STD-2024-04-01",
@@ -1372,7 +1372,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.011,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0405-v2-conservative-complete-CSM-PPO-STD-2024-05-16",
@@ -1385,7 +1385,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.011,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0405-v2-conservative-incomplete-CSM-PPO-STD-2024-04-01",
@@ -1398,7 +1398,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.011,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0405-v2-conservative-incomplete-CSM-PPO-STD-2024-05-16",
@@ -1410,8 +1410,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.011,
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0405-v2-cauda-equina-CSM-PPO-STD-2024-04-01",
@@ -1424,7 +1424,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.011,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0405-v2-cauda-equina-CSM-PPO-STD-2024-05-16",
@@ -1436,8 +1436,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0405-v2-fusion-axial-pain-CSM-PPO-STD-2024-04-01",
@@ -1449,8 +1449,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.011,
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0405-v2-fusion-axial-pain-CSM-PPO-STD-2024-05-16",
@@ -1463,7 +1463,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.011,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0405-v2-imaging-not-documented-CSM-PPO-STD-2024-04-01",
@@ -1476,7 +1476,7 @@
       "gate_ok": false,
       "faithfulness": 1.0,
       "latency_s": 0.011,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0405-v2-imaging-not-documented-CSM-PPO-STD-2024-05-16",
@@ -1489,7 +1489,7 @@
       "gate_ok": false,
       "faithfulness": 1.0,
       "latency_s": 0.011,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-NBA-MP-0512-v1-red-flag-papilledema-NBA-PPO-PREM-2023-09-01",
@@ -1502,7 +1502,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-NBA-MP-0512-v1-red-flag-papilledema-NBA-PPO-PREM-2023-10-16",
@@ -1514,8 +1514,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.01,
-      "usd": 0.05
+      "latency_s": 0.009,
+      "usd": 0.0
     },
     {
       "case_id": "gen-NBA-MP-0512-v1-red-flag-age-onset-NBA-PPO-PREM-2023-09-01",
@@ -1528,7 +1528,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-NBA-MP-0512-v1-red-flag-age-onset-NBA-PPO-PREM-2023-10-16",
@@ -1541,7 +1541,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-NBA-MP-0512-v1-no-red-flags-NBA-PPO-PREM-2023-09-01",
@@ -1553,8 +1553,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.01,
-      "usd": 0.05
+      "latency_s": 0.009,
+      "usd": 0.0
     },
     {
       "case_id": "gen-NBA-MP-0512-v1-no-red-flags-NBA-PPO-PREM-2023-10-16",
@@ -1566,8 +1566,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.01,
-      "usd": 0.05
+      "latency_s": 0.009,
+      "usd": 0.0
     },
     {
       "case_id": "gen-NBA-MP-0512-v1-injection-attempt-NBA-PPO-PREM-2023-09-01",
@@ -1579,8 +1579,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.01,
-      "usd": 0.05
+      "latency_s": 0.009,
+      "usd": 0.0
     },
     {
       "case_id": "gen-NBA-MP-0512-v1-injection-attempt-NBA-PPO-PREM-2023-10-16",
@@ -1593,7 +1593,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-NBA-MP-0640-v1-screening-eligible-age-NBA-PPO-PREM-2022-01-01",
@@ -1605,8 +1605,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.007,
-      "usd": 0.05
+      "latency_s": 0.008,
+      "usd": 0.0
     },
     {
       "case_id": "gen-NBA-MP-0640-v1-screening-eligible-age-NBA-PPO-PREM-2022-02-15",
@@ -1619,7 +1619,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.007,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-NBA-MP-0640-v1-screening-under-age-NBA-PPO-PREM-2022-01-01",
@@ -1632,7 +1632,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.007,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-NBA-MP-0640-v1-screening-under-age-NBA-PPO-PREM-2022-02-15",
@@ -1645,7 +1645,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.007,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-NBA-MP-0640-v1-screening-second-in-year-NBA-PPO-PREM-2022-01-01",
@@ -1657,8 +1657,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.008,
-      "usd": 0.05
+      "latency_s": 0.007,
+      "usd": 0.0
     },
     {
       "case_id": "gen-NBA-MP-0640-v1-screening-second-in-year-NBA-PPO-PREM-2022-02-15",
@@ -1671,7 +1671,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.007,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0702-v4-ct-ffr-investigational-CSM-PPO-STD-2024-01-01",
@@ -1683,8 +1683,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.02,
-      "usd": 0.05
+      "latency_s": 0.011,
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0702-v4-ct-ffr-investigational-CSM-PPO-STD-2024-02-15",
@@ -1697,7 +1697,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.01,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0702-v4-misc-dme-CSM-PPO-STD-2024-01-01",
@@ -1710,7 +1710,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.011,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "gen-CSM-MP-0702-v4-misc-dme-CSM-PPO-STD-2024-02-15",
@@ -1722,8 +1722,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "T1-cgm-stale-01",
@@ -1735,8 +1735,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.011,
+      "usd": 0.0
     },
     {
       "case_id": "T1-cgm-stale-02",
@@ -1748,8 +1748,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.011,
+      "usd": 0.0
     },
     {
       "case_id": "T1-cgm-current-03",
@@ -1761,8 +1761,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.011,
+      "usd": 0.0
     },
     {
       "case_id": "T1-cgm-hypo-04",
@@ -1775,7 +1775,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.011,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "T1-gestational-05",
@@ -1787,8 +1787,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.011,
+      "usd": 0.0
     },
     {
       "case_id": "T2-rider-waive-01",
@@ -1800,8 +1800,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.013,
+      "usd": 0.0
     },
     {
       "case_id": "T2-rider-absent-02",
@@ -1813,8 +1813,8 @@
       "actual_gate": "REVIEW",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "T2-rider-partial-03",
@@ -1827,7 +1827,7 @@
       "gate_ok": false,
       "faithfulness": 1.0,
       "latency_s": 0.012,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "T2-rider-quantity-04",
@@ -1840,7 +1840,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.012,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "T3-lookalike-01",
@@ -1852,8 +1852,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.016,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "T3-lookalike-02",
@@ -1865,8 +1865,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.015,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "T4-sleep-comorbid-01",
@@ -1878,8 +1878,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "T4-sleep-clean-02",
@@ -1891,8 +1891,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "T4-sleep-version-03",
@@ -1905,7 +1905,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.011,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "T4-lumbar-conservative-04",
@@ -1917,8 +1917,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.012,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "T4-lumbar-exception-05",
@@ -1930,8 +1930,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.012,
+      "usd": 0.0
     },
     {
       "case_id": "T5-faq-conflict-01",
@@ -1944,7 +1944,7 @@
       "gate_ok": true,
       "faithfulness": 1.0,
       "latency_s": 0.011,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "T6-no-policy-01",
@@ -1957,7 +1957,7 @@
       "gate_ok": false,
       "faithfulness": 1.0,
       "latency_s": 0.011,
-      "usd": 0.05
+      "usd": 0.0
     },
     {
       "case_id": "T6-missing-fact-02",
@@ -1969,8 +1969,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": false,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "T6-investigational-03",
@@ -1982,8 +1982,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.011,
-      "usd": 0.05
+      "latency_s": 0.01,
+      "usd": 0.0
     },
     {
       "case_id": "T7-injection-01",
@@ -1995,8 +1995,8 @@
       "actual_gate": "DETERMINE",
       "gate_ok": true,
       "faithfulness": 1.0,
-      "latency_s": 0.01,
-      "usd": 0.05
+      "latency_s": 0.009,
+      "usd": 0.0
     },
     {
       "case_id": "T7-injection-halt-02",
@@ -2052,7 +2052,7 @@
       "gold": [
         "MHP-MP-0142.v1.C3"
       ],
-      "retrieved_count": 8,
+      "retrieved_count": 7,
       "gold_hits": 1,
       "gold_recall": 1.0,
       "stale_retrieved": 0
@@ -2144,7 +2144,7 @@
       "gold": [
         "MHP-MP-0142.v2.C5"
       ],
-      "retrieved_count": 8,
+      "retrieved_count": 7,
       "gold_hits": 1,
       "gold_recall": 1.0,
       "stale_retrieved": 0
@@ -2584,7 +2584,7 @@
       "gold": [
         "MHP-MP-0142.v2.C4"
       ],
-      "retrieved_count": 8,
+      "retrieved_count": 7,
       "gold_hits": 1,
       "gold_recall": 1.0,
       "stale_retrieved": 0
@@ -2606,7 +2606,7 @@
       "gold": [
         "MHP-MP-0142.v2.C4"
       ],
-      "retrieved_count": 8,
+      "retrieved_count": 7,
       "gold_hits": 1,
       "gold_recall": 1.0,
       "stale_retrieved": 0
@@ -3453,7 +3453,7 @@
       "gold": [
         "MHP-MP-0142.v1.C2"
       ],
-      "retrieved_count": 8,
+      "retrieved_count": 7,
       "gold_hits": 1,
       "gold_recall": 1.0,
       "stale_retrieved": 0
@@ -3464,7 +3464,7 @@
       "gold": [
         "MHP-MP-0142.v1.C2"
       ],
-      "retrieved_count": 8,
+      "retrieved_count": 7,
       "gold_hits": 1,
       "gold_recall": 1.0,
       "stale_retrieved": 0
@@ -3475,7 +3475,7 @@
       "gold": [
         "MHP-MP-0142.v2.C2"
       ],
-      "retrieved_count": 8,
+      "retrieved_count": 7,
       "gold_hits": 1,
       "gold_recall": 1.0,
       "stale_retrieved": 0
@@ -3486,7 +3486,7 @@
       "gold": [
         "MHP-MP-0142.v1.C2"
       ],
-      "retrieved_count": 8,
+      "retrieved_count": 7,
       "gold_hits": 1,
       "gold_recall": 1.0,
       "stale_retrieved": 0
@@ -3497,7 +3497,7 @@
       "gold": [
         "MHP-MP-0142.v1.C5"
       ],
-      "retrieved_count": 8,
+      "retrieved_count": 7,
       "gold_hits": 1,
       "gold_recall": 1.0,
       "stale_retrieved": 0
@@ -3552,7 +3552,7 @@
       "gold": [
         "MHP-MP-0143.v1.C2"
       ],
-      "retrieved_count": 7,
+      "retrieved_count": 6,
       "gold_hits": 1,
       "gold_recall": 1.0,
       "stale_retrieved": 0
@@ -3563,7 +3563,7 @@
       "gold": [
         "MHP-MP-0143.v1.C2"
       ],
-      "retrieved_count": 7,
+      "retrieved_count": 6,
       "gold_hits": 1,
       "gold_recall": 1.0,
       "stale_retrieved": 0
@@ -3596,7 +3596,7 @@
       "gold": [
         "CSM-MP-0331.v2.C2"
       ],
-      "retrieved_count": 6,
+      "retrieved_count": 7,
       "gold_hits": 1,
       "gold_recall": 1.0,
       "stale_retrieved": 0
@@ -3649,7 +3649,7 @@
       "gold": [
         "MHP-MP-0143.v1.C2"
       ],
-      "retrieved_count": 7,
+      "retrieved_count": 6,
       "gold_hits": 1,
       "gold_recall": 1.0,
       "stale_retrieved": 0

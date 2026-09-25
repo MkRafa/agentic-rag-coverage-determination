@@ -81,6 +81,10 @@ PRICING = {
     "claude-opus-4-8": (5.00, 25.00),
     "claude-sonnet-5": (3.00, 15.00),
     "claude-haiku-4-5": (1.00, 5.00),
+    # Stub calls record nominal token counts so budget plumbing is exercised,
+    # but they cost nothing. Pricing them at a real model's rate put a
+    # fictional dollar figure on every stub scorecard.
+    "stub": (0.0, 0.0),
 }
 
 

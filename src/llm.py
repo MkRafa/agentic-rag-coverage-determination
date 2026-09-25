@@ -326,8 +326,8 @@ class StubClient:
                 f"stub handler for '{role}' returned {type(result).__name__}, "
                 f"expected {output_format.__name__}"
             )
-        # Charge a nominal amount so budget plumbing is exercised.
-        self.budget.record(role, cfg.model, 1_000, 200)
+        # Nominal tokens so budget plumbing is exercised; priced at zero.
+        self.budget.record(role, "stub", 1_000, 200)
         if self.trace is not None:
             self.trace.event("model_call", role=role, model="stub", effort=cfg.effort,
                              input_tokens=1_000, output_tokens=200)

@@ -168,13 +168,40 @@ def render(scorecard: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+# A move the wrong way on any of these blocks the diff. They are the metrics
+# the harness guarantees regardless of the model, so they hold in stub mode too.
+SAFETY_CRITICAL = ("false_auto_determine", "citation_faithfulness", "hallucinated_clause_count")
+
+
+def comparable(current: dict[str, Any], baseline: dict[str, Any]) -> bool:
+    return current.get("case_set", {}).get("hash") == baseline.get("case_set", {}).get("hash")
+
+
+def blocking_regressions(current: dict[str, Any], baseline: dict[str, Any]) -> list[str]:
+    """Safety-critical metrics that moved the wrong way. Empty across different
+    case sets — a changed question set is not evidence of a regression."""
+    if not comparable(current, baseline):
+        return []
+    out = []
+    for section, key, label, direction in HEADLINE:
+        if key not in SAFETY_CRITICAL:
+            continue
+        was = baseline.get(section, {}).get(key)
+        if was is None:
+            continue
+        delta = current[section][key] - was
+        if (delta < -1e-9) if direction == "up" else (delta > 1e-9):
+            out.append(label)
+    return out
+
+
 def diff(current: dict[str, Any], baseline: dict[str, Any]) -> str:
     lines = ["", "scorecard diff vs baseline", "-" * 78]
 
     now_set = current.get("case_set", {})
     was_set = baseline.get("case_set", {})
-    comparable = now_set.get("hash") == was_set.get("hash")
-    if not comparable:
+    same_set = comparable(current, baseline)
+    if not same_set:
         lines += [
             f"  ⚠ CASE SET CHANGED: baseline measured {was_set.get('count', '?')} cases "
             f"({was_set.get('hash', 'unknown')}), this run measured "
@@ -185,7 +212,6 @@ def diff(current: dict[str, Any], baseline: dict[str, Any]) -> str:
             "-" * 78,
         ]
 
-    regressed = False
     for section, key, label, direction in HEADLINE:
         now = current[section][key]
         was = baseline.get(section, {}).get(key)
@@ -200,15 +226,13 @@ def diff(current: dict[str, Any], baseline: dict[str, Any]) -> str:
             mark = "  +"
         else:
             mark = "  !"
-            if key in ("false_auto_determine", "citation_faithfulness", "hallucinated_clause_count"):
-                regressed = True
         lines.append(
             f"{mark} {label:<28} {_fmt(was):>12} -> {_fmt(now):>12}  ({_fmt(delta, signed=True)})"
         )
     lines.append("-" * 78)
-    if not comparable:
+    if not same_set:
         lines.append("  ⚠ deltas above are across different case sets — do not act on them")
-    elif regressed:
+    elif blocking_regressions(current, baseline):
         lines.append("  ! a safety-critical metric regressed — this is a blocking diff")
     return "\n".join(lines)
 

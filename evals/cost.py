@@ -26,7 +26,6 @@ PRICES: dict[str, tuple[float, float]] = {
     "claude-opus-5": (5.00, 25.00),
     "claude-opus-4-8": (5.00, 25.00),
     "claude-sonnet-5": (3.00, 15.00),
-    "claude-sonnet-5-intro": (2.00, 10.00),   # promotional, through 2026-08-31
     "claude-sonnet-4-6": (3.00, 15.00),
     "claude-haiku-4-5": (1.00, 5.00),
 }
@@ -144,7 +143,6 @@ def render(m: Measured, cases: int, cached_system_tokens: int) -> str:
     ]
     for model in (
         "claude-haiku-4-5",
-        "claude-sonnet-5-intro",
         "claude-sonnet-5",
         "claude-opus-5",
     ):
