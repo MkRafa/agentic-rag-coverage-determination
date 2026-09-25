@@ -9,12 +9,13 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from policy_corpus.store import get_store
-from src.config import SETTINGS
+from src.config import SETTINGS, is_local
 from src.harness import loop
 from src.harness.budget import Budget
 from src.harness.trace import Trace
@@ -26,7 +27,10 @@ from .scorers import retrieval as retrieval_scorer
 
 ROOT = Path(__file__).resolve().parent
 CASES_DIR = ROOT / "cases"
+# The stub baseline is what CI diffs against, so a live run must never
+# overwrite it. Each live model gets its own file under baselines/.
 BASELINE = ROOT / "baseline.json"
+BASELINES_DIR = ROOT / "baselines"
 RESULTS_DIR = ROOT / "results"
 
 
@@ -69,10 +73,21 @@ def _payload(case: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def provider(stub: bool) -> str:
+    if stub:
+        return "stub"
+    return "ollama" if is_local(SETTINGS.synthesizer.model) else "anthropic"
+
+
 async def run_eval(
-    *, stub: bool = False, limit: int | None = None, quiet: bool = False
+    *,
+    stub: bool = False,
+    limit: int | None = None,
+    quiet: bool = False,
+    suites: list[str] | None = None,
 ) -> dict[str, Any]:
-    cases = load_cases()
+    """`suites` names case files under cases/ (e.g. ["seed"]); default is all."""
+    cases = load_cases([CASES_DIR / f"{s}.json" for s in suites] if suites else None)
     if limit:
         cases = cases[:limit]
 
@@ -91,7 +106,8 @@ async def run_eval(
                 mark = "ok " if _case_ok(case, run) else "FAIL"
                 print(
                     f"  [{mark}] {case['case_id']:<26} gate={run.gate.state:<10} "
-                    f"outcome={outcome:<21} {case.get('trap', '')}"
+                    f"outcome={outcome:<21} {run.latency_s:7.1f}s  {case.get('trap', '')}",
+                    flush=True,
                 )
 
     layer1 = retrieval_scorer.score(results, store)
@@ -100,6 +116,7 @@ async def run_eval(
     scorecard = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "mode": "stub" if stub else "live",
+        "provider": provider(stub),
         "case_set": case_set_fingerprint(cases),
         "config": {
             "model": SETTINGS.synthesizer.model,
@@ -243,9 +260,20 @@ def _fmt(value: Any, signed: bool = False) -> str:
     return f"{value:+d}" if signed and isinstance(value, int) else str(value)
 
 
-def load_baseline() -> dict[str, Any] | None:
-    return json.loads(BASELINE.read_text()) if BASELINE.exists() else None
+def baseline_path(stub: bool) -> Path:
+    if stub:
+        return BASELINE
+    slug = re.sub(r"[^A-Za-z0-9.]+", "-", SETTINGS.synthesizer.model).strip("-")
+    return BASELINES_DIR / f"{slug}.json"
 
 
-def write_baseline(scorecard: dict[str, Any]) -> None:
-    BASELINE.write_text(json.dumps(scorecard, indent=2))
+def load_baseline(stub: bool = True) -> dict[str, Any] | None:
+    path = baseline_path(stub)
+    return json.loads(path.read_text()) if path.exists() else None
+
+
+def write_baseline(scorecard: dict[str, Any]) -> Path:
+    path = baseline_path(scorecard["mode"] == "stub")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(scorecard, indent=2))
+    return path

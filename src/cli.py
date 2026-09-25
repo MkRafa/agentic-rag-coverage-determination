@@ -5,6 +5,8 @@
     cda eval                      replay the eval set, print a scorecard
     cda eval --diff               compare against the committed baseline
     cda eval --set-baseline       freeze the current scorecard as the baseline
+                                  (stub -> evals/baseline.json; a live model ->
+                                  evals/baselines/<model>.json)
     cda trace <run_id>            pretty-print a run trace
 """
 
@@ -17,7 +19,14 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from .config import SETTINGS
+from .env import load_dotenv
+
+# Before anything imports config. Settings read os.environ at import time, so
+# loading .env later (as this used to, inside main) meant CDA_MODEL and the
+# other knobs set in .env were silently ignored. Real env vars still win.
+load_dotenv()
+
+from .config import SETTINGS  # noqa: E402
 
 
 # ---------------------------------------------------------------------------
@@ -106,16 +115,17 @@ def _print_run(run: Any, trace: Any) -> None:
 async def _eval(args: argparse.Namespace) -> int:
     from evals import runner
 
-    print(f"replaying eval set ({'stub' if args.stub else 'live'} mode)…")
-    scorecard = await runner.run_eval(stub=args.stub, limit=args.limit)
+    mode = "stub" if args.stub else f"live, {SETTINGS.synthesizer.model}"
+    print(f"replaying eval set ({mode})…", flush=True)
+    scorecard = await runner.run_eval(stub=args.stub, limit=args.limit, suites=args.suite)
     print(runner.render(scorecard))
 
     if args.set_baseline:
-        runner.write_baseline(scorecard)
-        print(f"baseline written to {runner.BASELINE}")
+        path = runner.write_baseline(scorecard)
+        print(f"baseline written to {path}")
         return 0
 
-    baseline = runner.load_baseline()
+    baseline = runner.load_baseline(stub=args.stub)
     failed = False
     if args.diff:
         if baseline is None:
@@ -341,12 +351,6 @@ def _brief(kind: str, event: dict[str, Any]) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
-    # Before anything reads os.environ. Real env vars still win, and the MCP
-    # client forwards the relevant keys into the server subprocess.
-    from .env import load_dotenv
-
-    load_dotenv()
-
     parser = argparse.ArgumentParser(prog="cda", description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
 
@@ -372,6 +376,10 @@ def main(argv: list[str] | None = None) -> int:
     p_eval = sub.add_parser("eval", help="replay the eval set and score it")
     p_eval.add_argument("--stub", action="store_true", help="run without model calls")
     p_eval.add_argument("--limit", type=int, help="only run the first N cases")
+    p_eval.add_argument(
+        "--suite", action="append", choices=["seed", "generated", "adversarial"],
+        help="case file(s) to run (repeatable); default is all of them",
+    )
     p_eval.add_argument("--diff", action="store_true", help="diff against the committed baseline")
     p_eval.add_argument("--set-baseline", action="store_true", dest="set_baseline")
     p_eval.set_defaults(fn=_eval, is_async=True)

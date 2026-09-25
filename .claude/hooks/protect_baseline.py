@@ -18,6 +18,7 @@ import json
 import sys
 
 PROTECTED_SUFFIX = "evals/baseline.json"
+PROTECTED_DIR = "evals/baselines/"  # one scorecard per live model
 REGENERATE = ".venv/bin/python -m src.cli eval --set-baseline"
 
 
@@ -28,7 +29,7 @@ def main() -> int:
         return 0  # fail open — a malformed payload must not block all edits
 
     path = (payload.get("tool_input") or {}).get("file_path") or ""
-    if not path.endswith(PROTECTED_SUFFIX):
+    if not (path.endswith(PROTECTED_SUFFIX) or PROTECTED_DIR in path):
         return 0
 
     print(
