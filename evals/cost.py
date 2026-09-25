@@ -16,7 +16,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from src.config import ROOT
+from src.config import ROOT, is_local
 
 TRACES = ROOT / "traces"
 
@@ -26,7 +26,6 @@ PRICES: dict[str, tuple[float, float]] = {
     "claude-opus-5": (5.00, 25.00),
     "claude-opus-4-8": (5.00, 25.00),
     "claude-sonnet-5": (3.00, 15.00),
-    "claude-sonnet-5-intro": (2.00, 10.00),   # promotional, through 2026-08-31
     "claude-sonnet-4-6": (3.00, 15.00),
     "claude-haiku-4-5": (1.00, 5.00),
 }
@@ -48,15 +47,19 @@ class Measured:
 
 
 def measure(trace_dir: Path | None = None, limit: int = 50) -> Measured:
-    """Aggregate real usage from live traces. Stub traces are excluded — their
-    token counts are fabricated and would make the projection fiction."""
+    """Aggregate real usage from live API traces. Stub traces (nominal token
+    counts) and local-model traces (a different tokenizer, and partial counts
+    under Ollama's prompt cache) are excluded — either would make the
+    projection fiction."""
     m = Measured()
     files = sorted((trace_dir or TRACES).glob("run-*.jsonl"))[-limit:]
 
     for path in files:
         events = [json.loads(line) for line in path.read_text().splitlines()]
         model_calls = [e for e in events if e.get("kind") == "model_call"]
-        if not model_calls or any(e.get("model") == "stub" for e in model_calls):
+        if not model_calls or any(
+            e.get("model") == "stub" or is_local(str(e.get("model", ""))) for e in model_calls
+        ):
             continue
 
         # The budget snapshot on run_end is the source of truth: it captures
@@ -144,7 +147,6 @@ def render(m: Measured, cases: int, cached_system_tokens: int) -> str:
     ]
     for model in (
         "claude-haiku-4-5",
-        "claude-sonnet-5-intro",
         "claude-sonnet-5",
         "claude-opus-5",
     ):

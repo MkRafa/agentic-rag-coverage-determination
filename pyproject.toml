@@ -19,12 +19,15 @@ dependencies = [
 [project.optional-dependencies]
 # Remote vector backend. Not required — the default backend is in-process.
 pinecone = ["pinecone>=7"]
+# Test runner. The async tests need pytest-asyncio; without it they fail
+# rather than skip.
+dev = ["pytest>=8", "pytest-asyncio>=0.23"]
 
 [project.scripts]
 cda = "src.cli:main"
 
 [tool.setuptools.packages.find]
-include = ["src*", "policy_corpus*"]
+include = ["src*", "policy_corpus*", "evals*", "corpus*"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

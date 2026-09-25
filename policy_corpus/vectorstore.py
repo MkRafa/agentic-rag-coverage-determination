@@ -231,13 +231,11 @@ class PineconeVectorBackend:
         api_key: str | None = None,
         model: str | None = None,
         dimension: int = 1024,
-        overfetch: int = 3,
     ) -> None:
         self.index_name = index_name or os.environ.get("CDA_PINECONE_INDEX", "policy-corpus")
         self.namespace = namespace or os.environ.get("CDA_PINECONE_NAMESPACE", "default")
         self.model = model or os.environ.get("CDA_PINECONE_MODEL", "multilingual-e5-large")
         self.dimension = dimension
-        self.overfetch = overfetch
         self._api_key = api_key or os.environ.get("PINECONE_API_KEY")
         if not self._api_key:
             raise RuntimeError(
@@ -309,7 +307,9 @@ class PineconeVectorBackend:
         index = self.connect()
         qvec = self._embed([query], input_type="query")[0]
         response = index.query(
-            top_k=k * self.overfetch,
+            # The caller already over-fetches (HybridIndex passes k x overfetch),
+            # so multiplying again here only paid for matches that were discarded.
+            top_k=k,
             vector=qvec,
             namespace=self.namespace,
             filter=flt or None,

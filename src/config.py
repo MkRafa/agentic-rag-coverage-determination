@@ -17,7 +17,25 @@ ROOT = Path(__file__).resolve().parent.parent
 # scorecard diff rather than asserting the swap was safe.
 # Every role defaults to this. CDA_MODEL swaps the whole pipeline in one go —
 # the cheapest way to price a suite run before committing to it.
+#
+# A model id prefixed `ollama/` (e.g. `ollama/qwen2.5:7b`) runs every role on a
+# local Ollama server instead of the Anthropic API — free, offline, and slower.
 DEFAULT_MODEL = os.environ.get("CDA_MODEL", "claude-opus-5")
+LOCAL_PREFIX = "ollama/"
+
+
+def is_local(model: str) -> bool:
+    return model.startswith(LOCAL_PREFIX)
+
+
+# Local models are an order of magnitude slower than the API, so every
+# wall-clock cap scales together. Scaling them together keeps the invariants
+# the timeout tests check (tool loop < run cap, worst-case call fits the run).
+TIMEOUT_SCALE = float(os.environ.get("CDA_TIMEOUT_SCALE", "1"))
+
+
+def _t(seconds: float) -> float:
+    return seconds * TIMEOUT_SCALE
 
 
 @dataclass(frozen=True)
@@ -28,7 +46,7 @@ class RoleConfig:
     thinking: bool = True
     # Per-request wall clock. The SDK retries timeouts, so the worst case for
     # one logical call is timeout_s x (max_retries + 1) — see run_timeout_s.
-    timeout_s: float = 120.0
+    timeout_s: float = _t(120.0)
 
 
 @dataclass(frozen=True)
@@ -43,8 +61,8 @@ class Settings:
     # bound an agentic tool loop at all — a Retriever that keeps calling tools
     # can run indefinitely inside a single logical call. Hence two extra caps.
     max_retries: int = 2
-    tool_loop_timeout_s: float = 300.0    # hard cap on the Retriever's tool loop
-    run_timeout_s: float = 900.0          # hard cap on one end-to-end run
+    tool_loop_timeout_s: float = _t(300.0)    # hard cap on the Retriever's tool loop
+    run_timeout_s: float = _t(900.0)          # hard cap on one end-to-end run
 
     # -- gate thresholds ------------------------------------------------
     min_confidence: float = 0.70          # Synthesizer confidence floor
@@ -55,14 +73,14 @@ class Settings:
     max_usd: float = 2.00                 # hard stop, estimated
 
     # -- roles ----------------------------------------------------------
-    planner: RoleConfig = field(default_factory=lambda: RoleConfig(effort="medium", max_tokens=4_000, timeout_s=90.0))
-    retriever: RoleConfig = field(default_factory=lambda: RoleConfig(effort="medium", max_tokens=8_000, timeout_s=120.0))
-    grader: RoleConfig = field(default_factory=lambda: RoleConfig(effort="medium", max_tokens=6_000, timeout_s=120.0))
-    synthesizer: RoleConfig = field(default_factory=lambda: RoleConfig(effort="high", max_tokens=8_000, timeout_s=180.0))
-    verifier: RoleConfig = field(default_factory=lambda: RoleConfig(effort="high", max_tokens=6_000, timeout_s=150.0))
+    planner: RoleConfig = field(default_factory=lambda: RoleConfig(effort="medium", max_tokens=4_000, timeout_s=_t(90.0)))
+    retriever: RoleConfig = field(default_factory=lambda: RoleConfig(effort="medium", max_tokens=8_000, timeout_s=_t(120.0)))
+    grader: RoleConfig = field(default_factory=lambda: RoleConfig(effort="medium", max_tokens=6_000, timeout_s=_t(120.0)))
+    synthesizer: RoleConfig = field(default_factory=lambda: RoleConfig(effort="high", max_tokens=8_000, timeout_s=_t(180.0)))
+    verifier: RoleConfig = field(default_factory=lambda: RoleConfig(effort="high", max_tokens=6_000, timeout_s=_t(150.0)))
     # Offline roles are batch work — a long timeout is cheaper than a lost batch.
-    adversary: RoleConfig = field(default_factory=lambda: RoleConfig(effort="high", max_tokens=16_000, timeout_s=600.0))
-    judge: RoleConfig = field(default_factory=lambda: RoleConfig(effort="high", max_tokens=4_000, timeout_s=90.0))
+    adversary: RoleConfig = field(default_factory=lambda: RoleConfig(effort="high", max_tokens=16_000, timeout_s=_t(600.0)))
+    judge: RoleConfig = field(default_factory=lambda: RoleConfig(effort="high", max_tokens=4_000, timeout_s=_t(90.0)))
 
     # -- paths ----------------------------------------------------------
     traces_dir: Path = ROOT / "traces"
@@ -81,11 +99,17 @@ PRICING = {
     "claude-opus-4-8": (5.00, 25.00),
     "claude-sonnet-5": (3.00, 15.00),
     "claude-haiku-4-5": (1.00, 5.00),
+    # Stub calls record nominal token counts so budget plumbing is exercised,
+    # but they cost nothing. Pricing them at a real model's rate put a
+    # fictional dollar figure on every stub scorecard.
+    "stub": (0.0, 0.0),
 }
 
 
 def estimate_usd(model: str, input_tokens: int, output_tokens: int) -> float:
-    inp, out = PRICING.get(model, PRICING[DEFAULT_MODEL])
+    if is_local(model):
+        return 0.0
+    inp, out = PRICING.get(model) or PRICING.get(DEFAULT_MODEL) or PRICING["claude-opus-5"]
     return (input_tokens / 1e6) * inp + (output_tokens / 1e6) * out
 
 

@@ -7,3 +7,6 @@ evals/results/
 .env
 .pytest_cache/
 .DS_Store
+*.egg-info/
+build/
+dist/

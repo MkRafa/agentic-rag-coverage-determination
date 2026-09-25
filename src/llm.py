@@ -4,10 +4,12 @@ One narrow surface — `parse()` returns a validated pydantic object — so ever
 subagent has a typed contract and the harness can meter, trace and cap each
 call uniformly.
 
-Two backends:
+Three backends:
 
 * `AnthropicClient` — the real thing, `messages.parse` with adaptive thinking
   and per-role effort.
+* `OllamaClient`    — a local model through Ollama's native API. Free and
+  offline; selected by a model id like `ollama/qwen2.5:7b`.
 * `StubClient`     — deterministic canned responses keyed by role. Lets the
   harness, gate, traces and eval scorers be exercised end to end with no API
   key and no network, which is how the deterministic half of this system is
@@ -25,7 +27,7 @@ from typing import Any, Awaitable, Callable, Protocol, Sequence, TypeVar
 
 from pydantic import BaseModel
 
-from .config import RoleConfig, SETTINGS
+from .config import LOCAL_PREFIX, RoleConfig, SETTINGS, is_local
 from .harness.budget import Budget
 
 T = TypeVar("T", bound=BaseModel)
@@ -49,6 +51,7 @@ class ModelClient(Protocol):
         system: str,
         user: str,
         tools: Sequence[Any],
+        session: Any,
         output_format: type[T],
         config: RoleConfig | None = None,
         max_iterations: int = 8,
@@ -61,6 +64,12 @@ def role_config(role: str) -> RoleConfig:
 
 class CallTimeout(RuntimeError):
     """A model call or tool loop exceeded its wall-clock budget."""
+
+
+class ModelCallError(RuntimeError):
+    """The model answered, but not with anything usable: a refusal, output that
+    does not match the contract, or a transport failure after retries. The loop
+    turns this into a REVIEW for that case rather than aborting the whole eval."""
 
 
 # Capability differences are per-model, not per-generation-you-remember. Adaptive
@@ -166,7 +175,7 @@ class AnthropicClient:
             # The SDK already retried this max_retries times.
             if self.trace is not None:
                 self.trace.event("rate_limited", role=role, model=cfg.model)
-            raise RuntimeError(
+            raise ModelCallError(
                 f"{role} was rate limited after {SETTINGS.max_retries} retries"
             ) from exc
 
@@ -185,13 +194,13 @@ class AnthropicClient:
 
         # Refusals surface as a successful HTTP response — check before reading.
         if response.stop_reason == "refusal":
-            raise RuntimeError(
+            raise ModelCallError(
                 f"model declined the {role} request "
                 f"(category={getattr(response.stop_details, 'category', None)})"
             )
         parsed = response.parsed_output
         if parsed is None:
-            raise RuntimeError(f"{role} returned no parseable structured output")
+            raise ModelCallError(f"{role} returned no parseable structured output")
         return parsed
 
     async def run_tools(
@@ -201,12 +210,16 @@ class AnthropicClient:
         system: str,
         user: str,
         tools: Sequence[Any],
+        session: Any,
         output_format: type[T],
         config: RoleConfig | None = None,
         max_iterations: int = 8,
     ) -> T:
         """Agentic tool-calling turn. Used by the Retriever, which is the only
-        online agent that decides for itself what to fetch."""
+        online agent that decides for itself what to fetch. `tools` are MCP tool
+        definitions; `session` executes them."""
+        from anthropic.lib.tools.mcp import async_mcp_tool  # noqa: PLC0415
+
         cfg = config or role_config(role)
         self.budget.check()
 
@@ -215,7 +228,7 @@ class AnthropicClient:
             max_tokens=cfg.max_tokens,
             system=system,
             messages=[{"role": "user", "content": user}],
-            tools=list(tools),
+            tools=[async_mcp_tool(t, session) for t in tools],
             output_format=output_format,
             max_iterations=max_iterations,
             **build_request_options(cfg),
@@ -266,7 +279,7 @@ class AnthropicClient:
             )
 
         if getattr(final, "stop_reason", None) == "refusal":
-            raise RuntimeError(f"model declined the {role} tool-calling turn")
+            raise ModelCallError(f"model declined the {role} tool-calling turn")
 
         return _parse_final_json(final, output_format, role)
 
@@ -287,7 +300,276 @@ def _parse_final_json(message: Any, output_format: type[T], role: str) -> T:
                     return output_format.model_validate(json.loads(text[start : end + 1]))
                 except Exception:  # noqa: BLE001
                     continue
-    raise RuntimeError(f"{role} tool loop produced no parseable {output_format.__name__}")
+    raise ModelCallError(f"{role} tool loop produced no parseable {output_format.__name__}")
+
+
+# ---------------------------------------------------------------------------
+# local models via Ollama
+# ---------------------------------------------------------------------------
+
+
+def _post_json(url: str, body: dict[str, Any] | None, timeout: float) -> dict[str, Any]:
+    """Blocking JSON request. Standard library only, so the local path adds no
+    dependency; callers run it in a worker thread."""
+    import urllib.request  # noqa: PLC0415
+
+    data = json.dumps(body).encode() if body is not None else None
+    request = urllib.request.Request(
+        url, data=data, headers={"Content-Type": "application/json"},
+        method="POST" if body is not None else "GET",
+    )
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        return json.loads(response.read())
+
+
+def _tool_result_text(result: Any) -> str:
+    from .mcp_client import _unwrap  # noqa: PLC0415 — avoid a module-level cycle
+
+    payload = _unwrap(result)
+    return payload if isinstance(payload, str) else json.dumps(payload, default=str)
+
+
+class OllamaClient:
+    """A local model through Ollama's native `/api/chat`.
+
+    The native API rather than the OpenAI-compatible one, because only the
+    native API takes `num_ctx` per request. Ollama's default context window is
+    far smaller than these prompts (the Retriever's alone is ~13k tokens), and
+    it truncates silently — the answers then look like a weak model rather
+    than a cut-off prompt.
+
+    Structured output uses Ollama's `format`, which constrains decoding to the
+    contract's JSON schema. There are no retries: a local server that fails
+    once will fail again, and a ModelCallError becomes a REVIEW for that case.
+
+    The tool loop is fenced more tightly than the API path, because small
+    models degenerate in a way frontier models do not: on the first live run
+    qwen2.5:7b spent 304s emitting 8,000 tokens of parallel tool calls, whose
+    results then overflowed the context. Hence the caps below.
+    """
+
+    # A tool-calling turn needs ~100 tokens; only the final answer needs more.
+    TOOL_TURN_MAX_TOKENS = 1_024
+    MAX_TOOL_CALLS_PER_TURN = 4
+    TOOL_RESULT_MAX_CHARS = 6_000
+
+    def __init__(self, budget: Budget, trace: Any | None = None) -> None:
+        self.base_url = os.environ.get("CDA_OLLAMA_URL", "http://localhost:11434").rstrip("/")
+        self.num_ctx = int(os.environ.get("CDA_OLLAMA_NUM_CTX", "32768"))
+        self.budget = budget
+        self.trace = trace
+
+    def ensure_model(self, model: str) -> None:
+        """Fail at startup, once, rather than as a REVIEW on every case."""
+        name = model.removeprefix(LOCAL_PREFIX)
+        try:
+            tags = _post_json(f"{self.base_url}/api/tags", None, timeout=5)
+        except OSError as exc:
+            raise RuntimeError(
+                f"cannot reach Ollama at {self.base_url} ({exc}). Start it with `ollama serve`."
+            ) from exc
+        names = {m.get("name") for m in tags.get("models", [])}
+        if name not in names and f"{name}:latest" not in names:
+            raise RuntimeError(f"Ollama has no model '{name}'. Pull it with `ollama pull {name}`.")
+
+    async def _chat(
+        self,
+        role: str,
+        cfg: RoleConfig,
+        messages: list[dict[str, Any]],
+        *,
+        schema: dict[str, Any] | None = None,
+        tools: list[dict[str, Any]] | None = None,
+        max_tokens: int | None = None,
+    ) -> dict[str, Any]:
+        self.budget.check()
+        max_tokens = max_tokens or cfg.max_tokens
+
+        # Ollama truncates an over-long prompt without saying so. ~4 chars per
+        # token is rough, but an overflow big enough to matter is caught.
+        approx_tokens = sum(len(str(m.get("content") or "")) for m in messages) // 4
+        if approx_tokens > self.num_ctx - max_tokens:
+            raise ModelCallError(
+                f"{role} prompt is ~{approx_tokens} tokens, which does not fit a "
+                f"{self.num_ctx}-token context with {max_tokens} reserved for output; "
+                "raise CDA_OLLAMA_NUM_CTX"
+            )
+
+        body: dict[str, Any] = {
+            "model": cfg.model.removeprefix(LOCAL_PREFIX),
+            "messages": messages,
+            "stream": False,
+            "options": {"num_ctx": self.num_ctx, "temperature": 0, "num_predict": max_tokens},
+        }
+        if schema is not None:
+            body["format"] = schema
+        if tools:
+            body["tools"] = tools
+
+        started = time.monotonic()
+        try:
+            data = await asyncio.wait_for(
+                asyncio.to_thread(_post_json, f"{self.base_url}/api/chat", body, cfg.timeout_s),
+                timeout=cfg.timeout_s,
+            )
+        except (asyncio.TimeoutError, TimeoutError) as exc:
+            elapsed = time.monotonic() - started
+            if self.trace is not None:
+                self.trace.event("timeout", role=role, phase="request",
+                                 limit_s=cfg.timeout_s, elapsed_s=round(elapsed, 2))
+            raise CallTimeout(f"{role} request exceeded {cfg.timeout_s}s on the local model") from exc
+        except (OSError, ValueError) as exc:  # URLError / HTTPError / reset / non-JSON body
+            raise ModelCallError(f"{role} call to Ollama failed: {exc}") from exc
+
+        # With prompt caching Ollama reports only the tokens it had to
+        # evaluate, so input counts are a floor. They are free either way.
+        input_tokens = int(data.get("prompt_eval_count") or 0)
+        output_tokens = int(data.get("eval_count") or 0)
+        self.budget.record(role, cfg.model, input_tokens, output_tokens)
+        if self.trace is not None:
+            self.trace.event(
+                "model_call", role=role, model=cfg.model,
+                stop_reason=data.get("done_reason"),
+                input_tokens=input_tokens, output_tokens=output_tokens,
+                elapsed_s=round(time.monotonic() - started, 2),
+            )
+        return data
+
+    @staticmethod
+    def _validate(content: str, output_format: type[T], role: str) -> T:
+        try:
+            return output_format.model_validate_json(content)
+        except Exception as exc:  # noqa: BLE001 — pydantic ValidationError or bad JSON
+            raise ModelCallError(
+                f"{role} output does not match {output_format.__name__}: {str(exc)[:300]}"
+            ) from exc
+
+    @staticmethod
+    def _schema_instruction(output_format: type[T]) -> str:
+        # `format` constrains decoding; restating the schema in the prompt is
+        # what Ollama recommends for answer quality, since the model otherwise
+        # never sees the field descriptions.
+        return (
+            "Respond with only a JSON object conforming to this schema:\n"
+            + json.dumps(output_format.model_json_schema())
+        )
+
+    async def parse(
+        self,
+        *,
+        role: str,
+        system: str,
+        user: str,
+        output_format: type[T],
+        config: RoleConfig | None = None,
+    ) -> T:
+        cfg = config or role_config(role)
+        messages = [
+            {"role": "system", "content": f"{system}\n\n{self._schema_instruction(output_format)}"},
+            {"role": "user", "content": user},
+        ]
+        data = await self._chat(role, cfg, messages, schema=output_format.model_json_schema())
+        return self._validate(data["message"].get("content") or "", output_format, role)
+
+    async def run_tools(
+        self,
+        *,
+        role: str,
+        system: str,
+        user: str,
+        tools: Sequence[Any],
+        session: Any,
+        output_format: type[T],
+        config: RoleConfig | None = None,
+        max_iterations: int = 8,
+    ) -> T:
+        """A plain tool loop, then one schema-constrained turn for the answer.
+        Asking for the schema *during* the loop stops small models calling tools
+        at all — they go straight to writing JSON."""
+        cfg = config or role_config(role)
+        definitions = [
+            {
+                "type": "function",
+                "function": {
+                    "name": t.name,
+                    "description": t.description or "",
+                    # mcp 2.x names it input_schema; 1.x used inputSchema.
+                    "parameters": getattr(t, "input_schema", None)
+                    or getattr(t, "inputSchema", None)
+                    or {"type": "object"},
+                },
+            }
+            for t in tools
+        ]
+        messages: list[dict[str, Any]] = [
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ]
+
+        async def loop() -> T:
+            for _ in range(max_iterations):
+                data = await self._chat(
+                    role, cfg, messages, tools=definitions, max_tokens=self.TOOL_TURN_MAX_TOKENS
+                )
+                message = {"role": "assistant", **data["message"]}
+                calls = message.get("tool_calls") or []
+                if not calls:
+                    messages.append(message)
+                    break
+                skipped = calls[self.MAX_TOOL_CALLS_PER_TURN:]
+                calls = calls[: self.MAX_TOOL_CALLS_PER_TURN]
+                # Keep only the calls that run, so every tool_call in the
+                # history is answered by exactly one tool message.
+                messages.append({**message, "tool_calls": calls})
+                if skipped and self.trace is not None:
+                    self.trace.event("tool_calls_skipped", role=role, skipped=len(skipped))
+                for call in calls:
+                    fn = call.get("function", {})
+                    args = fn.get("arguments") or {}
+                    if isinstance(args, str):
+                        try:
+                            args = json.loads(args)
+                        except json.JSONDecodeError:
+                            args = {}
+                    try:
+                        text = _tool_result_text(
+                            await session.call_tool(name=fn.get("name", ""), arguments=args)
+                        )
+                    except Exception as exc:  # noqa: BLE001 — report to the model, keep going
+                        text = json.dumps({"error": str(exc)})
+                    if len(text) > self.TOOL_RESULT_MAX_CHARS:
+                        text = text[: self.TOOL_RESULT_MAX_CHARS] + " …[truncated; narrow the query]"
+                    if self.trace is not None:
+                        self.trace.event("tool_call", role=role, tool=fn.get("name"),
+                                         arguments=args, result_chars=len(text))
+                    messages.append({"role": "tool", "content": text, "tool_name": fn.get("name", "")})
+                if skipped:
+                    messages.append({
+                        "role": "user",
+                        "content": (
+                            f"{len(skipped)} further tool call(s) were not run: at most "
+                            f"{self.MAX_TOOL_CALLS_PER_TURN} per turn. Call again if still needed."
+                        ),
+                    })
+
+            messages.append({
+                "role": "user",
+                "content": "Tool use is finished. " + self._schema_instruction(output_format),
+            })
+            data = await self._chat(role, cfg, messages, schema=output_format.model_json_schema())
+            return self._validate(data["message"].get("content") or "", output_format, role)
+
+        started = time.monotonic()
+        try:
+            return await asyncio.wait_for(loop(), timeout=SETTINGS.tool_loop_timeout_s)
+        except asyncio.TimeoutError as exc:
+            elapsed = time.monotonic() - started
+            if self.trace is not None:
+                self.trace.event("timeout", role=role, phase="tool_loop",
+                                 limit_s=SETTINGS.tool_loop_timeout_s, elapsed_s=round(elapsed, 2))
+            raise CallTimeout(
+                f"{role} tool loop exceeded {SETTINGS.tool_loop_timeout_s}s on the local model"
+            ) from exc
 
 
 Handler = Callable[[str, str], Awaitable[BaseModel]]
@@ -326,8 +608,8 @@ class StubClient:
                 f"stub handler for '{role}' returned {type(result).__name__}, "
                 f"expected {output_format.__name__}"
             )
-        # Charge a nominal amount so budget plumbing is exercised.
-        self.budget.record(role, cfg.model, 1_000, 200)
+        # Nominal tokens so budget plumbing is exercised; priced at zero.
+        self.budget.record(role, "stub", 1_000, 200)
         if self.trace is not None:
             self.trace.event("model_call", role=role, model="stub", effort=cfg.effort,
                              input_tokens=1_000, output_tokens=200)
@@ -340,6 +622,7 @@ class StubClient:
         system: str,
         user: str,
         tools: Sequence[Any],
+        session: Any,
         output_format: type[T],
         config: RoleConfig | None = None,
         max_iterations: int = 8,
@@ -362,6 +645,10 @@ def build_client(
         from .stubs import make_stub_client  # local import to avoid a cycle
 
         return make_stub_client(budget, trace, corpus)
+    if is_local(SETTINGS.synthesizer.model):
+        client = OllamaClient(budget, trace)
+        client.ensure_model(SETTINGS.synthesizer.model)
+        return client
     if not os.environ.get("ANTHROPIC_API_KEY"):
         raise RuntimeError(
             "ANTHROPIC_API_KEY is not set. Export a key, or run with --stub to exercise "

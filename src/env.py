@@ -16,7 +16,9 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
-from .config import ROOT
+# Not imported from config: this module must be usable *before* config is
+# imported, because config reads the environment at import time.
+ROOT = Path(__file__).resolve().parent.parent
 
 
 def load_dotenv(path: Path | None = None, *, override: bool = False) -> list[str]:

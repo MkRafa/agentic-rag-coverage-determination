@@ -231,3 +231,77 @@ def test_budget_tracks_per_role():
     assert snapshot["per_role"]["planner"]["calls"] == 2
     assert snapshot["per_role"]["grader"]["input_tokens"] == 200
     assert snapshot["calls"] == 3
+
+
+def test_stub_calls_cost_nothing():
+    """Stub tokens are nominal; pricing them would put a fictional dollar
+    figure on every stub scorecard."""
+    budget = Budget()
+    budget.record("planner", "stub", 1_000, 200)
+    assert budget.usd == 0.0
+    assert budget.total_tokens == 1_200
+
+
+# ---------------------------------------------------------------------------
+# synthesizer input
+# ---------------------------------------------------------------------------
+
+
+def test_only_relevant_clauses_reach_the_synthesizer():
+    from src.contracts import GradedClause, GradeReport
+    from src.harness.loop import _relevant_clauses
+
+    clauses = [{"clause_id": "A"}, {"clause_id": "B"}]
+    report = GradeReport(
+        graded=[
+            GradedClause(clause_id="A", grade="RELEVANT", reason=""),
+            GradedClause(clause_id="B", grade="STALE", reason=""),
+        ],
+        sufficient=True,
+    )
+    assert [c["clause_id"] for c in _relevant_clauses(clauses, report)] == ["A"]
+
+
+def test_nothing_relevant_means_nothing_reaches_the_synthesizer():
+    """The old fallback passed every clause — STALE ones included — when the
+    Grader found nothing relevant."""
+    from src.contracts import GradedClause, GradeReport
+    from src.harness.loop import _relevant_clauses
+
+    clauses = [{"clause_id": "A"}]
+    report = GradeReport(
+        graded=[GradedClause(clause_id="A", grade="STALE", reason="")], sufficient=False
+    )
+    assert _relevant_clauses(clauses, report) == []
+
+
+# ---------------------------------------------------------------------------
+# baseline diff
+# ---------------------------------------------------------------------------
+
+
+def _scorecard(fad: int, faithfulness: float = 1.0, case_hash: str = "h") -> dict:
+    return {
+        "case_set": {"count": 1, "hash": case_hash},
+        "retrieval": {"gold_clause_recall": 1.0, "stale_retrieval_rate": 0.0},
+        "answer": {
+            "determination_accuracy": 1.0, "gate_correctness": 1.0,
+            "citation_faithfulness": faithfulness, "hallucinated_clause_count": 0,
+            "stale_citation_count": 0, "appropriate_refusal_rate": 1.0,
+            "false_auto_determine": fad, "usd_per_case": 0.0, "p95_latency_s": 0.0,
+        },
+    }
+
+
+def test_safety_regression_blocks_the_diff():
+    from evals.runner import blocking_regressions
+
+    assert blocking_regressions(_scorecard(3), _scorecard(2)) == ["FALSE AUTO-DETERMINE"]
+    assert blocking_regressions(_scorecard(2, 0.9), _scorecard(2)) == ["citation faithfulness"]
+    assert blocking_regressions(_scorecard(1), _scorecard(2)) == []
+
+
+def test_different_case_sets_never_block():
+    from evals.runner import blocking_regressions
+
+    assert blocking_regressions(_scorecard(9, case_hash="a"), _scorecard(0, case_hash="b")) == []

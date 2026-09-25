@@ -23,7 +23,7 @@ from ..contracts import (
     RunResult,
     VerificationReport,
 )
-from ..llm import CallTimeout, ModelClient
+from ..llm import CallTimeout, ModelCallError, ModelClient
 from ..mcp_client import PolicyCorpus
 from .budget import Budget, BudgetExceeded
 from .gate import decide
@@ -179,8 +179,13 @@ async def _run(
             checks=[c.model_dump() for c in verification.checks],
         )
 
-    except (BudgetExceeded, CallTimeout) as exc:
-        event_kind = "budget_exceeded" if isinstance(exc, BudgetExceeded) else "call_timeout"
+    except (BudgetExceeded, CallTimeout, ModelCallError) as exc:
+        if isinstance(exc, BudgetExceeded):
+            event_kind = "budget_exceeded"
+        elif isinstance(exc, CallTimeout):
+            event_kind = "call_timeout"
+        else:
+            event_kind = "model_error"
         trace.event(event_kind, detail=str(exc), **budget.snapshot())
         gate = GateDecision(state="REVIEW", reasons=[f"run halted: {exc}"])
         trace.event("gate", state=gate.state, reasons=gate.reasons)
@@ -237,12 +242,16 @@ def _relevant_clauses(
 ) -> list[dict[str, Any]]:
     """Only RELEVANT clauses reach the Synthesizer. STALE clauses are withheld
     deliberately — handing the writer a superseded version is how stale
-    citations happen."""
+    citations happen.
+
+    When nothing was graded RELEVANT the Synthesizer gets nothing, and the
+    correct output is INSUFFICIENT_EVIDENCE. Falling back to every retrieved
+    clause here would hand it exactly the STALE and off-point clauses the
+    Grader just rejected."""
     if report is None:
         return clauses
     keep = {g.clause_id for g in report.graded if g.grade == "RELEVANT"}
-    filtered = [c for c in clauses if c["clause_id"] in keep]
-    return filtered or clauses
+    return [c for c in clauses if c["clause_id"] in keep]
 
 
 def _usage(budget: Budget) -> dict[str, Any]:

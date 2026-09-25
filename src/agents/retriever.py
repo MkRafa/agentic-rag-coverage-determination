@@ -1,15 +1,12 @@
 """Retriever — the one online agent that decides for itself what to fetch.
 
-It gets the policy-corpus MCP tools converted into runnable tools and runs an
-agentic tool loop. Everything it can reach is read-only; there is no write tool
+It gets the policy-corpus MCP tools and runs an agentic tool loop. The tools are
+handed over as MCP definitions plus the session that executes them; each model
+client converts them to its own tool format. Everything it can reach is read-only; there is no write tool
 anywhere in this system.
 """
 
 from __future__ import annotations
-
-from typing import Any
-
-from anthropic.lib.tools.mcp import async_mcp_tool
 
 from .. import skills
 from ..contracts import CoverageRequest, Plan, RetrievalSelection
@@ -72,12 +69,12 @@ async def retrieve(
     request: CoverageRequest,
     plan: Plan,
 ) -> RetrievalSelection:
-    tools: list[Any] = [async_mcp_tool(t, corpus.session) for t in corpus.tools]
     return await client.run_tools(
         role="retriever",
         system=SYSTEM,
         user=_prompt(request, plan),
-        tools=tools,
+        tools=corpus.tools,
+        session=corpus.session,
         output_format=RetrievalSelection,
         max_iterations=12,
     )
